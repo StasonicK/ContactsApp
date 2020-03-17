@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:' + rootProject.appcompatVersion
     implementation 'androidx.coordinatorlayout:coordinatorlayout:' + rootProject.constraintlayoutVersion
     implementation 'androidx.recyclerview:recyclerview:' + rootProject.appcompatVersion
-
+    implementation 'androidx.cardview:cardview:' + rootProject.cardviewVersion
 
     //Butterknife
     implementation 'com.jakewharton:butterknife:' + rootProject.butterknifeVersion
@@ -72,7 +72,6 @@ dependencies {
     //Rx
     implementation 'io.reactivex.rxjava2:rxandroid:' + rootProject.rxandroidVersion
     implementation 'io.reactivex.rxjava2:rxjava:' + rootProject.rxjavaVersion
-
 
     // RxJava support for Room
     implementation 'androidx.room:room-rxjava2:' + rootProject.roomVersion

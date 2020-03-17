@@ -35,8 +35,8 @@ ext {
     compileSdkVersion = 29
 
     appcompatVersion = '1.1.0'
+    cardviewVersion = '1.0.0'
     constraintlayoutVersion = '1.1.0'
-    viewpager2Version = '1.0.0'
     materialVersion = '1.2.0-alpha03'
 
     multidexVersion = '1.0.3'
