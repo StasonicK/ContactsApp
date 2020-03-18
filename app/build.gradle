@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "com.eburg_soft.contactsapp"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -50,10 +51,11 @@ dependencies {
 
     //Butterknife
     implementation 'com.jakewharton:butterknife:' + rootProject.butterknifeVersion
-    annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.butterknifeVersion
+    kapt 'com.jakewharton:butterknife-compiler:' + rootProject.butterknifeVersion
 
     //Room
-    annotationProcessor 'androidx.room:room-compiler:' + rootProject.roomVersion
+    implementation 'androidx.room:room-runtime:' + rootProject.roomVersion
+    kapt 'androidx.room:room-compiler:' + rootProject.roomVersion
 
     //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:' + rootProject.retrofitVersion
@@ -67,7 +69,7 @@ dependencies {
 
     //Dagger2
     implementation 'com.google.dagger:dagger-android:' + rootProject.dagger2Version
-    annotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.dagger2Version
+    kapt 'com.google.dagger:dagger-compiler:' + rootProject.dagger2Version
 
     //Rx
     implementation 'io.reactivex.rxjava2:rxandroid:' + rootProject.rxandroidVersion
