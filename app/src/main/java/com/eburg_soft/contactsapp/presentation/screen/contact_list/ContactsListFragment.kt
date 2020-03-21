@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.ui.empty
+package com.eburg_soft.contactsapp.ui.contact_list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,17 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.eburg_soft.contactsapp.R
+import com.eburg_soft.contactsapp.base.BaseAdapter
+import com.eburg_soft.contactsapp.base.BaseListFragment
 
 /**
  * A simple [Fragment] subclass.
  */
-class EmptyFragment : Fragment() {
+class ContactsListFragment : BaseListFragment() {
+
+    override fun createAdapterInstance(): BaseAdapter<*> {
+        TODO("Not yet implemented")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_empty, container, false)
+        return inflater.inflate(R.layout.fragment_contacts_list, container, false)
     }
 }
