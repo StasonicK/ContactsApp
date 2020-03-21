@@ -4,6 +4,7 @@ import com.eburg_soft.contactsapp.model.ApiClient
 import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -24,8 +25,18 @@ class DataGatewayImpl @Inject constructor(
         return contactDao.deleteContacts()
     }
 
-    override fun getContact(id: Long): Single<Contact> {
+    override fun getContactById(id: String): Single<Contact> {
         return contactDao.getContactById(id)
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getContactsByPhone(phone: String): Maybe<List<Contact>> {
+        return contactDao.getContactsByPhone(phone)
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getContactsByName(name: String): Maybe<List<Contact>> {
+        return contactDao.getContactsByName(name)
             .subscribeOn(Schedulers.io())
     }
 

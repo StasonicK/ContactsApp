@@ -2,7 +2,7 @@ package com.eburg_soft.contactsapp.model.gateway
 
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 interface DataGateway {
@@ -10,7 +10,11 @@ interface DataGateway {
 
     fun eraseData(): Completable
 
-    fun getContact(id: Long): Single<Contact>
+    fun getContactById(id: String): Single<Contact>
+
+    fun getContactsByPhone(phone: String): Maybe<List<Contact>>
+
+    fun getContactsByName(name: String): Maybe<List<Contact>>
 
     fun syncData(): Completable
 }

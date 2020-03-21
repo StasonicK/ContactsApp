@@ -2,7 +2,6 @@ package com.eburg_soft.contactsapp.model
 
 import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Path
 
 interface ApiClient {
     @GET("/json/generated-01.json")
