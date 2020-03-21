@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.eburg_soft.contactsapp.R
+import com.eburg_soft.contactsapp.presentation.base.BaseFragment
 
 /**
- * A simple [Fragment] subclass.
+ * Class [ContactFragment] shows contact information, has clickable phone number.
  */
-class ContactFragment : Fragment() {
+class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract.View {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
