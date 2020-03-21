@@ -15,6 +15,7 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
+
     val BASE_URL = "https://raw.githubusercontent.com/SkbkonturMobile/mobile-test-droid/master"
 
     val MAX_READ_TIMEOUT: Long = 10

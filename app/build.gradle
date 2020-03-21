@@ -48,6 +48,7 @@ dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:' + rootProject.constraintlayoutVersion
     implementation 'androidx.recyclerview:recyclerview:' + rootProject.appcompatVersion
     implementation 'androidx.cardview:cardview:' + rootProject.cardviewVersion
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     //Butterknife
     implementation 'com.jakewharton:butterknife:' + rootProject.butterknifeVersion

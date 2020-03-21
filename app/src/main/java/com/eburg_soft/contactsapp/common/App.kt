@@ -1,12 +1,13 @@
 package com.eburg_soft.contactsapp.common
 
 import android.app.Application
+import java.util.Date
 
 class App : Application() {
 
+
     override fun onCreate() {
         super.onCreate()
-//todo add appComponent
     }
 
     private fun initializeDagger() {

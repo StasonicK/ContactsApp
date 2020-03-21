@@ -9,10 +9,10 @@ class GatewayMapper {
             var contacts = mutableListOf<Contact>()
             for (i in 1 until responses.size) {
                 var contact = Contact()
-                contact.contactId = responses[i].id.toLong()
+                contact.contactId = responses[i].id
                 contact.contactName = responses[i].name
                 contact.contactPhone = responses[i].phone
-                contact.contactHeingt = responses[i].height.toString()
+                contact.contactHeingt = responses[i].height.toFloat()
                 contact.contactBiography = responses[i].biography
                 contact.contactTemperament = responses[i].temperament
                 contact.contactEducationStart = responses[i].contactEducationPeriodRes.start
@@ -21,7 +21,5 @@ class GatewayMapper {
             }
             return contacts
         }
-
-
     }
 }

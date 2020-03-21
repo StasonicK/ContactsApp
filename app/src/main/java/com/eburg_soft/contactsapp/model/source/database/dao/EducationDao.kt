@@ -1,4 +1,6 @@
 package com.eburg_soft.contactsapp.model.source.database.dao
 
-interface EducationDao {
-}
+import androidx.room.Dao
+
+//@Dao
+interface EducationDao
