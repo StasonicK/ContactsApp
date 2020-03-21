@@ -1,6 +1,5 @@
 package com.eburg_soft.contactsapp.di.application.module.network
 
-import com.eburg_soft.contactsapp.base.BASE_URL_1
 import com.eburg_soft.contactsapp.model.ApiClient
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -16,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-
+    val BASE_URL = "https://raw.githubusercontent.com/SkbkonturMobile/mobile-test-droid/master"
 
     val MAX_READ_TIMEOUT: Long = 10
     val MAX_CONNECT_TIMEOUT: Long = 10
@@ -41,7 +40,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BASE_URL_1)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)

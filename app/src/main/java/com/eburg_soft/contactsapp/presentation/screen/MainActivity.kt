@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.ui
+package com.eburg_soft.contactsapp.presentation.screen
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

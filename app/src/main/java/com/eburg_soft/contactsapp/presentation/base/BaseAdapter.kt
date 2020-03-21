@@ -1,8 +1,8 @@
-package com.eburg_soft.contactsapp.base
+package com.eburg_soft.contactsapp.presentation.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.eburg_soft.contactsapp.base.BaseAdapter.BaseViewHolder
+import com.eburg_soft.contactsapp.presentation.base.BaseAdapter.BaseViewHolder
 
 abstract class BaseAdapter<V : BaseViewHolder> : RecyclerView.Adapter<V>() {
 

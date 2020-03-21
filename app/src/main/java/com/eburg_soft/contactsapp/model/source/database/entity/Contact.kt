@@ -10,15 +10,15 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = TABLE_NAME)
 data class Contact(
-    @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = false) val contactId: Long = 0,
-    @ColumnInfo(name = COLUMN_NAME) val contactName: String = "",
-    @ColumnInfo(name = COLUMN_PHONE) val contactPhone: String = "",
-    @ColumnInfo(name = COLUMN_HEIGHT) val contactHeingt: String = "",
-    @ColumnInfo(name = COLUMN_BIOGRAPHY) val contactBiography: String = "",
-    @ColumnInfo(name = COLUMN_TEMPERAMENT) val contactTemperament: String = "",
-    @ColumnInfo(name = COLUMN_EDUCATION_START) val contactEducationStart: String = "",
-    @ColumnInfo(name = COLUMN_EDUCATION_END) val contactEducationEnd: String = ""
-): Parcelable {
+    @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = false) var contactId: Long = 0,
+    @ColumnInfo(name = COLUMN_NAME) var contactName: String = "",
+    @ColumnInfo(name = COLUMN_PHONE) var contactPhone: String = "",
+    @ColumnInfo(name = COLUMN_HEIGHT) var contactHeingt: String = "",
+    @ColumnInfo(name = COLUMN_BIOGRAPHY) var contactBiography: String = "",
+    @ColumnInfo(name = COLUMN_TEMPERAMENT) var contactTemperament: String = "",
+    @ColumnInfo(name = COLUMN_EDUCATION_START) var contactEducationStart: String = "",
+    @ColumnInfo(name = COLUMN_EDUCATION_END) var contactEducationEnd: String = ""
+) : Parcelable {
 
     companion object {
         const val TABLE_NAME = "Contact"

@@ -1,10 +1,10 @@
-package com.eburg_soft.contactsapp.ui.contact_list
+package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
 import android.view.View
 import android.view.ViewGroup
-import com.eburg_soft.contactsapp.base.BaseAdapter
+import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
-import com.eburg_soft.contactsapp.ui.contact_list.ContactsAdapter.ContactViewHolder
+import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapter.ContactViewHolder
 
 class ContactsAdapter: BaseAdapter<ContactViewHolder>() {
 private lateinit var contactsList:ArrayList<Contact>

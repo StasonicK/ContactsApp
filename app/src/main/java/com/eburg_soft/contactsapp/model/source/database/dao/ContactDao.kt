@@ -8,6 +8,7 @@ import androidx.room.Update
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface ContactDao {
@@ -25,8 +26,11 @@ interface ContactDao {
     fun update(contact: List<Contact>): Completable
 
     @Query("SELECT * FROM ${Contact.TABLE_NAME}")
-    fun getAllContacts(): Flowable<List<Contact>>
+    fun getAllContacts(): Single<List<Contact>>
 
     @Query("SELECT * FROM ${Contact.TABLE_NAME} WHERE id=:id")
-    fun getContactById(id: Long): Flowable<Contact>
+    fun getContactById(id: Long): Single<Contact>
+
+    @Query("DELETE FROM " + Contact.TABLE_NAME)
+    fun deleteContacts(): Completable
 }

@@ -3,12 +3,12 @@ package com.eburg_soft.contactsapp.model.gateway
 import com.eburg_soft.contactsapp.model.ContactRes
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 
-class GatewatMapper {
+class GatewayMapper {
     companion object {
         fun mapContact(responses: List<ContactRes>): List<Contact> {
-            var contacts: List<Contact> = mutableListOf()
-            for (i in 1..responses.size) {
-                var contact: Contact = Contact()
+            var contacts = mutableListOf<Contact>()
+            for (i in 1 until responses.size) {
+                var contact = Contact()
                 contact.contactId = responses[i].id.toLong()
                 contact.contactName = responses[i].name
                 contact.contactPhone = responses[i].phone
@@ -19,6 +19,9 @@ class GatewatMapper {
                 contact.contactEducationEnd = responses[i].contactEducationPeriodRes.end
                 contacts.add(contact)
             }
+            return contacts
         }
+
+
     }
 }

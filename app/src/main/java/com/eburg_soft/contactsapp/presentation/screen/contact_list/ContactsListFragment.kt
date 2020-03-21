@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.ui.contact_list
+package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.eburg_soft.contactsapp.R
-import com.eburg_soft.contactsapp.base.BaseAdapter
-import com.eburg_soft.contactsapp.base.BaseListFragment
+import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
+import com.eburg_soft.contactsapp.presentation.base.BaseListFragment
 
 /**
  * A simple [Fragment] subclass.

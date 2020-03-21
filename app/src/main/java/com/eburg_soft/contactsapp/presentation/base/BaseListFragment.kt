@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.base
+package com.eburg_soft.contactsapp.presentation.base
 
 import android.os.Bundle
 import android.view.View
