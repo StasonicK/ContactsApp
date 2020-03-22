@@ -1,5 +1,6 @@
 package com.eburg_soft.contactsapp.di.application.module.network
 
+import com.eburg_soft.contactsapp.di.application.scope.AppScope
 import com.eburg_soft.contactsapp.model.ApiClient
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -11,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
-import javax.inject.Singleton
 
 @Module
 class NetworkModule {
@@ -22,14 +22,14 @@ class NetworkModule {
     val MAX_CONNECT_TIMEOUT: Long = 10
 
     @Provides
-    @Singleton
+    @AppScope
     fun provideGson(): Gson =
         GsonBuilder()
             .setLenient()
             .create()
 
     @Provides
-    @Singleton
+    @AppScope
     fun provideOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -38,7 +38,7 @@ class NetworkModule {
             .build()
 
     @Provides
-    @Singleton
+    @AppScope
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -48,7 +48,7 @@ class NetworkModule {
             .build()
 
     @Provides
-    @Singleton
+    @AppScope
     fun provideGeckoApiService(retrofit: Retrofit): ApiClient =
         retrofit.create(ApiClient::class.java)
 }

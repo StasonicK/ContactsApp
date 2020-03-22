@@ -1,3 +1,3 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact_fragment
+package com.eburg_soft.contactsapp.presentation.screen.contact
 
-class ContactPresenter : ContactFragmentContract.Presenter()
+class ContactPresenter : ContactContract.Presenter()

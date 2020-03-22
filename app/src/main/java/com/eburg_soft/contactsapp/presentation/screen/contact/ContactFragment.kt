@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact_fragment
+package com.eburg_soft.contactsapp.presentation.screen.contact
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.eburg_soft.contactsapp.presentation.base.BaseFragment
 /**
  * Class [ContactFragment] shows contact information, has clickable phone number.
  */
-class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactFragmentContract.View {
+class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract.View {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

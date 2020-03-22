@@ -1,9 +1,11 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
+import android.os.Bundle
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.presentation.base.BaseListFragment
+import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
 /**
@@ -12,18 +14,18 @@ import java.util.Date
  */
 
 class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
-    ContactsAdapter.onContactItemClickListener, ContactsListContract.View {
+    ContactsAdapter.OnContactItemClickListener, ContactsListContract.View {
+
 
     private val listAdapter = ContactsAdapter(this)
 
     var lastLauchTime: Date = TODO()
 
     override fun createAdapterInstance(): BaseAdapter<*> {
-        TODO("Not yet implemented")
+        return ContactsAdapter()
     }
 
     override fun onContactsListItemClick(contact: Contact) {
-
     }
 
     override fun showContacts() {
@@ -43,15 +45,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
     }
 
     override fun showNetworkError() {
-        TODO("Not yet implemented")
+        Snackbar.make(recyclerView, R.string.network_error, Snackbar.LENGTH_LONG).show()
     }
-
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_contacts_list, container, false)
-//    }
-
 }

@@ -1,4 +1,7 @@
 package com.eburg_soft.contactsapp.di.screen.component
 
-class ScreenContext {
-}
+import javax.inject.Qualifier
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ScreenContext

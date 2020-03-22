@@ -8,8 +8,4 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentL
 
     //todo inject here
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-//todo set component
-        super.onCreate(savedInstanceState)
-    }
 }

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.eburg_soft.contactsapp">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -12,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.screen.MainActivity"
+        <activity android:name=".presentation.screen.main.MainActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

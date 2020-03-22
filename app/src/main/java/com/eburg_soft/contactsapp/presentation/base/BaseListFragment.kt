@@ -6,7 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_contacts_list.list
+import kotlinx.android.synthetic.main.fragment_contacts_list.recycler_contacts
 
 abstract class BaseListFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
 
@@ -20,7 +20,7 @@ abstract class BaseListFragment(@LayoutRes contentLayoutId: Int) : Fragment(cont
         viewManager = LinearLayoutManager(context)
         viewAdapter = createAdapterInstance()
 
-        recyclerView = list.apply {
+        recyclerView = recycler_contacts.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter

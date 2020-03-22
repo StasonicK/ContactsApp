@@ -10,10 +10,10 @@ import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapt
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_name
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_phone
 
-class ContactsAdapter(val listener: onContactItemClickListener? = null) : BaseAdapter<ContactViewHolder>() {
+class ContactsAdapter(val listener: OnContactItemClickListener? = null) : BaseAdapter<ContactViewHolder>() {
     private lateinit var contactsList: ArrayList<Contact>
 
-    interface onContactItemClickListener {
+    interface OnContactItemClickListener {
         fun onContactsListItemClick(contact: Contact)
     }
 
