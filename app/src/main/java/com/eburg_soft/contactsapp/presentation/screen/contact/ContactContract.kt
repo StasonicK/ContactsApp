@@ -1,11 +1,9 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact
+package com.eburg_soft.contactsapp.presentation.screen.contact_fragment
 
 import com.eburg_soft.contactsapp.presentation.base.BaseContract
 
-interface ContactContract {
+interface ContactFragmentContract {
     interface View : BaseContract.View
 
-    abstract class Presenter : BaseContract.Presenter<View>() {
-
-    }
+    abstract class Presenter : BaseContract.Presenter<View>()
 }
