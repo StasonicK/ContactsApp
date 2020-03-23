@@ -19,8 +19,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
     private val listAdapter = ContactsAdapter(this)
 
-    var lastLauchTime: Date = TODO()
-
     override fun createAdapterInstance(): BaseAdapter<*> {
         return ContactsAdapter()
     }
