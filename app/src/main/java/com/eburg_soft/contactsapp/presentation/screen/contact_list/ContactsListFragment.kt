@@ -151,6 +151,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
 
 //endregion
 
-    
+
     //TODO create WorkManager!
 }
