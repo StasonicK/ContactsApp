@@ -16,14 +16,14 @@ object DatabaseModule {
 
     @Provides
     @AppScope
-    fun provideContactDatabase(@AppContext context: Context): ContactsDatabase {
-        return Room.databaseBuilder(context, ContactsDatabase::class.java, DATABASE_NAME)
-            .build()
+    fun provideContactDao(contactsDatabase: ContactsDatabase): ContactDao {
+        return contactsDatabase.contactDao()
     }
 
     @Provides
     @AppScope
-    fun provideContactDao(contactsDatabase: ContactsDatabase): ContactDao {
-        return contactsDatabase.contactDao()
+    fun provideContactDatabase(@AppContext context: Context): ContactsDatabase {
+        return Room.databaseBuilder(context, ContactsDatabase::class.java, DATABASE_NAME)
+            .build()
     }
 }

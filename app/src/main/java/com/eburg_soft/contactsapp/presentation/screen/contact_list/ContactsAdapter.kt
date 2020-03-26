@@ -7,11 +7,9 @@ import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapter.ContactViewHolder
-import kotlinx.android.synthetic.main.recycler_view_item.view.text_name
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_phone
 
 class ContactsAdapter(val listener: OnContactItemClickListener? = null) : BaseAdapter<ContactViewHolder>() {
-    private lateinit var contactsList: ArrayList<Contact>
 
     interface OnContactItemClickListener {
         fun onContactsListItemClick(contact: Contact)
@@ -37,9 +35,9 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) : BaseAd
             let {
                 item as Contact
 
-                view.text_name.text = item.contactName
+                view.`@+id/text_name_in_contact`.text = item.contactName
                 view.text_phone.text = item.contactPhone
-                view.text_name.text = item.contactName
+                view.`@+id/text_name_in_contact`.text = item.contactName
 
                 id = item.contactId
                 name = item.contactName

@@ -17,7 +17,7 @@ class BaseContract {
 
     abstract class Presenter<V : View> {
         private val subscriptions = CompositeDisposable()
-        protected lateinit var view: View
+        protected var view: V? = null
 
         fun subscribe(subscription: Disposable) {
             subscriptions.add(subscription)
@@ -27,7 +27,7 @@ class BaseContract {
             subscriptions.clear()
         }
 
-        fun attach(view: View) {
+        fun attach(view: V) {
             this.view = view
         }
 

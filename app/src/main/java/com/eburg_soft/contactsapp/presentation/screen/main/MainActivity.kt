@@ -1,43 +1,29 @@
 package com.eburg_soft.contactsapp.presentation.screen.main
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.Menu
-import android.view.View
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.R.layout
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListFragment
-import com.eburg_soft.contactsapp.utils.MyNetworkUtils
-import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(),
-    SearchView.OnQueryTextListener, MainContract.View {
-
-    @BindView(R.id.toolbar_main)
-    lateinit var toolbar: Toolbar
-
-    @BindView(R.id.progressbar)
-    lateinit var progressbar: ProgressBar
-
-    @Inject
-    lateinit var presenter: MainContract.Presenter
-
-    lateinit var searchView: SearchView
-    lateinit var contactsListFragment: ContactsListFragment
-    lateinit var contactFragment: ContactFragment
+class MainActivity :
+//    SearchView.OnQueryTextListener,
+    AppCompatActivity()
+//    , MainContract.View
+{
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
     private var searchQuery: String = ""
+
+//    @Inject
+//    lateinit var presenter:MainContract.Presenter
+
+    @BindView(R.id.toolbar_main)    lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +32,13 @@ class MainActivity : AppCompatActivity(),
 
         setSupportActionBar(toolbar)
 
-        if (contactsListFragment == null && savedInstanceState == null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.frame_container, ContactsListFragment())
-                .commit()
+        supportFragmentManager.let {
+            if (it.findFragmentByTag(ContactsListFragment.TAG) == null) {
+                it.beginTransaction()
+                    .add(R.id.frame_container, ContactsListFragment.NewInstance())
+                    .addToBackStack("ContactsListFragment")
+                    .commit()
+            }
         }
 
         if (savedInstanceState != null) {
@@ -57,51 +46,55 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.activity_main_menu, menu)
-        val searchManager: SearchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.setIconifiedByDefault(false)
-        searchView.isSubmitButtonEnabled = true
-
-        return true
-    }
-
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
         outState.putString(BUNDLE_SEARCH_QUERY, searchQuery)
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        val networkAvailable: Boolean = MyNetworkUtils.isNetworkAvailable(this)
-        presenter.onSearchQuerySubmit(query, networkAvailable)
-        return true
-    }
+    //    override fun onQueryTextSubmit(query: String?): Boolean {
+//        val networkAvailable: Boolean = MyNetworkUtils.isNetworkAvailable(this)
+//        presenter.loadContactsListByQuery(query, networkAvailable)
+//        return false
+//    }
+//
+//    override fun onQueryTextChange(newText: String?): Boolean {
+//        val networkAvailable: Boolean = MyNetworkUtils.isNetworkAvailable(this)
+//        presenter.loadContactsListByQuery(newText, networkAvailable)
+//        return false
+//    }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        val networkAvailable: Boolean = MyNetworkUtils.isNetworkAvailable(this)
-        presenter.onSearchQuerySubmit(newText, networkAvailable)
-        return true
-    }
+//    override fun showLoading() {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun hideLoading() {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun notifyAdapter() {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun showErrorMessage(error: String?) {
+//        TODO("Not yet implemented")
+//    }
 
-    override fun showContactsList(contacts: List<Contact?>?) {
-        presenter.loadContactsList()
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.activity_main_menu, menu)
+//        val searchManager = baseContext.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+//        searchView.setIconifiedByDefault(false)
+//        searchView.isSubmitButtonEnabled = true
+//
+//        return true
+//    }
 
-    override fun showLoading() {
-        progressbar.visibility = View.VISIBLE
+override fun onBackPressed() {
+    val fragment =
+        this.supportFragmentManager.findFragmentById(R.id.frame_container)
+    (fragment as? ContactFragment)?.onBackPressed()?.not()?.let {
+        super.onBackPressed()
     }
-
-    override fun hideLoading() {
-        progressbar.visibility = View.INVISIBLE
-    }
-
-    override fun showNetworkError() {
-        TODO("Not yet implemented")
-    }
-
-    override fun openContactView(contact: Contact?) {
-        TODO("Not yet implemented")
-    }
+}
 }

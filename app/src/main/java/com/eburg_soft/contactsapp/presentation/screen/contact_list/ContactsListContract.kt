@@ -1,25 +1,37 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
+import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseContract
 
 interface ContactsListContract {
     interface View : BaseContract.View {
-        fun showContacts()
+
+        fun addCurrency(contact: Contact)
+        fun showContactsList()
 
         fun showLoading()
 
         fun hideLoading()
 
-        fun showSearchView()
+        fun notifyAdapter()
 
-        fun showNetworkError()
+        fun refresh()
+
+        fun showErrorMessage(error: String?)
+
+        fun openContactView(contact: Contact)
     }
 
     abstract class Presenter : BaseContract.Presenter<View>() {
-        fun onContactItemClick() {}
 
-        fun onSearchQuerySubmit(query: String, networkAvailable: Boolean) {}
+        abstract fun onContactClick(contact: Contact)
 
-        fun loadContactsList() {}
+        abstract fun loadContactsList()
+
+//        abstract fun syncContacts()
+
+        abstract fun refreshContactsList()
+
+        abstract fun onSearchQuerySubmit(query: String?, networkAvailable: Boolean)
     }
 }

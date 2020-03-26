@@ -1,10 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.screen.contact.ContactFragment">
+    android:layout_height="match_parent">
 
 
+    <TextView
+        android:id="@+id/text_name_in_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/text_margin_standard"
+        android:layout_marginTop="@dimen/text_margin_standard"
+        android:textColor="@color/black"
+        android:textSize="@dimen/name_in_contact_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Tania Delacruz" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/text_phone_in_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin_small"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/text_size_standard"
+        app:layout_constraintStart_toStartOf="@+id/text_name_in_contact"
+        app:layout_constraintTop_toBottomOf="@+id/text_name_in_contact"
+        tools:text="+7 (919) 456-3916" />
+
+    <TextView
+        android:id="@+id/text_temperament_in_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin_small"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_size_standard"
+        app:layout_constraintStart_toStartOf="@+id/text_phone_in_contact"
+        app:layout_constraintTop_toBottomOf="@+id/text_phone_in_contact"
+        tools:text="Choleric" />
+
+    <TextView
+        android:id="@+id/text_education_period_in_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin_small"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_size_standard"
+        app:layout_constraintStart_toStartOf="@+id/text_temperament_in_contact"
+        app:layout_constraintTop_toBottomOf="@+id/text_temperament_in_contact"
+        tools:text="13.11.2001 - 29.07.2018" />
+
+    <TextView
+        android:id="@+id/text_biography_in_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin_small"
+        android:layout_marginEnd="@dimen/text_margin_standard"
+        android:maxLines="10"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_standard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_education_period_in_contact"
+        app:layout_constraintTop_toBottomOf="@+id/text_education_period_in_contact"
+        tools:text="Biography" />
+</androidx.constraintlayout.widget.ConstraintLayout>
