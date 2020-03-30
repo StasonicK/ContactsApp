@@ -1,22 +1,29 @@
 package com.eburg_soft.contactsapp.common
 
-//import com.eburg_soft.contactsapp.di.application.component.DaggerAppComponent
 import android.app.Application
 import com.eburg_soft.contactsapp.di.application.component.AppComponent
+import com.eburg_soft.contactsapp.di.application.component.DaggerAppComponent
 import com.eburg_soft.contactsapp.di.application.module.app.AppContextModule
 
-class App
-//@Inject constructor(var appComponent: AppComponent)
-    : Application() {
+class App : Application() {
 
-    lateinit var appComponent: AppComponent
+//    companion object {
+//        lateinit var appComponent: AppComponent
+//    }
 
     override fun onCreate() {
         super.onCreate()
+        component.inject(this)
 //        appComponent().inject(this)
     }
 
-//    private fun appComponent(): AppComponent {
+    val component: AppComponent by lazy {
+        DaggerAppComponent.builder()
+            .appContextModule(AppContextModule(applicationContext))
+            .build()
+    }
+
+//    fun appComponent(): AppComponent {
 //        appComponent = DaggerAppComponent.builder()
 //            .appContextModule(AppContextModule(applicationContext))
 //            .build()

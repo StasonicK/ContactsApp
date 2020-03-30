@@ -4,20 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.widget.Toolbar
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.eburg_soft.contactsapp.R
+import com.eburg_soft.contactsapp.common.App
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseFragment
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
+import kotlinx.android.synthetic.main.fragment_contact.text_biography_in_contact
+import kotlinx.android.synthetic.main.fragment_contact.text_education_period_in_contact
+import kotlinx.android.synthetic.main.fragment_contact.text_name_in_contact
+import kotlinx.android.synthetic.main.fragment_contact.text_phone_in_contact
+import kotlinx.android.synthetic.main.fragment_contact.text_temperament_in_contact
+import kotlinx.android.synthetic.main.toolbar.toolbar
 import javax.inject.Inject
 
 /**
@@ -25,30 +27,16 @@ import javax.inject.Inject
  */
 class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract.View {
 
-    @Inject
+//    @Inject
     lateinit var presenter: ContactContract.Presenter
-
-    @BindView(R.id.text_name_in_contact)
-    lateinit var textName: TextView
-
-    @BindView(R.id.text_phone_in_contact)
-    lateinit var textPhone: TextView
-
-    @BindView(R.id.text_temperament_in_contact)
-    lateinit var textTemper: TextView
-
-    @BindView(R.id.text_education_period_in_contact)
-    lateinit var textEducation: TextView
-
-    @BindView(R.id.text_biography_in_contact)
-    lateinit var textBiography: TextView
-
-    @BindView(R.id.toolbar_main)
-    lateinit var toolbar: Toolbar
 
     private var myCondition = true
 
     var contact: Contact = Contact()
+
+    init {
+        getScreenComponent(requireContext()).inject(this)
+    }
 
     companion object {
         const val TAG = "ContactFragment"
@@ -69,18 +57,13 @@ class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract
             }
     }
 
-//region ====================== Life circle ======================
+    //region ====================== Life circle ======================
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        getScreenComponent(requireContext()).inject(this)
+//        App.appComponent.createScreenComponent(requireActivity()).inject(this)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_contact, container, false)
-
-        getScreenComponent(requireContext()).inject(this)
         presenter.attach(this)
-        ButterKnife.bind(this, view)
 
         setupToolbar()
 
@@ -99,6 +82,14 @@ class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract
         }
 
         bindViews()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_contact, container, false)
 
         return view
     }
@@ -127,14 +118,13 @@ class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract
 
     @OnClick(R.id.text_phone_in_contact)
     override fun callPhone() {
-        val phone = textPhone.text
+        val phone = text_phone_in_contact.text
         val intent = Intent(Intent.ACTION_CALL)
         intent.data = Uri.parse("tel: $phone")
         startActivity(intent)
     }
 
     override fun setupToolbar() {
-        (activity as MainActivity).setSupportActionBar(toolbar)
         (activity as MainActivity).setSupportActionBar(toolbar)
         (activity as MainActivity).actionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).actionBar?.setDisplayShowHomeEnabled(true)
@@ -143,15 +133,15 @@ class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract
     }
 
     override fun bindViews() {
-        textName.text = contact.contactName
-        textPhone.text = contact.contactPhone
-        textTemper.text = contact.contactTemperament
+        text_name_in_contact.text = contact.contactName
+        text_phone_in_contact.text = contact.contactPhone
+        text_temperament_in_contact.text = contact.contactTemperament
         val education = "${contact.contactEducationStart} - ${contact.contactEducationEnd}"
-        textEducation.text = education
-        textBiography.text = contact.contactBiography
+        text_education_period_in_contact.text = education
+        text_biography_in_contact.text = contact.contactBiography
     }
 
-   override fun onBackPressed(): Boolean {
+    override fun onBackPressed(): Boolean {
         return if (myCondition) {
             myCondition = false
             true
@@ -160,5 +150,4 @@ class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract
             false
         }
     }
-
 }

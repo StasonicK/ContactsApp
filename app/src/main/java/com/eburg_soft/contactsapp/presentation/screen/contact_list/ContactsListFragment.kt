@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import com.eburg_soft.contactsapp.R
+import com.eburg_soft.contactsapp.common.App
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.presentation.base.BaseListFragment
@@ -18,6 +18,8 @@ import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapter.OnContactItemClickListener
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_contacts_list.progressbar
+import kotlinx.android.synthetic.main.toolbar.toolbar
 import javax.inject.Inject
 
 /**
@@ -26,13 +28,10 @@ import javax.inject.Inject
  */
 
 class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), SwipeRefreshLayout.OnRefreshListener,
-    ContactsAdapter.OnContactItemClickListener, ContactsListContract.View {
+    OnContactItemClickListener, ContactsListContract.View {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
     private var searchQuery: String = ""
-
-    @BindView(R.id.progressbar)
-    lateinit var progressbar: ProgressBar
 
     @BindView(R.id.action_search)
     lateinit var searchView: SearchView
@@ -44,23 +43,28 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
 
     private val listAdapter = ContactsAdapter(this)
 
+    init {
+        getScreenComponent(requireContext()).inject(this)
+    }
+
     companion object {
         const val TAG = "ContactsListFragment"
-
-        @JvmStatic
-        fun NewInstance() =
-            ContactsListFragment()
     }
 
 //region ====================== Life circle ======================
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        getScreenComponent(requireContext()).inject(this)
+//App.appComponent.createScreenComponent(requireActivity()).inject(this)
+
+        presenter.attach(this)
+
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
         }
-        getScreenComponent(requireContext()).inject(this)
         presenter.loadContactsList()
+
     }
 
     override fun onAttach(context: Context) {
@@ -75,6 +79,9 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.activity_main_menu, menu)
+
+        (activity as MainActivity).setSupportActionBar(toolbar)
+
         val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
 //        val search = menu.findItem(R.id.action_search)

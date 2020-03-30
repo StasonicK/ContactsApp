@@ -3,8 +3,6 @@ package com.eburg_soft.contactsapp.presentation.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import butterknife.BindView
 import butterknife.ButterKnife
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.R.layout
@@ -23,25 +21,33 @@ class MainActivity :
 //    @Inject
 //    lateinit var presenter:MainContract.Presenter
 
-    @BindView(R.id.toolbar_main)    lateinit var toolbar: Toolbar
+//    @BindView(R.id.toolbar)    lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
         ButterKnife.bind(this)
 
-        setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
 
-        supportFragmentManager.let {
-            if (it.findFragmentByTag(ContactsListFragment.TAG) == null) {
-                it.beginTransaction()
-                    .add(R.id.frame_container, ContactsListFragment.NewInstance())
-                    .addToBackStack("ContactsListFragment")
-                    .commit()
-            }
-        }
+//        supportFragmentManager.let {
+//            if (it.findFragmentByTag(ContactsListFragment.TAG) == null) {
+//                it.beginTransaction()
+//                    .add(R.id.frame_container, ContactsListFragment.NewInstance())
+//                    .addToBackStack("ContactsListFragment")
+//                    .commit()
+//            }
+//        }
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .add(
+                    R.id.container,
+                    ContactsListFragment(), ContactsListFragment.TAG + " created"
+                )
+                .commit()
+        } else {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
         }
     }
@@ -90,11 +96,11 @@ class MainActivity :
 //        return true
 //    }
 
-override fun onBackPressed() {
-    val fragment =
-        this.supportFragmentManager.findFragmentById(R.id.frame_container)
-    (fragment as? ContactFragment)?.onBackPressed()?.not()?.let {
-        super.onBackPressed()
+    override fun onBackPressed() {
+        val fragment =
+            this.supportFragmentManager.findFragmentById(R.id.frame_container)
+        (fragment as? ContactFragment)?.onBackPressed()?.not()?.let {
+            super.onBackPressed()
+        }
     }
-}
 }

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
+        android:name=".common.App"
         android:allowBackup="true"
         android:screenOrientation="portrait"
         android:icon="@mipmap/ic_launcher"

@@ -10,8 +10,12 @@ import io.reactivex.disposables.Disposable
 class BaseContract {
     interface View {
         fun getScreenComponent(context: Context): ScreenComponent =
+//            (context.applicationContext as App)
+//                .appComponent()
+//                .createScreenComponent(ScreenContextModule(context))
+
             (context.applicationContext as App)
-                .appComponent
+                .component
                 .createScreenComponent(ScreenContextModule(context))
     }
 
@@ -23,7 +27,7 @@ class BaseContract {
             subscriptions.add(subscription)
         }
 
-        fun unsubscribe() {
+        private fun unsubscribe() {
             subscriptions.clear()
         }
 

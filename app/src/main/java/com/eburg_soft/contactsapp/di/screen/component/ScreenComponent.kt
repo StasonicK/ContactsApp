@@ -8,9 +8,8 @@ import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListF
 import dagger.Subcomponent
 
 @ScreenScope
-@Subcomponent(modules = arrayOf(ScreenContextModule::class, ScreenModule::class))
+@Subcomponent(modules = [ScreenContextModule::class, ScreenModule::class])
 interface ScreenComponent {
-
-    fun inject(contactFragment: ContactFragment)
-    fun inject(contactsListFragment: ContactsListFragment)
+    fun inject(fragment: ContactFragment)
+    fun inject(fragment: ContactsListFragment)
 }

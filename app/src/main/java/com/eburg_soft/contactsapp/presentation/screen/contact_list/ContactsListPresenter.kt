@@ -16,7 +16,8 @@ class ContactsListPresenter
     private val gateway: DataGateway,
     private val scheduler: MyRxUtils.BaseSchedulerProvider,
     private val contactDao: ContactDao
-) : ContactsListContract.Presenter() {
+)
+    : ContactsListContract.Presenter() {
 
 //    lateinit var gateway: DataGateway
 //    lateinit var scheduler: MyRxUtils.BaseSchedulerProvider

@@ -7,7 +7,4 @@ class ContactPresenter : ContactContract.Presenter() {
         TODO("Not yet implemented")
     }
 
-    override fun onPhoneClick(phone: String) {
-        TODO("Not yet implemented")
-    }
 }

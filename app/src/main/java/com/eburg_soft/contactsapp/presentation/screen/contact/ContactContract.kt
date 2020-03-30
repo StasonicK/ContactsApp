@@ -17,6 +17,5 @@ interface ContactContract {
     abstract class Presenter : BaseContract.Presenter<View>() {
         abstract fun init(contact: Contact)
 
-        abstract fun onPhoneClick(phone: String)
     }
 }

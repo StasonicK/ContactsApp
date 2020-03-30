@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_contacts_list.recycler_contacts
 
-abstract class BaseListFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
+abstract class BaseListFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId){
 
     lateinit var recyclerView: RecyclerView
     protected lateinit var viewAdapter: BaseAdapter<*>

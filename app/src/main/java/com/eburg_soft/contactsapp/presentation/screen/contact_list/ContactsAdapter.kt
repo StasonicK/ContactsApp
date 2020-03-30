@@ -7,6 +7,8 @@ import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapter.ContactViewHolder
+import kotlinx.android.synthetic.main.fragment_contact.view.text_name_in_contact
+import kotlinx.android.synthetic.main.recycler_view_item.view.text_height
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_phone
 
 class ContactsAdapter(val listener: OnContactItemClickListener? = null) : BaseAdapter<ContactViewHolder>() {
@@ -35,9 +37,9 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) : BaseAd
             let {
                 item as Contact
 
-                view.`@+id/text_name_in_contact`.text = item.contactName
+                view.text_name_in_contact.text = item.contactName
                 view.text_phone.text = item.contactPhone
-                view.`@+id/text_name_in_contact`.text = item.contactName
+                view.text_height.text = item.contactHeingt.toString()
 
                 id = item.contactId
                 name = item.contactName
