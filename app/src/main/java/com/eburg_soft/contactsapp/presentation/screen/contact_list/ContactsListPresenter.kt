@@ -1,6 +1,7 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
 import android.text.TextUtils
+import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
 import com.eburg_soft.contactsapp.model.gateway.DataGateway
 import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
@@ -11,6 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
+@ScreenScope
 class ContactsListPresenter
 @Inject constructor(
     private val gateway: DataGateway,
@@ -18,10 +20,6 @@ class ContactsListPresenter
     private val contactDao: ContactDao
 )
     : ContactsListContract.Presenter() {
-
-//    lateinit var gateway: DataGateway
-//    lateinit var scheduler: MyRxUtils.BaseSchedulerProvider
-//    lateinit var contactDao: ContactDao
 
     override fun onContactClick(contact: Contact) {
         view?.openContactView(contact)
@@ -62,8 +60,8 @@ class ContactsListPresenter
     }
 
     override fun refreshContactsList() {
-        view?.refresh()
         loadContactsList()
+        view?.notifyAdapter()
     }
 
     override fun onSearchQuerySubmit(query: String?, networkAvailable: Boolean) {

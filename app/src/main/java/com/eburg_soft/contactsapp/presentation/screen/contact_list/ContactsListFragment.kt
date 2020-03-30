@@ -3,6 +3,7 @@ package com.eburg_soft.contactsapp.presentation.screen.contact_list
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -10,7 +11,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import com.eburg_soft.contactsapp.R
-import com.eburg_soft.contactsapp.common.App
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.presentation.base.BaseListFragment
@@ -26,11 +26,13 @@ import javax.inject.Inject
  * Class [ContactsListFragment] show the list of contacts and assist to find contacts by phone number
  * or name.
  */
-
-class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), SwipeRefreshLayout.OnRefreshListener,
+class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
+    SwipeRefreshLayout.OnRefreshListener,
     OnContactItemClickListener, ContactsListContract.View {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
+    private val BUNDLE_CONTACTS_LIST: String = "contactsList"
+    private val BUNDLE_RECYCLER_VIEW_POSITION = "recyclerPosition"
     private var searchQuery: String = ""
 
     @BindView(R.id.action_search)
@@ -41,7 +43,9 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
 
     private lateinit var listener: OnContactItemClickListener
 
-    private val listAdapter = ContactsAdapter(this)
+    private lateinit var listAdapter: ContactsAdapter
+
+    private var contactsList: ArrayList<Contact>? = null
 
     init {
         getScreenComponent(requireContext()).inject(this)
@@ -55,16 +59,20 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        getScreenComponent(requireContext()).inject(this)
-//App.appComponent.createScreenComponent(requireActivity()).inject(this)
+        retainInstance = true
 
         presenter.attach(this)
 
+        listAdapter = ContactsAdapter(this)
+
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
+            contactsList = savedInstanceState.getParcelableArrayList(BUNDLE_CONTACTS_LIST)
+
+            val listState: Parcelable = savedInstanceState.getParcelable(BUNDLE_RECYCLER_VIEW_POSITION)!!
+            recyclerView.layoutManager?.onRestoreInstanceState(listState)
         }
         presenter.loadContactsList()
-
     }
 
     override fun onAttach(context: Context) {
@@ -75,6 +83,20 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
     override fun onDetach() {
         super.onDetach()
         presenter.detach()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(BUNDLE_SEARCH_QUERY, searchQuery)
+        outState.putParcelableArrayList(BUNDLE_CONTACTS_LIST, contactsList)
+    }
+
+//endregion
+
+    //refresh the list by swiping down
+    override fun onRefresh() {
+        viewAdapter.items.clear()
+        presenter.refreshContactsList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -91,18 +113,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
         searchView.setIconifiedByDefault(false)
         searchView.isSubmitButtonEnabled = true
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(BUNDLE_SEARCH_QUERY, searchQuery)
-    }
-
-//endregion
-
-    //refresh the list by swiping down
-    override fun onRefresh() {
-        presenter.refreshContactsList()
     }
 
 //region ====================== Contract ======================
@@ -157,7 +167,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
     }
 
 //endregion
-
 
     //TODO create WorkManager!
 }

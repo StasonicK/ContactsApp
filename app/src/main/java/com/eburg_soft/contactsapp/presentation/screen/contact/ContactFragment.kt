@@ -25,9 +25,9 @@ import javax.inject.Inject
 /**
  * Class [ContactFragment] shows contact information, has clickable phone number.
  */
-class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract.View {
+class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_contact), ContactContract.View {
 
-//    @Inject
+    @Inject
     lateinit var presenter: ContactContract.Presenter
 
     private var myCondition = true
@@ -60,8 +60,7 @@ class ContactFragment : BaseFragment(R.layout.fragment_contact), ContactContract
     //region ====================== Life circle ======================
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        getScreenComponent(requireContext()).inject(this)
-//        App.appComponent.createScreenComponent(requireActivity()).inject(this)
+        retainInstance = true
 
         presenter.attach(this)
 
