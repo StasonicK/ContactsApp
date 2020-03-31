@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 @Module
 class NetworkModule {
 
-    val BASE_URL = "https://raw.githubusercontent.com/SkbkonturMobile/mobile-test-droid/master"
+    val BASE_URL = "https://raw.githubusercontent.com/"
 
     val MAX_READ_TIMEOUT: Long = 10
     val MAX_CONNECT_TIMEOUT: Long = 10

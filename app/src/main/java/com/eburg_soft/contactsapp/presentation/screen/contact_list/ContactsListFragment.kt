@@ -4,9 +4,11 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
@@ -26,8 +28,7 @@ import javax.inject.Inject
  * Class [ContactsListFragment] show the list of contacts and assist to find contacts by phone number
  * or name.
  */
-class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
-    SwipeRefreshLayout.OnRefreshListener,
+class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), SwipeRefreshLayout.OnRefreshListener,
     OnContactItemClickListener, ContactsListContract.View {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
@@ -47,21 +48,22 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
     private var contactsList: ArrayList<Contact>? = null
 
-    init {
-        getScreenComponent(requireContext()).inject(this)
-    }
-
     companion object {
         const val TAG = "ContactsListFragment"
     }
 
 //region ====================== Life circle ======================
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_contacts_list, container, false)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
-
+        getScreenComponent(requireContext()).inject(this)
         presenter.attach(this)
+
+        retainInstance = true
 
         listAdapter = ContactsAdapter(this)
 
@@ -75,13 +77,13 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
         presenter.loadContactsList()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onStart() {
+        super.onStart()
         presenter.attach(this)
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onStop() {
+        super.onStop()
         presenter.detach()
     }
 

@@ -3,6 +3,7 @@ package com.eburg_soft.contactsapp.presentation.screen.contact_list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
@@ -11,7 +12,9 @@ import kotlinx.android.synthetic.main.fragment_contact.view.text_name_in_contact
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_height
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_phone
 
-class ContactsAdapter(val listener: OnContactItemClickListener? = null) : BaseAdapter<ContactViewHolder>() {
+class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
+    BaseAdapter<ContactViewHolder>()
+{
 
     interface OnContactItemClickListener {
         fun onContactsListItemClick(contact: Contact)

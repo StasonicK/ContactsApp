@@ -88,9 +88,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_contact, container, false)
-
-        return view
+        return inflater.inflate(R.layout.fragment_contact, container, false)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
