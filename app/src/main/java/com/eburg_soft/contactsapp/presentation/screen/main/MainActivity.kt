@@ -43,7 +43,7 @@ class MainActivity :
             supportFragmentManager
                 .beginTransaction()
                 .add(
-                    R.id.container,
+                    R.id.frame_container,
                     ContactsListFragment(), ContactsListFragment.TAG + " created"
                 )
                 .commit()

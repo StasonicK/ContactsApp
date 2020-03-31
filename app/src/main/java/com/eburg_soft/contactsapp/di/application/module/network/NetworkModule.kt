@@ -18,8 +18,8 @@ class NetworkModule {
 
     val BASE_URL = "https://raw.githubusercontent.com/"
 
-    val MAX_READ_TIMEOUT: Long = 10
-    val MAX_CONNECT_TIMEOUT: Long = 10
+    val MAX_READ_TIMEOUT: Long = 20
+    val MAX_CONNECT_TIMEOUT: Long = 20
 
     @Provides
     @AppScope

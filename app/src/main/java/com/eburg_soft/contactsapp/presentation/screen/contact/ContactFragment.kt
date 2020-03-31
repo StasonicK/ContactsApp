@@ -101,14 +101,22 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         outState.putString(BUNDLE_CONTACT_BIOGRAPHY, contact.contactBiography)
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.attach(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.detach()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        presenter.attach(this)
     }
 
     override fun onDetach() {
         super.onDetach()
-        presenter.detach()
     }
 
     //endregion

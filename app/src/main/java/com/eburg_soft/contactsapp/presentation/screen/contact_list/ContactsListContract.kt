@@ -28,7 +28,7 @@ interface ContactsListContract {
 
         abstract fun loadContactsList()
 
-//        abstract fun syncContacts()
+        abstract fun eraseContactsFromDB()
 
         abstract fun refreshContactsList()
 

@@ -3,21 +3,20 @@ package com.eburg_soft.contactsapp.presentation.screen.contact_list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapter.ContactViewHolder
-import kotlinx.android.synthetic.main.fragment_contact.view.text_name_in_contact
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_height
+import kotlinx.android.synthetic.main.recycler_view_item.view.text_name
 import kotlinx.android.synthetic.main.recycler_view_item.view.text_phone
 
 class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
-    BaseAdapter<ContactViewHolder>()
-{
+    BaseAdapter<ContactViewHolder>() {
 
     interface OnContactItemClickListener {
-        fun onContactsListItemClick(contact: Contact)
+        fun onContactClick(contact: Contact)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -40,7 +39,7 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
             let {
                 item as Contact
 
-                view.text_name_in_contact.text = item.contactName
+                view.text_name.text = item.contactName
                 view.text_phone.text = item.contactPhone
                 view.text_height.text = item.contactHeingt.toString()
 
@@ -52,7 +51,7 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
                 educationStart = item.contactEducationStart
                 educationEnd = item.contactEducationEnd
 
-                itemView.setOnClickListener { listener?.onContactsListItemClick(item) }
+                itemView.setOnClickListener { listener?.onContactClick(item) }
             }
         }
     }

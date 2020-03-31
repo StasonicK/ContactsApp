@@ -31,4 +31,11 @@ data class Contact(
         const val COLUMN_EDUCATION_START = "education_start"
         const val COLUMN_EDUCATION_END = "education_end"
     }
+
+    override fun toString(): String {
+        return super.toString()
+        val toString =
+            "${contactId}, ${contactName}, ${contactPhone}, ${contactHeingt}, ${contactBiography}, ${contactTemperament}, ${contactEducationStart}, ${contactEducationEnd}"
+        return toString
+    }
 }

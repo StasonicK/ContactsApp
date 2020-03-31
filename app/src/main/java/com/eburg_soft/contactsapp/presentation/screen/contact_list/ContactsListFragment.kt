@@ -4,11 +4,10 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
@@ -20,7 +19,7 @@ import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapter.OnContactItemClickListener
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_contacts_list.progressbar
+import kotlinx.android.synthetic.main.activity_main.progressbar
 import kotlinx.android.synthetic.main.toolbar.toolbar
 import javax.inject.Inject
 
@@ -28,7 +27,8 @@ import javax.inject.Inject
  * Class [ContactsListFragment] show the list of contacts and assist to find contacts by phone number
  * or name.
  */
-class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), SwipeRefreshLayout.OnRefreshListener,
+class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
+    SwipeRefreshLayout.OnRefreshListener,
     OnContactItemClickListener, ContactsListContract.View {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
@@ -42,8 +42,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
     @Inject
     lateinit var presenter: ContactsListContract.Presenter
 
-    private lateinit var listener: OnContactItemClickListener
-
     private lateinit var listAdapter: ContactsAdapter
 
     private var contactsList: ArrayList<Contact>? = null
@@ -53,10 +51,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
     }
 
 //region ====================== Life circle ======================
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_contacts_list, container, false)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +81,11 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
         presenter.detach()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.eraseContactsFromDB()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(BUNDLE_SEARCH_QUERY, searchQuery)
@@ -101,6 +100,16 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
         presenter.refreshContactsList()
     }
 
+    override fun onContactClick(contact: Contact) {
+        presenter.onContactClick(contact)
+        Log.d("onContactClick", contact.toString())
+    }
+
+    //region ====================== Contract ======================
+    override fun createAdapterInstance(): BaseAdapter<*> {
+        return ContactsAdapter()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.activity_main_menu, menu)
 
@@ -108,24 +117,14 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
 
         val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
-//        val search = menu.findItem(R.id.action_search)
-//        search.expandActionView()
-        searchView.setQuery(searchQuery, false)
-        searchView.setSearchableInfo(searchManager.getSearchableInfo((activity as MainActivity).componentName))
-        searchView.setIconifiedByDefault(false)
-        searchView.isSubmitButtonEnabled = true
+        val search = menu.findItem(R.id.action_search)
+        search.expandActionView()
+
+//        searchView.setQuery(searchQuery, false)
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo((activity as MainActivity).componentName))
+//        searchView.setIconifiedByDefault(false)
+//        searchView.isSubmitButtonEnabled = true
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-//region ====================== Contract ======================
-
-    override fun createAdapterInstance(): BaseAdapter<*> {
-        return ContactsAdapter()
-    }
-
-    override fun onContactsListItemClick(contact: Contact) {
-        listener.onContactsListItemClick(contact)
-        presenter.onContactClick(contact)
     }
 
     override fun addCurrency(contact: Contact) {
@@ -137,7 +136,7 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
     }
 
     override fun showLoading() {
-        progressbar.visibility = View.VISIBLE
+        requireActivity().progressbar.visibility = View.VISIBLE
     }
 
     override fun notifyAdapter() {
@@ -150,7 +149,7 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list), 
     }
 
     override fun hideLoading() {
-        progressbar.visibility = View.INVISIBLE
+        requireActivity().progressbar.visibility = View.INVISIBLE
     }
 
     override fun showErrorMessage(error: String?) {

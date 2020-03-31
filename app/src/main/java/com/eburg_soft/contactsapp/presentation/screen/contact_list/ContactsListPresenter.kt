@@ -18,8 +18,7 @@ class ContactsListPresenter
     private val gateway: DataGateway,
     private val scheduler: MyRxUtils.BaseSchedulerProvider,
     private val contactDao: ContactDao
-)
-    : ContactsListContract.Presenter() {
+) : ContactsListContract.Presenter() {
 
     override fun onContactClick(contact: Contact) {
         view?.openContactView(contact)
@@ -31,6 +30,7 @@ class ContactsListPresenter
             .observeOn(scheduler.computation())
             .toFlowable()
             .flatMap { Flowable.fromIterable(it) }
+            .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
                 view?.addCurrency(
                     Contact(
@@ -59,6 +59,14 @@ class ContactsListPresenter
         )
     }
 
+    override fun eraseContactsFromDB() {
+        subscribe(
+            gateway.eraseData()
+                .observeOn(scheduler.computation())
+                .subscribe()
+        )
+    }
+
     override fun refreshContactsList() {
         loadContactsList()
         view?.notifyAdapter()
@@ -81,8 +89,9 @@ class ContactsListPresenter
     private fun setContactsListInAdapter(maybe: Maybe<List<Contact>>): Disposable {
         return maybe
             .toFlowable()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(scheduler.computation())
             .flatMap { Flowable.fromIterable(it) }
+            .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
                 view?.addCurrency(
                     Contact(
@@ -118,6 +127,7 @@ class ContactsListPresenter
                 .doOnComplete {
                     view?.hideLoading()
                 }
+                .doOnError { view?.showErrorMessage(it.message) }
                 .subscribe()
         )
     }
