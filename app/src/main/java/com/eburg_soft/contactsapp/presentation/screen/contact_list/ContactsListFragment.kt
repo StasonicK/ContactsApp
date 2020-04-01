@@ -5,9 +5,12 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
@@ -52,6 +55,18 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
 //region ====================== Life circle ======================
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view: View = inflater.inflate(R.layout.fragment_contacts_list, container, false)
+
+        setHasOptionsMenu(true)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.setTitle("")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getScreenComponent(requireContext()).inject(this)
@@ -69,6 +84,26 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
             recyclerView.layoutManager?.onRestoreInstanceState(listState)
         }
         presenter.loadContactsList()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.activity_main_menu, menu)
+        val searchItem: MenuItem = menu.findItem(R.id.action_search)
+//        val searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+        val searchView = searchItem.actionView
+
+        // Expand the search view and request focus
+        searchItem.expandActionView()
+        searchView.requestFocus()
+
+        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+
+//        searchView.setQuery(searchQuery, false)
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo((activity as MainActivity).componentName))
+//        searchView.setIconifiedByDefault(false)
+//        searchView.isSubmitButtonEnabled = true
     }
 
     override fun onStart() {
@@ -96,8 +131,8 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
     //refresh the list by swiping down
     override fun onRefresh() {
-        viewAdapter.items.clear()
-        presenter.refreshContactsList()
+//        viewAdapter.items.clear()
+//        presenter.refreshContactsList()
     }
 
     override fun onContactClick(contact: Contact) {
@@ -108,23 +143,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
     //region ====================== Contract ======================
     override fun createAdapterInstance(): BaseAdapter<*> {
         return ContactsAdapter()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.activity_main_menu, menu)
-
-        (activity as MainActivity).setSupportActionBar(toolbar)
-
-        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-
-        val search = menu.findItem(R.id.action_search)
-        search.expandActionView()
-
-//        searchView.setQuery(searchQuery, false)
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo((activity as MainActivity).componentName))
-//        searchView.setIconifiedByDefault(false)
-//        searchView.isSubmitButtonEnabled = true
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun addCurrency(contact: Contact) {

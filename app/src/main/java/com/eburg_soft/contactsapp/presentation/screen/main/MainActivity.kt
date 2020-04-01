@@ -8,6 +8,7 @@ import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.R.layout
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListFragment
+import kotlinx.android.synthetic.main.toolbar.toolbar
 
 class MainActivity :
 //    SearchView.OnQueryTextListener,
@@ -28,7 +29,7 @@ class MainActivity :
         setContentView(layout.activity_main)
         ButterKnife.bind(this)
 
-//        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar)
 
 //        supportFragmentManager.let {
 //            if (it.findFragmentByTag(ContactsListFragment.TAG) == null) {
