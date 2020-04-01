@@ -13,7 +13,7 @@ data class Contact(
     @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = false) var contactId: String = "",
     @ColumnInfo(name = COLUMN_NAME) var contactName: String = "",
     @ColumnInfo(name = COLUMN_PHONE) var contactPhone: String = "",
-    @ColumnInfo(name = COLUMN_HEIGHT) var contactHeingt: Float = 0f,
+    @ColumnInfo(name = COLUMN_HEIGHT) var contactHeight: Float = 0f,
     @ColumnInfo(name = COLUMN_BIOGRAPHY) var contactBiography: String = "",
     @ColumnInfo(name = COLUMN_TEMPERAMENT) var contactTemperament: String = "",
     @ColumnInfo(name = COLUMN_EDUCATION_START) var contactEducationStart: String = "",
@@ -35,7 +35,7 @@ data class Contact(
     override fun toString(): String {
         return super.toString()
         val toString =
-            "${contactId}, ${contactName}, ${contactPhone}, ${contactHeingt}, ${contactBiography}, ${contactTemperament}, ${contactEducationStart}, ${contactEducationEnd}"
+            "${contactId}, ${contactName}, ${contactPhone}, ${contactHeight}, ${contactBiography}, ${contactTemperament}, ${contactEducationStart}, ${contactEducationEnd}"
         return toString
     }
 }

@@ -6,7 +6,7 @@ import com.eburg_soft.contactsapp.presentation.base.BaseContract
 interface ContactsListContract {
     interface View : BaseContract.View {
 
-        fun addCurrency(contact: Contact)
+        fun addContact(contact: Contact)
         fun showContactsList()
 
         fun showLoading()
@@ -27,6 +27,8 @@ interface ContactsListContract {
         abstract fun onContactClick(contact: Contact)
 
         abstract fun loadContactsList()
+
+        abstract fun syncContacts()
 
         abstract fun eraseContactsFromDB()
 

@@ -12,7 +12,7 @@ class GatewayMapper {
                 contact.contactId = responses[i].id
                 contact.contactName = responses[i].name
                 contact.contactPhone = responses[i].phone
-                contact.contactHeingt = responses[i].height.toFloat()
+                contact.contactHeight = responses[i].height.toFloat()
                 contact.contactBiography = responses[i].biography
                 contact.contactTemperament = responses[i].temperament
                 contact.contactEducationStart = responses[i].contactEducationPeriodRes.start

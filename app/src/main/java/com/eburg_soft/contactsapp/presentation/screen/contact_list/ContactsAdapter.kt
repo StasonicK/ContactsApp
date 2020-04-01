@@ -28,7 +28,7 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
 
         var id: String = ""
         var name: String = ""
-        var heingt: String = ""
+        var height: String = ""
         var biography: String = ""
         var temperament: String = ""
         var educationStart: String = ""
@@ -41,11 +41,11 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
 
                 view.text_name.text = item.contactName
                 view.text_phone.text = item.contactPhone
-                view.text_height.text = item.contactHeingt.toString()
+                view.text_height.text = item.contactHeight.toString()
 
                 id = item.contactId
                 name = item.contactName
-                heingt = item.contactHeingt.toString()
+                height = item.contactHeight.toString()
                 biography = item.contactBiography
                 temperament = item.contactTemperament
                 educationStart = item.contactEducationStart

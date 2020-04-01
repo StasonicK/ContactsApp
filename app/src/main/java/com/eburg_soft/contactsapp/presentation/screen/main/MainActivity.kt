@@ -13,16 +13,10 @@ import kotlinx.android.synthetic.main.toolbar.toolbar
 class MainActivity :
 //    SearchView.OnQueryTextListener,
     AppCompatActivity()
-//    , MainContract.View
 {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
     private var searchQuery: String = ""
-
-//    @Inject
-//    lateinit var presenter:MainContract.Presenter
-
-//    @BindView(R.id.toolbar)    lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,33 +62,6 @@ class MainActivity :
 //        val networkAvailable: Boolean = MyNetworkUtils.isNetworkAvailable(this)
 //        presenter.loadContactsListByQuery(newText, networkAvailable)
 //        return false
-//    }
-
-//    override fun showLoading() {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun hideLoading() {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun notifyAdapter() {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun showErrorMessage(error: String?) {
-//        TODO("Not yet implemented")
-//    }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.activity_main_menu, menu)
-//        val searchManager = baseContext.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-//        searchView.setIconifiedByDefault(false)
-//        searchView.isSubmitButtonEnabled = true
-//
-//        return true
 //    }
 
     override fun onBackPressed() {

@@ -7,10 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import butterknife.OnClick
 import com.eburg_soft.contactsapp.R
-import com.eburg_soft.contactsapp.common.App
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseFragment
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
@@ -60,9 +58,10 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
     //region ====================== Life circle ======================
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
-
         presenter.attach(this)
+
+        retainInstance = true
+        myCondition = true
 
         setupToolbar()
 
@@ -134,7 +133,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         (activity as MainActivity).actionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).actionBar?.setDisplayShowHomeEnabled(true)
 
-        toolbar.setNavigationOnClickListener({ v -> })
+        toolbar.setNavigationOnClickListener { v -> onBackPressed() }
     }
 
     override fun bindViews() {
@@ -151,7 +150,6 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
             myCondition = false
             true
         } else {
-            myCondition = true
             false
         }
     }

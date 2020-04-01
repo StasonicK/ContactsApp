@@ -5,6 +5,7 @@ import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
 import com.eburg_soft.contactsapp.model.gateway.DataGateway
 import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
+import com.eburg_soft.contactsapp.utils.MyNetworkUtils
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -25,19 +26,18 @@ class ContactsListPresenter
     }
 
     override fun loadContactsList() {
-        syncContacts()
         subscribe(gateway.getAllContacts()
             .observeOn(scheduler.computation())
             .toFlowable()
             .flatMap { Flowable.fromIterable(it) }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
-                view?.addCurrency(
+                view?.addContact(
                     Contact(
                         it.contactId,
                         it.contactName,
                         it.contactPhone,
-                        it.contactHeingt,
+                        it.contactHeight,
                         it.contactBiography,
                         it.contactTemperament,
                         it.contactEducationStart,
@@ -69,19 +69,51 @@ class ContactsListPresenter
 
     override fun refreshContactsList() {
         loadContactsList()
-        view?.notifyAdapter()
     }
 
     override fun onSearchQuerySubmit(query: String?, networkAvailable: Boolean) {
-        if (!TextUtils.isEmpty(query)) {
+        var newQuery = query?.trim()
+        if (!TextUtils.isEmpty(newQuery) && !TextUtils.equals(newQuery, "")) {
+             newQuery = "%${newQuery}%"
             if (networkAvailable) {
                 subscribe(
-                    setContactsListInAdapter(contactDao.getContactsByName(query ?: ""))
-
+                    gateway.getContactsByName(newQuery).toFlowable()
+                        .observeOn(scheduler.computation())
+                        .flatMap { Flowable.fromIterable(it) }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext {
+                            view?.addContact(
+                                Contact(
+                                    it.contactId,
+                                    it.contactName,
+                                    it.contactPhone,
+                                    it.contactHeight,
+                                    it.contactBiography,
+                                    it.contactTemperament,
+                                    it.contactEducationStart,
+                                    it.contactEducationEnd
+                                )
+                            )
+                        }
+                        .doOnComplete {
+                            view?.hideLoading()
+                        }
+                        .subscribe({
+                            view?.hideLoading()
+                            view?.notifyAdapter()
+                        }, {
+                            view?.showErrorMessage(it.message)
+                            view?.hideLoading()
+                            it.printStackTrace()
+                        })
                 )
-                subscribe(
-                    setContactsListInAdapter(contactDao.getContactsByPhone(query ?: ""))
-                )
+//                subscribe(
+//                    setContactsListInAdapter(gateway.getContactsByName(newQuery))
+//
+//                )
+//                subscribe(
+//                    setContactsListInAdapter(gateway.getContactsByPhone(newQuery))
+//                )
             }
         }
     }
@@ -93,12 +125,12 @@ class ContactsListPresenter
             .flatMap { Flowable.fromIterable(it) }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
-                view?.addCurrency(
+                view?.addContact(
                     Contact(
                         it.contactId,
                         it.contactName,
                         it.contactPhone,
-                        it.contactHeingt,
+                        it.contactHeight,
                         it.contactBiography,
                         it.contactTemperament,
                         it.contactEducationStart,
@@ -119,7 +151,7 @@ class ContactsListPresenter
             })
     }
 
-    private fun syncContacts() {
+    override fun syncContacts() {
         view?.showLoading()
         subscribe(
             gateway.syncData()
