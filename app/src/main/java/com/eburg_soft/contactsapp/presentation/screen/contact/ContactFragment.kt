@@ -1,13 +1,11 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.OnClick
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseFragment
@@ -28,7 +26,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
     @Inject
     lateinit var presenter: ContactContract.Presenter
 
-    private var myCondition = true
+    private var isOpened = true
 
     var contact: Contact = Contact()
 
@@ -61,7 +59,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         presenter.attach(this)
 
         retainInstance = true
-        myCondition = true
+        isOpened = true
 
         setupToolbar()
 
@@ -81,6 +79,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
 
         bindViews()
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -110,17 +109,8 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         presenter.detach()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-    }
-
     //endregion
 
-    @OnClick(R.id.text_phone_in_contact)
     override fun callPhone() {
         val phone = text_phone_in_contact.text
         val intent = Intent(Intent.ACTION_CALL)
@@ -139,6 +129,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
     override fun bindViews() {
         text_name_in_contact.text = contact.contactName
         text_phone_in_contact.text = contact.contactPhone
+        text_phone_in_contact.setOnClickListener { v: View? -> callPhone() }
         text_temperament_in_contact.text = contact.contactTemperament
         val education = "${contact.contactEducationStart} - ${contact.contactEducationEnd}"
         text_education_period_in_contact.text = education
@@ -146,8 +137,8 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
     }
 
     override fun onBackPressed(): Boolean {
-        return if (myCondition) {
-            myCondition = false
+        return if (isOpened) {
+            isOpened = false
             true
         } else {
             false

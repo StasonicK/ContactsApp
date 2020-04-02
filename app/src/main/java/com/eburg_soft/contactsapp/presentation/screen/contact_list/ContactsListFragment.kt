@@ -14,15 +14,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
 import com.eburg_soft.contactsapp.presentation.base.BaseListFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsAdapter.OnContactItemClickListener
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
-import com.eburg_soft.contactsapp.utils.MyNetworkUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.progressbar
 import kotlinx.android.synthetic.main.fragment_contacts_list.swipe_refresh_layout
@@ -35,22 +32,19 @@ import javax.inject.Inject
 class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
     SwipeRefreshLayout.OnRefreshListener,
     SearchView.OnQueryTextListener,
-    OnContactItemClickListener, ContactsListContract.View {
+    ContactsAdapter.OnContactItemClickListener, ContactsListContract.View {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
     private val BUNDLE_CONTACTS_LIST: String = "contactsList"
     private val BUNDLE_RECYCLER_VIEW_POSITION = "recyclerPosition"
     private var searchQuery: String? = ""
 
-    @BindView(R.id.action_search)
-    lateinit var searchView: SearchView
-
     @Inject
     lateinit var presenter: ContactsListContract.Presenter
 
-    private lateinit var listAdapter: ContactsAdapter
+    private var listAdapter: ContactsAdapter? = null
 
-    private var contactsList: ArrayList<Contact>? = null
+    private var contactsList: ArrayList<Contact> = ArrayList()
 
     companion object {
         const val TAG = "ContactsListFragment"
@@ -69,6 +63,8 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         )
         swipe_refresh_layout.setOnRefreshListener(this)
+
+        contactsList = listAdapter?.items as ArrayList<Contact>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,28 +73,25 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
         presenter.attach(this)
         setHasOptionsMenu(true)
 
-        retainInstance = true
-
         listAdapter = ContactsAdapter(this)
 
+        retainInstance = true
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-            contactsList = savedInstanceState.getParcelableArrayList(BUNDLE_CONTACTS_LIST)
+            contactsList = savedInstanceState.getParcelableArrayList(BUNDLE_CONTACTS_LIST)!!
 
             val listState: Parcelable = savedInstanceState.getParcelable(BUNDLE_RECYCLER_VIEW_POSITION)!!
             recyclerView.layoutManager?.onRestoreInstanceState(listState)
         }
 
-        if (MyNetworkUtils.isNetworkAvailable(requireContext())) {
-            presenter.syncContacts()
-        }
+        presenter.syncContacts()
 
         presenter.loadContactsList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater)
 
         inflater.inflate(R.menu.activity_main_menu, menu)
         val searchItem: MenuItem = menu.findItem(R.id.action_search)
@@ -132,7 +125,7 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.eraseContactsFromDB()
+//        presenter.eraseContactsFromDB()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -152,16 +145,16 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
     override fun onQueryTextSubmit(query: String): Boolean {
         searchQuery = query
-        val networkAvailable: Boolean = MyNetworkUtils.isNetworkAvailable(requireContext())
-        presenter.onSearchQuerySubmit(query, networkAvailable)
+//        presenter.onSearchQuerySubmit(query, contactsList)
+        presenter.onSearchQuerySubmit(query, listAdapter?.items as ArrayList<Contact>)
         Log.d("onQueryTextSubmit", query)
         return false
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
         searchQuery = newText
-        val networkAvailable: Boolean = MyNetworkUtils.isNetworkAvailable(requireContext())
-        presenter.onSearchQuerySubmit(newText, networkAvailable)
+//        presenter.onSearchQuerySubmit(newText, contactsList)
+        presenter.onSearchQuerySubmit(newText, listAdapter?.items as ArrayList<Contact>)
         Log.d("onQueryTextChange", newText)
         return false
     }
@@ -202,13 +195,13 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
         requireActivity().progressbar.visibility = View.INVISIBLE
     }
 
-    override fun showErrorMessage(error: String?) {
+    override fun showErrorMessage(error: String) {
         Snackbar.make(recyclerView, error.toString(), Snackbar.LENGTH_LONG).show()
     }
 
     //Open [ContactsFragment] with data of the contact
     override fun openContactView(contact: Contact) {
-        (activity as MainActivity).supportFragmentManager.let {
+        requireActivity().supportFragmentManager.let {
             if (it.findFragmentByTag(ContactFragment.TAG) == null) {
                 it.beginTransaction()
                     .replace(R.id.frame_container, ContactFragment.NewInstance(contact), ContactFragment.TAG)

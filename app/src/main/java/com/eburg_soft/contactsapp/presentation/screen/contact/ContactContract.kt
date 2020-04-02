@@ -16,6 +16,5 @@ interface ContactContract {
 
     abstract class Presenter : BaseContract.Presenter<View>() {
         abstract fun init(contact: Contact)
-
     }
 }

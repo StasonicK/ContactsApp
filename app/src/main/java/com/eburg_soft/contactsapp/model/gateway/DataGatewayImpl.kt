@@ -5,9 +5,7 @@ import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class DataGatewayImpl @Inject constructor(
@@ -15,7 +13,6 @@ class DataGatewayImpl @Inject constructor(
     private val apiClient: ApiClient,
     private val scheduler: MyRxUtils.BaseSchedulerProvider
 ) : DataGateway {
-
 
     override fun getAllContacts(): Single<List<Contact>> {
         return contactDao.getAllContacts()
@@ -31,15 +28,15 @@ class DataGatewayImpl @Inject constructor(
             .subscribeOn(scheduler.io())
     }
 
-    override fun getContactsByPhone(phone: String): Maybe<List<Contact>> {
-        return contactDao.getContactsByPhone(phone)
-            .subscribeOn(scheduler.io())
-    }
-
-    override fun getContactsByName(name: String): Maybe<List<Contact>> {
-        return contactDao.getContactsByName(name)
-            .subscribeOn(scheduler.io())
-    }
+//    override fun getContactsByPhone(phone: String): Single<List<Contact>> {
+//        return contactDao.getContactsByPhone(phone)
+//            .subscribeOn(scheduler.io())
+//    }
+//
+//    override fun getContactsByName(name: String): Single<List<Contact>> {
+//        return contactDao.getContactsByName(name)
+//            .subscribeOn(scheduler.io())
+//    }
 
     override fun syncData(): Completable {
         return apiClient.getContacts1()

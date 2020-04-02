@@ -17,7 +17,7 @@ interface ContactsListContract {
 
         fun refresh()
 
-        fun showErrorMessage(error: String?)
+        fun showErrorMessage(error: String)
 
         fun openContactView(contact: Contact)
     }
@@ -34,6 +34,6 @@ interface ContactsListContract {
 
         abstract fun refreshContactsList()
 
-        abstract fun onSearchQuerySubmit(query: String?, networkAvailable: Boolean)
+        abstract fun onSearchQuerySubmit(query: String, contactList: ArrayList<Contact>)
     }
 }

@@ -1,6 +1,5 @@
 package com.eburg_soft.contactsapp.di.application.component
 
-import androidx.fragment.app.FragmentActivity
 import com.eburg_soft.contactsapp.common.App
 import com.eburg_soft.contactsapp.di.application.module.app.AppContextModule
 import com.eburg_soft.contactsapp.di.application.module.data.DatabaseModule
@@ -21,6 +20,7 @@ import dagger.Component
 interface AppComponent {
 
     fun createScreenComponent(screenContextModule: ScreenContextModule): ScreenComponent
+
     fun inject(app: App)
     fun inject(presenter: ContactsListContract.Presenter)
     fun inject(presenter: ContactContract.Presenter)

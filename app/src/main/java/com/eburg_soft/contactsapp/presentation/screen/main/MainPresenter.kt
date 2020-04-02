@@ -1,13 +1,6 @@
 package com.eburg_soft.contactsapp.presentation.screen.main
 
-import android.text.TextUtils
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
-import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-
-class MainPresenter :MainContract.Presenter(){
+class MainPresenter : MainContract.Presenter() {
 //    override fun loadContactsListByQuery(query: String?, networkAvailable: Boolean) {
 //        if (!TextUtils.isEmpty(query)) {
 //            if (networkAvailable) {

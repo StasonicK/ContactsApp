@@ -20,6 +20,9 @@
 
     <TextView
         android:id="@+id/text_phone_in_contact"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="callPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_margin_small"
@@ -27,7 +30,7 @@
         android:textSize="@dimen/text_size_standard"
         app:layout_constraintStart_toStartOf="@+id/text_name_in_contact"
         app:layout_constraintTop_toBottomOf="@+id/text_name_in_contact"
-        tools:text="+7 (919) 456-3916" />
+        tools:text="+7 (919) 456-3916"/>
 
     <TextView
         android:id="@+id/text_temperament_in_contact"

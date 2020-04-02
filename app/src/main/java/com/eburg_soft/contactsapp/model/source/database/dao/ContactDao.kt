@@ -7,7 +7,6 @@ import androidx.room.Query
 import androidx.room.Update
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Single
 
 @Dao
@@ -32,10 +31,10 @@ interface ContactDao {
     fun getContactById(id: String): Single<Contact>
 
     @Query("SELECT * FROM ${Contact.TABLE_NAME} WHERE ${Contact.COLUMN_PHONE} like :phone")
-    fun getContactsByPhone(phone: String): Maybe<List<Contact>>
+    fun getContactsByPhone(phone: String): Single<List<Contact>>
 
     @Query("SELECT * FROM ${Contact.TABLE_NAME} WHERE ${Contact.COLUMN_NAME} like :name")
-    fun getContactsByName(name: String): Maybe<List<Contact>>
+    fun getContactsByName(name: String): Single<List<Contact>>
 
     @Query("DELETE FROM " + Contact.TABLE_NAME)
     fun deleteContacts(): Completable

@@ -9,7 +9,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -42,7 +41,6 @@ ext {
     multidexVersion = '1.0.3'
 
     timberVersion = '4.7.1'
-    butterknifeVersion = '10.2.1'
     retrofitVersion = '2.7.0'
     okhttp3Version = '4.3.0'
     dagger2Version = '2.25.4'

@@ -1,6 +1,5 @@
 package com.eburg_soft.contactsapp.presentation.screen.main
 
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseContract
 
 interface MainContract {

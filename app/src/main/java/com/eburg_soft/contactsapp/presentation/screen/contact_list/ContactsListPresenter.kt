@@ -1,16 +1,16 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
-import android.text.TextUtils
+import android.content.Context
+import com.eburg_soft.contactsapp.di.application.module.app.AppContext
 import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
 import com.eburg_soft.contactsapp.model.gateway.DataGateway
-import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.utils.MyNetworkUtils
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import java.util.Locale
 import javax.inject.Inject
 
 @ScreenScope
@@ -18,8 +18,9 @@ class ContactsListPresenter
 @Inject constructor(
     private val gateway: DataGateway,
     private val scheduler: MyRxUtils.BaseSchedulerProvider,
-    private val contactDao: ContactDao
+    @AppContext private val context: Context
 ) : ContactsListContract.Presenter() {
+
 
     override fun onContactClick(contact: Contact) {
         view?.openContactView(contact)
@@ -30,7 +31,7 @@ class ContactsListPresenter
             .observeOn(scheduler.computation())
             .toFlowable()
             .flatMap { Flowable.fromIterable(it) }
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(scheduler.ui())
             .doOnNext {
                 view?.addContact(
                     Contact(
@@ -52,7 +53,7 @@ class ContactsListPresenter
                 view?.hideLoading()
                 view?.notifyAdapter()
             }, {
-                view?.showErrorMessage(it.message)
+                view?.showErrorMessage(it.message.toString())
                 view?.hideLoading()
                 it.printStackTrace()
             })
@@ -62,7 +63,6 @@ class ContactsListPresenter
     override fun eraseContactsFromDB() {
         subscribe(
             gateway.eraseData()
-                .observeOn(scheduler.computation())
                 .subscribe()
         )
     }
@@ -71,59 +71,55 @@ class ContactsListPresenter
         loadContactsList()
     }
 
-    override fun onSearchQuerySubmit(query: String?, networkAvailable: Boolean) {
-        var newQuery = query?.trim()
-        if (!TextUtils.isEmpty(newQuery) && !TextUtils.equals(newQuery, "")) {
-             newQuery = "%${newQuery}%"
-            if (networkAvailable) {
-                subscribe(
-                    gateway.getContactsByName(newQuery).toFlowable()
-                        .observeOn(scheduler.computation())
-                        .flatMap { Flowable.fromIterable(it) }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext {
-                            view?.addContact(
-                                Contact(
-                                    it.contactId,
-                                    it.contactName,
-                                    it.contactPhone,
-                                    it.contactHeight,
-                                    it.contactBiography,
-                                    it.contactTemperament,
-                                    it.contactEducationStart,
-                                    it.contactEducationEnd
-                                )
+    override fun onSearchQuerySubmit(query: String, contactList: ArrayList<Contact>) {
+        if (query.trim().isNotEmpty()) {
+            val newQuery = query.trim().toLowerCase(Locale.getDefault())
+
+            if (MyNetworkUtils.isNetworkAvailable(context)) {
+                view?.showLoading()
+                subscribe(Flowable.just(contactList)
+                    .subscribeOn(scheduler.io())
+                    .flatMap { t: ArrayList<Contact> -> Flowable.fromIterable(t) }
+                    .filter { t: Contact ->
+                        t.contactName.contains(newQuery).or(t.contactPhone.contains(newQuery))
+                    }
+                    .observeOn(scheduler.ui())
+                    .doOnNext {
+                        view?.addContact(
+                            Contact(
+                                it.contactId,
+                                it.contactName,
+                                it.contactPhone,
+                                it.contactHeight,
+                                it.contactBiography,
+                                it.contactTemperament,
+                                it.contactEducationStart,
+                                it.contactEducationEnd
                             )
-                        }
-                        .doOnComplete {
-                            view?.hideLoading()
-                        }
-                        .subscribe({
-                            view?.hideLoading()
-                            view?.notifyAdapter()
-                        }, {
-                            view?.showErrorMessage(it.message)
-                            view?.hideLoading()
-                            it.printStackTrace()
-                        })
+                        )
+                    }
+                    .doOnComplete {
+                        view?.hideLoading()
+                    }
+                    .subscribe({
+                        view?.hideLoading()
+                        view?.notifyAdapter()
+                    }, {
+                        view?.showErrorMessage(it.message.toString())
+                        view?.hideLoading()
+                        it.printStackTrace()
+                    })
                 )
-//                subscribe(
-//                    setContactsListInAdapter(gateway.getContactsByName(newQuery))
-//
-//                )
-//                subscribe(
-//                    setContactsListInAdapter(gateway.getContactsByPhone(newQuery))
-//                )
             }
         }
     }
 
-    private fun setContactsListInAdapter(maybe: Maybe<List<Contact>>): Disposable {
+    private fun setContactsListInAdapter(maybe: Single<List<Contact>>): Disposable {
         return maybe
             .toFlowable()
             .observeOn(scheduler.computation())
             .flatMap { Flowable.fromIterable(it) }
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(scheduler.ui())
             .doOnNext {
                 view?.addContact(
                     Contact(
@@ -145,7 +141,7 @@ class ContactsListPresenter
                 view?.hideLoading()
                 view?.notifyAdapter()
             }, {
-                view?.showErrorMessage(it.message)
+                view?.showErrorMessage(it.message.toString())
                 view?.hideLoading()
                 it.printStackTrace()
             })
@@ -155,11 +151,11 @@ class ContactsListPresenter
         view?.showLoading()
         subscribe(
             gateway.syncData()
-                .observeOn(scheduler.computation())
+                .observeOn(scheduler.ui())
                 .doOnComplete {
                     view?.hideLoading()
                 }
-                .doOnError { view?.showErrorMessage(it.message) }
+                .doOnError { view?.showErrorMessage(it.message.toString()) }
                 .subscribe()
         )
     }

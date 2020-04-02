@@ -10,6 +10,7 @@ import dagger.Subcomponent
 @ScreenScope
 @Subcomponent(modules = [ScreenContextModule::class, ScreenModule::class])
 interface ScreenComponent {
+
     fun inject(fragment: ContactFragment)
     fun inject(fragment: ContactsListFragment)
 }

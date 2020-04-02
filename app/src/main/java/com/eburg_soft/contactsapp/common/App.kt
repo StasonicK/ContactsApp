@@ -17,5 +17,4 @@ class App : Application() {
             .appContextModule(AppContextModule(applicationContext))
             .build()
     }
-
 }

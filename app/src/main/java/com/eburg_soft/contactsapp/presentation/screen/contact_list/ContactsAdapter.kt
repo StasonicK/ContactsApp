@@ -16,7 +16,6 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
 
     interface OnContactItemClickListener {
         fun onContactClick(contact: Contact)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -24,7 +23,7 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
         return ContactViewHolder(v)
     }
 
-    inner class ContactViewHolder(view: View) : BaseAdapter.BaseViewHolder(view) {
+    inner class ContactViewHolder(view: View) : BaseAdapter.BaseViewHolder(view), View.OnClickListener {
 
         var id: String = ""
         var name: String = ""
@@ -51,8 +50,13 @@ class ContactsAdapter(val listener: OnContactItemClickListener? = null) :
                 educationStart = item.contactEducationStart
                 educationEnd = item.contactEducationEnd
 
+
                 itemView.setOnClickListener { listener?.onContactClick(item) }
             }
+        }
+
+        override fun onClick(v: View?) {
+            TODO("Not yet implemented")
         }
     }
 }

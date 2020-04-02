@@ -3,7 +3,6 @@ package com.eburg_soft.contactsapp.presentation.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import butterknife.ButterKnife
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.R.layout
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
@@ -12,8 +11,7 @@ import kotlinx.android.synthetic.main.toolbar.toolbar
 
 class MainActivity :
 //    SearchView.OnQueryTextListener,
-    AppCompatActivity()
-{
+    AppCompatActivity() {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
     private var searchQuery: String = ""
@@ -21,7 +19,6 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
-        ButterKnife.bind(this)
 
         setSupportActionBar(toolbar)
 

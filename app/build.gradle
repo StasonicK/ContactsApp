@@ -54,10 +54,6 @@ dependencies {
 
     implementation "android.arch.work:work-runtime:1.0.1"
 
-    //Butterknife
-    implementation 'com.jakewharton:butterknife:' + rootProject.butterknifeVersion
-    kapt 'com.jakewharton:butterknife-compiler:' + rootProject.butterknifeVersion
-
     //Room
     implementation 'androidx.room:room-runtime:' + rootProject.roomVersion
     kapt 'androidx.room:room-compiler:' + rootProject.roomVersion
