@@ -1,6 +1,7 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
 import android.content.Context
+import android.util.Log
 import com.eburg_soft.contactsapp.di.application.module.app.AppContext
 import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
 import com.eburg_soft.contactsapp.model.gateway.DataGateway
@@ -8,8 +9,6 @@ import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.utils.MyNetworkUtils
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import java.util.Locale
 import javax.inject.Inject
 
@@ -31,32 +30,32 @@ class ContactsListPresenter
             .observeOn(scheduler.computation())
             .toFlowable()
             .flatMap { Flowable.fromIterable(it) }
-            .observeOn(scheduler.ui())
-            .doOnNext {
+            .map { t: Contact ->
                 view?.addContact(
                     Contact(
-                        it.contactId,
-                        it.contactName,
-                        it.contactPhone,
-                        it.contactHeight,
-                        it.contactBiography,
-                        it.contactTemperament,
-                        it.contactEducationStart,
-                        it.contactEducationEnd
+                        t.contactId,
+                        t.contactName,
+                        t.contactPhone,
+                        t.contactHeight,
+                        t.contactBiography,
+                        t.contactTemperament,
+                        t.contactEducationStart,
+                        t.contactEducationEnd
                     )
                 )
             }
+            .observeOn(scheduler.ui())
             .doOnComplete {
                 view?.hideLoading()
-            }
-            .subscribe({
-                view?.hideLoading()
                 view?.notifyAdapter()
-            }, {
+                Log.d(ContactsListFragment.TAG, "contacts loaded")
+            }
+            .doOnError {
                 view?.showErrorMessage(it.message.toString())
                 view?.hideLoading()
                 it.printStackTrace()
-            })
+            }
+            .subscribe()
         )
     }
 
@@ -83,68 +82,35 @@ class ContactsListPresenter
                     .filter { t: Contact ->
                         t.contactName.contains(newQuery).or(t.contactPhone.contains(newQuery))
                     }
-                    .observeOn(scheduler.ui())
-                    .doOnNext {
+                    .map { t: Contact ->
                         view?.addContact(
                             Contact(
-                                it.contactId,
-                                it.contactName,
-                                it.contactPhone,
-                                it.contactHeight,
-                                it.contactBiography,
-                                it.contactTemperament,
-                                it.contactEducationStart,
-                                it.contactEducationEnd
+                                t.contactId,
+                                t.contactName,
+                                t.contactPhone,
+                                t.contactHeight,
+                                t.contactBiography,
+                                t.contactTemperament,
+                                t.contactEducationStart,
+                                t.contactEducationEnd
                             )
                         )
                     }
+                    .observeOn(scheduler.ui())
                     .doOnComplete {
                         view?.hideLoading()
-                    }
-                    .subscribe({
-                        view?.hideLoading()
                         view?.notifyAdapter()
-                    }, {
+                        Log.d(ContactsListFragment.TAG, "contacts loaded")
+                    }
+                    .doOnError {
                         view?.showErrorMessage(it.message.toString())
                         view?.hideLoading()
                         it.printStackTrace()
-                    })
+                    }
+                    .subscribe()
                 )
             }
         }
-    }
-
-    private fun setContactsListInAdapter(maybe: Single<List<Contact>>): Disposable {
-        return maybe
-            .toFlowable()
-            .observeOn(scheduler.computation())
-            .flatMap { Flowable.fromIterable(it) }
-            .observeOn(scheduler.ui())
-            .doOnNext {
-                view?.addContact(
-                    Contact(
-                        it.contactId,
-                        it.contactName,
-                        it.contactPhone,
-                        it.contactHeight,
-                        it.contactBiography,
-                        it.contactTemperament,
-                        it.contactEducationStart,
-                        it.contactEducationEnd
-                    )
-                )
-            }
-            .doOnComplete {
-                view?.hideLoading()
-            }
-            .subscribe({
-                view?.hideLoading()
-                view?.notifyAdapter()
-            }, {
-                view?.showErrorMessage(it.message.toString())
-                view?.hideLoading()
-                it.printStackTrace()
-            })
     }
 
     override fun syncContacts() {
@@ -154,6 +120,7 @@ class ContactsListPresenter
                 .observeOn(scheduler.ui())
                 .doOnComplete {
                     view?.hideLoading()
+                    Log.d(ContactsListFragment.TAG, "contacts syncronized")
                 }
                 .doOnError { view?.showErrorMessage(it.message.toString()) }
                 .subscribe()

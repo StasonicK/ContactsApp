@@ -9,7 +9,6 @@ import com.eburg_soft.contactsapp.di.application.module.rx.RxModule
 import com.eburg_soft.contactsapp.di.application.scope.AppScope
 import com.eburg_soft.contactsapp.di.screen.component.ScreenComponent
 import com.eburg_soft.contactsapp.di.screen.module.ScreenContextModule
-import com.eburg_soft.contactsapp.presentation.screen.contact.ContactContract
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListContract
 import dagger.Component
 

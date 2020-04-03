@@ -10,18 +10,27 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
-import com.eburg_soft.contactsapp.presentation.base.BaseAdapter
-import com.eburg_soft.contactsapp.presentation.base.BaseListFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
+import com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter.ContactsListAdapterList
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
+import com.eburg_soft.contactsapp.utils.MyWorker
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.progressbar
+import kotlinx.android.synthetic.main.fragment_contacts_list.recycler_contacts
 import kotlinx.android.synthetic.main.fragment_contacts_list.swipe_refresh_layout
 import javax.inject.Inject
 
@@ -29,65 +38,64 @@ import javax.inject.Inject
  * Class [ContactsListFragment] show the list of contacts and assist to find contacts by phone number
  * or name.
  */
-class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
+class ContactsListFragment :
+    Fragment(R.layout.fragment_contacts_list),
     SwipeRefreshLayout.OnRefreshListener,
     SearchView.OnQueryTextListener,
-    ContactsAdapter.OnContactItemClickListener, ContactsListContract.View {
+    ContactsListAdapterList.OnContactItemClickListener,
+    ContactsListContract.View {
 
     private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
-    private val BUNDLE_CONTACTS_LIST: String = "contactsList"
     private val BUNDLE_RECYCLER_VIEW_POSITION = "recyclerPosition"
     private var searchQuery: String? = ""
+
+    private val MINUTE: Long = 60000
 
     @Inject
     lateinit var presenter: ContactsListContract.Presenter
 
-    private var listAdapter: ContactsAdapter? = null
+    private val listAdapterList = ContactsListAdapterList(this)
 
     private var contactsList: ArrayList<Contact> = ArrayList()
+
+    private var lastSyncTime: Long = 0L
+
+    private var isFirstTime: Boolean = true
 
     companion object {
         const val TAG = "ContactsListFragment"
     }
 
-//region ====================== Life circle ======================
-
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val view: View = inflater.inflate(R.layout.fragment_contacts_list, container, false)
-//        return view
-//    }
+    //region ====================== Life circle ======================
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.addItemDecoration(
+
+        recycler_contacts.adapter = listAdapterList
+        recycler_contacts.layoutManager = LinearLayoutManager(context)
+        recycler_contacts.addItemDecoration(
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         )
         swipe_refresh_layout.setOnRefreshListener(this)
-
-        contactsList = listAdapter?.items as ArrayList<Contact>
+        setHomeButtonInvisible()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getScreenComponent(requireContext()).inject(this)
         presenter.attach(this)
-        setHasOptionsMenu(true)
 
-        listAdapter = ContactsAdapter(this)
 
         retainInstance = true
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-            contactsList = savedInstanceState.getParcelableArrayList(BUNDLE_CONTACTS_LIST)!!
-
+            listAdapterList.submitList(contactsList)
             val listState: Parcelable = savedInstanceState.getParcelable(BUNDLE_RECYCLER_VIEW_POSITION)!!
-            recyclerView.layoutManager?.onRestoreInstanceState(listState)
+            recycler_contacts.layoutManager?.onRestoreInstanceState(listState)
         }
 
-        presenter.syncContacts()
-
-        presenter.loadContactsList()
+        showContactsList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -96,7 +104,6 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
         inflater.inflate(R.menu.activity_main_menu, menu)
         val searchItem: MenuItem = menu.findItem(R.id.action_search)
         val searchView: SearchView = MenuItemCompat.getActionView(searchItem) as SearchView
-//        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
 
         searchView.maxWidth = Int.MAX_VALUE
         searchItem.expandActionView()
@@ -116,45 +123,48 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
     override fun onStart() {
         super.onStart()
         presenter.attach(this)
+        setHasOptionsMenu(true)
+        setWorkManager()
     }
 
     override fun onStop() {
         super.onStop()
         presenter.detach()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-//        presenter.eraseContactsFromDB()
+        saveVariables()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(BUNDLE_SEARCH_QUERY, searchQuery)
-        outState.putParcelableArrayList(BUNDLE_CONTACTS_LIST, contactsList)
+        outState.putParcelable(
+            BUNDLE_RECYCLER_VIEW_POSITION,
+            recycler_contacts.layoutManager?.onSaveInstanceState()
+        )
     }
 
 //endregion
 
     //refresh the list by swiping down
     override fun onRefresh() {
-        viewAdapter.items.clear()
+        listAdapterList.currentList.clear()
         presenter.refreshContactsList()
         swipe_refresh_layout.isRefreshing = false
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
         searchQuery = query
-//        presenter.onSearchQuerySubmit(query, contactsList)
-        presenter.onSearchQuerySubmit(query, listAdapter?.items as ArrayList<Contact>)
+
+        presenter.onSearchQuerySubmit(query, contactsList)
+
         Log.d("onQueryTextSubmit", query)
         return false
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
         searchQuery = newText
-//        presenter.onSearchQuerySubmit(newText, contactsList)
-        presenter.onSearchQuerySubmit(newText, listAdapter?.items as ArrayList<Contact>)
+
+        presenter.onSearchQuerySubmit(newText, contactsList)
+
         Log.d("onQueryTextChange", newText)
         return false
     }
@@ -166,12 +176,8 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
     //region ====================== Contract ======================
 
-    override fun createAdapterInstance(): BaseAdapter<*> {
-        return ContactsAdapter()
-    }
-
     override fun addContact(contact: Contact) {
-        viewAdapter.add(contact)
+        contactsList.add(contact)
     }
 
     override fun showContactsList() {
@@ -183,12 +189,11 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
     }
 
     override fun notifyAdapter() {
-        viewAdapter.notifyDataSetChanged()
+        listAdapterList.submitList(contactsList)
     }
 
     override fun refresh() {
-        viewAdapter.items.clear()
-        viewAdapter.notifyDataSetChanged()
+        listAdapterList.currentList.clear()
     }
 
     override fun hideLoading() {
@@ -196,7 +201,7 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
     }
 
     override fun showErrorMessage(error: String) {
-        Snackbar.make(recyclerView, error.toString(), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(recycler_contacts, error, Snackbar.LENGTH_LONG).show()
     }
 
     //Open [ContactsFragment] with data of the contact
@@ -205,6 +210,7 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
             if (it.findFragmentByTag(ContactFragment.TAG) == null) {
                 it.beginTransaction()
                     .replace(R.id.frame_container, ContactFragment.NewInstance(contact), ContactFragment.TAG)
+                    .addToBackStack(TAG)
                     .commit()
             }
         }
@@ -212,5 +218,53 @@ class ContactsListFragment : BaseListFragment(R.layout.fragment_contacts_list),
 
 //endregion
 
-    //TODO create WorkManager!
+    private fun saveVariables() {
+        isFirstTime = false
+
+        this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.edit()
+            .putBoolean("isFirstTime", isFirstTime)
+            .apply()
+        this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.edit()
+            .putLong("lastSyncTime", lastSyncTime)
+            .apply()
+    }
+
+    private fun loadVariables() {
+        isFirstTime =
+            this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getBoolean("isFirstTime", true)
+
+        lastSyncTime =
+            this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getLong("lastSyncTime", 0L)
+    }
+
+    private fun setWorkManager() {
+        loadVariables()
+
+        val currentTime = System.currentTimeMillis()
+        val timeDifference = currentTime - lastSyncTime
+
+        if (!isFirstTime && (timeDifference > MINUTE)) {
+            val lastSyncTimeData = Data.Builder()
+                .putLong(MyWorker.TASK_LAST_SYNC_TIME, timeDifference)
+                .build()
+
+            val workRequest = OneTimeWorkRequest.Builder(MyWorker::class.java)
+                .setInputData(lastSyncTimeData)
+                .build()
+
+            WorkManager.getInstance().enqueue(workRequest)
+
+            WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
+                .observe(this, Observer<WorkInfo> {
+                    presenter.syncContacts()
+                    lastSyncTime = System.currentTimeMillis()
+                })
+        }
+    }
+
+    private fun setHomeButtonInvisible() {
+        val actionBar: ActionBar? = (activity as MainActivity).supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+        actionBar?.setDisplayShowHomeEnabled(false)
+    }
 }

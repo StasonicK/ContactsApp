@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact_list
+package com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact

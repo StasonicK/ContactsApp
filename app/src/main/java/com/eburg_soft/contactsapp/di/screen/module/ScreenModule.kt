@@ -1,8 +1,6 @@
 package com.eburg_soft.contactsapp.di.screen.module
 
 import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
-import com.eburg_soft.contactsapp.presentation.screen.contact.ContactContract
-import com.eburg_soft.contactsapp.presentation.screen.contact.ContactPresenter
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListContract
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListPresenter
 import dagger.Binds
@@ -15,7 +13,7 @@ interface ScreenModule {
     @ScreenScope
     fun provideContactsListPresenter(presenter: ContactsListPresenter): ContactsListContract.Presenter
 
-    @Binds
-    @ScreenScope
-    fun provideContactsPresenter(presenter: ContactPresenter): ContactContract.Presenter
+//    @Binds
+//    @ScreenScope
+//    fun provideContactsPresenter(presenter: ContactPresenter): ContactContract.Presenter
 }

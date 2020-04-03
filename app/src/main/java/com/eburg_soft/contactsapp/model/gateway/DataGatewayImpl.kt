@@ -28,16 +28,6 @@ class DataGatewayImpl @Inject constructor(
             .subscribeOn(scheduler.io())
     }
 
-//    override fun getContactsByPhone(phone: String): Single<List<Contact>> {
-//        return contactDao.getContactsByPhone(phone)
-//            .subscribeOn(scheduler.io())
-//    }
-//
-//    override fun getContactsByName(name: String): Single<List<Contact>> {
-//        return contactDao.getContactsByName(name)
-//            .subscribeOn(scheduler.io())
-//    }
-
     override fun syncData(): Completable {
         return apiClient.getContacts1()
             .subscribeOn(scheduler.io())
