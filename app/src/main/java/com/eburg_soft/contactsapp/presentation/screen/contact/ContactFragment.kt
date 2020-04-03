@@ -151,38 +151,5 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         }
     }
 
-    //TODO check this method!
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val id = item.itemId
-//        return if (id == android.R.id.home) {
-//            val fragmentManager = (activity as MainActivity).supportFragmentManager
-//            fragmentManager.findFragmentById(R.id.frame_container)
-//            if (fragmentManager.backStackEntryCount > 1) {
-//                (activity as MainActivity).finish()
 
-//                fragmentManager.popBackStack()
-//    }
-
-        //            val fragmentManager = (activity as MainActivity).supportFragmentManager
-//            (activity as MainActivity).finish()
-//            fragmentManager.findFragmentById(R.id.frame_container)
-//            if (fragmentManager.backStackEntryCount > 0) {
-//                fragmentManager.popBackStack()
-//            }
-//            true
-//        } else
-//            false
-//        val currentFragment = activity?.supportFragmentManager?.findFragmentByTag(TAG)
-//        if (currentFragment != null && currentFragment.onOptionsItemSelected(item)) {
-//            return true
-//        }
-        val id = item.itemId
-        if (id == android.R.id.home) {
-//            (activity as MainActivity).finish()
-            (activity as MainActivity).onBackPressed()
-//            (activity as MainActivity).supportFragmentManager.popBackStack()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

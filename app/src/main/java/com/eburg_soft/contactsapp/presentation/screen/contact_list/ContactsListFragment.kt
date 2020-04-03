@@ -18,7 +18,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
@@ -115,6 +114,10 @@ class ContactsListFragment :
             searchView.setQuery(searchQuery, false)
         }
 
+        searchView.setOnCloseListener {
+            presenter.loadContactsList()
+            false
+        }
         searchView.setOnQueryTextListener(this)
         searchView.setSearchableInfo(searchManager.getSearchableInfo((activity as MainActivity).componentName))
         searchView.setIconifiedByDefault(false)
@@ -154,7 +157,9 @@ class ContactsListFragment :
     override fun onQueryTextSubmit(query: String): Boolean {
         searchQuery = query
 
-        presenter.onSearchQuerySubmit(query, contactsList)
+        val copyContactsList = ArrayList<Contact>(contactsList)
+        contactsList.clear()
+        presenter.onSearchQuerySubmit(query, copyContactsList)
 
         Log.d("onQueryTextSubmit", query)
         return false
@@ -163,7 +168,9 @@ class ContactsListFragment :
     override fun onQueryTextChange(newText: String): Boolean {
         searchQuery = newText
 
-        presenter.onSearchQuerySubmit(newText, contactsList)
+        val copyContactsList = ArrayList<Contact>(contactsList)
+        contactsList.clear()
+        presenter.onSearchQuerySubmit(newText, copyContactsList)
 
         Log.d("onQueryTextChange", newText)
         return false
@@ -216,7 +223,7 @@ class ContactsListFragment :
         }
     }
 
-//endregion
+    //endregion
 
     private fun saveVariables() {
         isFirstTime = false
@@ -244,12 +251,8 @@ class ContactsListFragment :
         val timeDifference = currentTime - lastSyncTime
 
         if (!isFirstTime && (timeDifference > MINUTE)) {
-            val lastSyncTimeData = Data.Builder()
-                .putLong(MyWorker.TASK_LAST_SYNC_TIME, timeDifference)
-                .build()
 
             val workRequest = OneTimeWorkRequest.Builder(MyWorker::class.java)
-                .setInputData(lastSyncTimeData)
                 .build()
 
             WorkManager.getInstance().enqueue(workRequest)

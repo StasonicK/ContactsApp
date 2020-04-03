@@ -70,13 +70,13 @@ class ContactsListPresenter
         loadContactsList()
     }
 
-    override fun onSearchQuerySubmit(query: String, contactList: ArrayList<Contact>) {
+    override fun onSearchQuerySubmit(query: String, contactsList: ArrayList<Contact>) {
         if (query.trim().isNotEmpty()) {
             val newQuery = query.trim().toLowerCase(Locale.getDefault())
 
             if (MyNetworkUtils.isNetworkAvailable(context)) {
                 view?.showLoading()
-                subscribe(Flowable.just(contactList)
+                subscribe(Flowable.just(contactsList)
                     .subscribeOn(scheduler.io())
                     .flatMap { t: ArrayList<Contact> -> Flowable.fromIterable(t) }
                     .filter { t: Contact ->

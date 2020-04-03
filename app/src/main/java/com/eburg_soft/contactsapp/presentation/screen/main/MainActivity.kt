@@ -2,6 +2,7 @@ package com.eburg_soft.contactsapp.presentation.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.R.layout
@@ -44,5 +45,13 @@ class MainActivity : AppCompatActivity() {
         if (fragmentManager.backStackEntryCount > 1) {
             fragmentManager.popBackStack()
         } else finish()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

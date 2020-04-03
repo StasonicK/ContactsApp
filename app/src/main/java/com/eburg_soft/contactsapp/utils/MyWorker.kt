@@ -23,15 +23,9 @@ class MyWorker(@NotNull context: Context, @NotNull workerParams: WorkerParameter
     override fun doWork(): Result {
 
         return try {
-            val timeDifference = inputData.getLong(TASK_LAST_SYNC_TIME, 0L)
 
-//            var currentTime = System.currentTimeMillis()
-//            var timeDifference = currentTime - lastSyncTime
-//            var isMoreMinute = false
-//            if (timeDifference > MINUTE) {
-            displayNotification("Title", timeDifference.toString())
+//            displayNotification("Title", timeDifference.toString())
             Result.success()
-//            } else Result.failure()
         } catch (e: Exception) {
             Result.failure()
         }
