@@ -25,6 +25,7 @@ class ContactsListPresenter
         view?.openContactView(contact)
     }
 
+    //calls in application start, after canceling query in search view, onRefresh()
     override fun loadContactsListFromDB() {
         view?.showLoading()
         subscribe(gateway.getAllContacts()
@@ -33,6 +34,7 @@ class ContactsListPresenter
             .observeOn(scheduler.ui())
             .doOnNext { list: List<Contact> ->
                 view?.submitList(list)
+                view?.addContacts(list)
             }
             .doOnComplete {
                 view?.hideLoading()
@@ -82,8 +84,11 @@ class ContactsListPresenter
             subscribe(Single.just(list)
                 .map {
                     list.filter { contact ->
-                        contact.contactName.contains(newQuery).or(contact.contactPhone.contains(newQuery))
-//                        contact.contactName.contains(newQuery) || contact.contactPhone.contains(newQuery)
+//                        contact.contactName.toLowerCase(Locale.getDefault()).contains(newQuery).or(contact.contactPhone.contains(newQuery))
+                        contact.contactName.toLowerCase(Locale.getDefault())
+                            .contains(newQuery) || contact.contactPhone.contains(
+                            newQuery
+                        )
                     }
                 }
                 .subscribeOn(scheduler.io())

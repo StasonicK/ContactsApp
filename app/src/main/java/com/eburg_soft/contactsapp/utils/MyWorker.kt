@@ -24,7 +24,7 @@ class MyWorker(@NotNull context: Context, @NotNull workerParams: WorkerParameter
 
         return try {
 
-//            displayNotification("Title", timeDifference.toString())
+            displayNotification("Title", "Message1")
             Result.success()
         } catch (e: Exception) {
             Result.failure()

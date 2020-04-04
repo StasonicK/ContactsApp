@@ -9,7 +9,7 @@ interface ContactsListContract {
         fun showLoading()
 
         fun hideLoading()
-
+        fun addContacts(list: List<Contact>)
         fun submitList(list: List<Contact>)
 
         fun showNetworkErrorMessage()

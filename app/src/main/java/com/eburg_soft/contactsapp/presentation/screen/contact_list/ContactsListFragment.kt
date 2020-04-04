@@ -86,6 +86,7 @@ class ContactsListFragment :
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
         }
+        setWorkManager()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -106,7 +107,7 @@ class ContactsListFragment :
         }
 
         searchView.setOnCloseListener {
-            presenter.loadContactsListFromDB()
+//            presenter.loadContactsListFromDB()
             false
         }
         searchView.setOnQueryTextListener(this)
@@ -118,8 +119,7 @@ class ContactsListFragment :
         super.onStart()
         presenter.attach(this)
         setHasOptionsMenu(true)
-        setWorkManager()
-//        presenter.loadContactsListFromDB()
+        presenter.loadContactsListFromDB()
     }
 
     override fun onStop() {
@@ -142,15 +142,14 @@ class ContactsListFragment :
 
     //refresh the list by swiping down
     override fun onRefresh() {
-        presenter.loadContactsListFromDB()
+//        presenter.loadContactsListFromDB()
         swipe_refresh_layout.isRefreshing = false
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
         searchQuery = query
 
-        val copyContactsList = ArrayList<Contact>(contactsList)
-//        contactsList.clear()
+        val copyContactsList = ArrayList<Contact>(contactsList.toList())
         presenter.onSearchQuerySubmit(query, copyContactsList)
 
         Log.d("onQueryTextSubmit", query)
@@ -161,7 +160,6 @@ class ContactsListFragment :
         searchQuery = newText
 
         val copyContactsList = ArrayList<Contact>(contactsList.toList())
-//        contactsList.clear()
         presenter.onSearchQuerySubmit(newText, copyContactsList)
 
         Log.d("onQueryTextChange", newText)
@@ -180,8 +178,12 @@ class ContactsListFragment :
     }
 
     override fun submitList(list: List<Contact>) {
-        contactsList.addAll(list)
+//        contactsList.addAll(list)
         listAdapterList.submitList(list)
+    }
+
+    override fun addContacts(list: List<Contact>){
+        contactsList.addAll(list)
     }
 
     override fun showNetworkErrorMessage() {
@@ -249,7 +251,7 @@ class ContactsListFragment :
             WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
                 .observe(this, Observer<WorkInfo> {
                     presenter.syncContacts()
-                    presenter.loadContactsListFromDB()
+//                    presenter.loadContactsListFromDB()
                     lastSyncTime = System.currentTimeMillis()
                 })
         }
