@@ -107,7 +107,7 @@ class ContactsListFragment :
         }
 
         searchView.setOnCloseListener {
-//            presenter.loadContactsListFromDB()
+            presenter.loadContactsListFromDB()
             false
         }
         searchView.setOnQueryTextListener(this)
@@ -130,7 +130,6 @@ class ContactsListFragment :
     override fun onDestroy() {
         super.onDestroy()
         saveVariables()
-//        presenter.eraseContactsFromDB()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -140,9 +139,12 @@ class ContactsListFragment :
 
     //endregion
 
+
+    //region ====================== Overrided methods ======================
+
     //refresh the list by swiping down
     override fun onRefresh() {
-//        presenter.loadContactsListFromDB()
+        presenter.loadContactsListFromDB()
         swipe_refresh_layout.isRefreshing = false
     }
 
@@ -170,6 +172,8 @@ class ContactsListFragment :
         presenter.onContactClick(contact)
         Log.d("onContactClick", contact.contactName)
     }
+
+    //endregion
 
     //region ====================== Contract ======================
 

@@ -59,27 +59,7 @@ class ContactsListPresenter
     override fun onSearchQuerySubmit(query: String, list: ArrayList<Contact>) {
         if (query.trim().isNotEmpty()) {
             val newQuery = query.trim().toLowerCase(Locale.getDefault())
-
             view?.showLoading()
-
-//            subscribe(Single.just(list)
-//                .map {
-//                    list.filter { contact ->
-//                        contact.contactName.contains(newQuery).or(contact.contactPhone.contains(newQuery))
-//                    }
-//                }
-//                .observeOn(scheduler.ui())
-//                .doOnSuccess { list1: List<Contact> ->
-//                    view?.submitList(list1)
-//                }
-//                .subscribe({
-//                    view?.hideLoading()
-//                    Log.d(ContactsListFragment.TAG, "query completed")
-//                }, {
-//                    view?.showErrorMessage(it.toString())
-//                    view?.hideLoading()
-//                })
-//            )
 
             subscribe(Single.just(list)
                 .map {
