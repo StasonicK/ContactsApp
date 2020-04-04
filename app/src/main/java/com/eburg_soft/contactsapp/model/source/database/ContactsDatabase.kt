@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.di.application.module.data
+package com.eburg_soft.contactsapp.model.source.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -9,10 +9,10 @@
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:layout_marginStart="@dimen/text_margin_standard"
+        android:layout_marginTop="@dimen/text_margin_standard"
+        android:textColor="@color/black"
+        android:textSize="@dimen/name_in_contacts_list_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name" />
@@ -21,23 +21,25 @@
         android:id="@+id/text_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        tools:text="+7 (999) 123-4567"
-        android:textSize="20sp"
+        android:layout_marginStart="@dimen/text_margin_standard"
+        android:layout_marginTop="@dimen/text_margin_small"
+        android:layout_marginBottom="@dimen/text_margin_standard"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_standard"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text_name"
+        tools:text="+7 (999) 123-4567" />
 
     <TextView
         android:id="@+id/text_height"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        tools:text="200.00"
-        android:textSize="16sp"
+        android:layout_marginEnd="@dimen/text_margin_standard"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_standard"
+        app:layout_constraintBottom_toBottomOf="@+id/text_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:text="200.00" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
