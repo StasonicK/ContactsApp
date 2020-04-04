@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.model.source.database
+package com.eburg_soft.contactsapp.model.source.database.converter
 
 import androidx.room.TypeConverter
 import com.eburg_soft.contactsapp.model.source.database.entity.Temperament

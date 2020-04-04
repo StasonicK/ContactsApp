@@ -49,6 +49,6 @@ class NetworkModule {
 
     @Provides
     @AppScope
-    fun provideGeckoApiService(retrofit: Retrofit): ApiClient =
+    fun provideApiService(retrofit: Retrofit): ApiClient =
         retrofit.create(ApiClient::class.java)
 }

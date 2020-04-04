@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.frame_container,
                     ContactsListFragment(), ContactsListFragment.TAG + " created"
                 )
-                .addToBackStack(ContactsListFragment.TAG)
+                .addToBackStack(null)
                 .commit()
         } else {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()

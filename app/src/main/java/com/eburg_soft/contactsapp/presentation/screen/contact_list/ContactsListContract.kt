@@ -6,16 +6,15 @@ import com.eburg_soft.contactsapp.presentation.base.BaseContract
 interface ContactsListContract {
     interface View : BaseContract.View {
 
-        fun addContact(contact: Contact)
-        fun showContactsList()
-
         fun showLoading()
 
         fun hideLoading()
 
-        fun notifyAdapter()
+        fun submitList(list: List<Contact>)
 
-        fun refresh()
+        fun showNetworkErrorMessage()
+
+        fun showDBErrorMessage()
 
         fun showErrorMessage(error: String)
 
@@ -26,7 +25,7 @@ interface ContactsListContract {
 
         abstract fun onContactClick(contact: Contact)
 
-        abstract fun loadContactsList()
+        abstract fun loadContactsListFromDB()
 
         abstract fun syncContacts()
 

@@ -3,8 +3,6 @@ package com.eburg_soft.contactsapp.presentation.screen.contact_list
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
-import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -44,11 +42,10 @@ class ContactsListFragment :
     ContactsListAdapterList.OnContactItemClickListener,
     ContactsListContract.View {
 
-    private val BUNDLE_SEARCH_QUERY: String = "searchQuery"
-    private val BUNDLE_RECYCLER_VIEW_POSITION = "recyclerPosition"
+    private val BUNDLE_SEARCH_QUERY = "search query"
     private var searchQuery: String? = ""
 
-    private val MINUTE: Long = 60000
+    private val MINUTE: Long = 60000L
 
     @Inject
     lateinit var presenter: ContactsListContract.Presenter
@@ -84,17 +81,11 @@ class ContactsListFragment :
         getScreenComponent(requireContext()).inject(this)
         presenter.attach(this)
 
-
         retainInstance = true
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-            listAdapterList.submitList(contactsList)
-            val listState: Parcelable = savedInstanceState.getParcelable(BUNDLE_RECYCLER_VIEW_POSITION)!!
-            recycler_contacts.layoutManager?.onRestoreInstanceState(listState)
         }
-
-        showContactsList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -110,12 +101,12 @@ class ContactsListFragment :
 
         val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
-        if (!TextUtils.isEmpty(searchQuery) && !TextUtils.equals(searchQuery, "")) {
+        if (searchQuery!!.isNotEmpty()) {
             searchView.setQuery(searchQuery, false)
         }
 
         searchView.setOnCloseListener {
-            presenter.loadContactsList()
+            presenter.loadContactsListFromDB()
             false
         }
         searchView.setOnQueryTextListener(this)
@@ -128,6 +119,7 @@ class ContactsListFragment :
         presenter.attach(this)
         setHasOptionsMenu(true)
         setWorkManager()
+        presenter.loadContactsListFromDB()
     }
 
     override fun onStop() {
@@ -136,20 +128,21 @@ class ContactsListFragment :
         saveVariables()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+//        presenter.eraseContactsFromDB()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(BUNDLE_SEARCH_QUERY, searchQuery)
-        outState.putParcelable(
-            BUNDLE_RECYCLER_VIEW_POSITION,
-            recycler_contacts.layoutManager?.onSaveInstanceState()
-        )
     }
 
-//endregion
+    //endregion
 
     //refresh the list by swiping down
     override fun onRefresh() {
-        listAdapterList.currentList.clear()
+//        listAdapterList.currentList.clear()
         presenter.refreshContactsList()
         swipe_refresh_layout.isRefreshing = false
     }
@@ -168,7 +161,7 @@ class ContactsListFragment :
     override fun onQueryTextChange(newText: String): Boolean {
         searchQuery = newText
 
-        val copyContactsList = ArrayList<Contact>(contactsList)
+        val copyContactsList = ArrayList<Contact>(contactsList.toList())
         contactsList.clear()
         presenter.onSearchQuerySubmit(newText, copyContactsList)
 
@@ -183,24 +176,21 @@ class ContactsListFragment :
 
     //region ====================== Contract ======================
 
-    override fun addContact(contact: Contact) {
-        contactsList.add(contact)
-    }
-
-    override fun showContactsList() {
-        presenter.loadContactsList()
-    }
-
     override fun showLoading() {
         requireActivity().progressbar.visibility = View.VISIBLE
     }
 
-    override fun notifyAdapter() {
-        listAdapterList.submitList(contactsList)
+    override fun submitList(list: List<Contact>) {
+        contactsList.addAll(list)
+        listAdapterList.submitList(list)
     }
 
-    override fun refresh() {
-        listAdapterList.currentList.clear()
+    override fun showNetworkErrorMessage() {
+        Snackbar.make(recycler_contacts, "Нет подключения к сети", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showDBErrorMessage() {
+        Snackbar.make(recycler_contacts, "Нет подключения к базе данных", Snackbar.LENGTH_LONG).show()
     }
 
     override fun hideLoading() {
@@ -217,7 +207,7 @@ class ContactsListFragment :
             if (it.findFragmentByTag(ContactFragment.TAG) == null) {
                 it.beginTransaction()
                     .replace(R.id.frame_container, ContactFragment.NewInstance(contact), ContactFragment.TAG)
-                    .addToBackStack(TAG)
+                    .addToBackStack(null)
                     .commit()
             }
         }
@@ -250,7 +240,7 @@ class ContactsListFragment :
         val currentTime = System.currentTimeMillis()
         val timeDifference = currentTime - lastSyncTime
 
-        if (!isFirstTime && (timeDifference > MINUTE)) {
+        if ((!isFirstTime && (timeDifference > MINUTE)) || isFirstTime) {
 
             val workRequest = OneTimeWorkRequest.Builder(MyWorker::class.java)
                 .build()
@@ -260,6 +250,7 @@ class ContactsListFragment :
             WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
                 .observe(this, Observer<WorkInfo> {
                     presenter.syncContacts()
+                    presenter.loadContactsListFromDB()
                     lastSyncTime = System.currentTimeMillis()
                 })
         }

@@ -6,9 +6,9 @@ import com.eburg_soft.contactsapp.di.application.module.app.AppContext
 import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
 import com.eburg_soft.contactsapp.model.gateway.DataGateway
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
-import com.eburg_soft.contactsapp.utils.MyNetworkUtils
 import com.eburg_soft.contactsapp.utils.MyRxUtils
-import io.reactivex.Flowable
+import io.reactivex.Single
+import retrofit2.HttpException
 import java.util.Locale
 import javax.inject.Inject
 
@@ -25,29 +25,17 @@ class ContactsListPresenter
         view?.openContactView(contact)
     }
 
-    override fun loadContactsList() {
+    override fun loadContactsListFromDB() {
+        view?.showLoading()
         subscribe(gateway.getAllContacts()
             .observeOn(scheduler.computation())
             .toFlowable()
-            .flatMap { Flowable.fromIterable(it) }
-            .map { t: Contact ->
-                view?.addContact(
-                    Contact(
-                        t.contactId,
-                        t.contactName,
-                        t.contactPhone,
-                        t.contactHeight,
-                        t.contactBiography,
-                        t.contactTemperament,
-                        t.contactEducationStart,
-                        t.contactEducationEnd
-                    )
-                )
-            }
             .observeOn(scheduler.ui())
+            .doOnNext { list: List<Contact> ->
+                view?.submitList(list)
+            }
             .doOnComplete {
                 view?.hideLoading()
-                view?.notifyAdapter()
                 Log.d(ContactsListFragment.TAG, "contacts loaded")
             }
             .doOnError {
@@ -67,49 +55,33 @@ class ContactsListPresenter
     }
 
     override fun refreshContactsList() {
-        loadContactsList()
+        loadContactsListFromDB()
     }
 
-    override fun onSearchQuerySubmit(query: String, contactsList: ArrayList<Contact>) {
+    override fun onSearchQuerySubmit(query: String, list: ArrayList<Contact>) {
         if (query.trim().isNotEmpty()) {
             val newQuery = query.trim().toLowerCase(Locale.getDefault())
 
-            if (MyNetworkUtils.isNetworkAvailable(context)) {
-                view?.showLoading()
-                subscribe(Flowable.just(contactsList)
-                    .subscribeOn(scheduler.io())
-                    .flatMap { t: ArrayList<Contact> -> Flowable.fromIterable(t) }
-                    .filter { t: Contact ->
-                        t.contactName.contains(newQuery).or(t.contactPhone.contains(newQuery))
+            view?.showLoading()
+
+            subscribe(Single.just(list)
+                .map {
+                    list.filter { contact ->
+                        contact.contactName.contains(newQuery).or(contact.contactPhone.contains(newQuery))
                     }
-                    .map { t: Contact ->
-                        view?.addContact(
-                            Contact(
-                                t.contactId,
-                                t.contactName,
-                                t.contactPhone,
-                                t.contactHeight,
-                                t.contactBiography,
-                                t.contactTemperament,
-                                t.contactEducationStart,
-                                t.contactEducationEnd
-                            )
-                        )
-                    }
-                    .observeOn(scheduler.ui())
-                    .doOnComplete {
-                        view?.hideLoading()
-                        view?.notifyAdapter()
-                        Log.d(ContactsListFragment.TAG, "contacts loaded")
-                    }
-                    .doOnError {
-                        view?.showErrorMessage(it.message.toString())
-                        view?.hideLoading()
-                        it.printStackTrace()
-                    }
-                    .subscribe()
-                )
-            }
+                }
+                .observeOn(scheduler.ui())
+                .doOnSuccess { list1: List<Contact> ->
+                    view?.submitList(list1)
+                }
+                .subscribe({
+                    view?.hideLoading()
+                    Log.d(ContactsListFragment.TAG, "query completed")
+                }, {
+                    view?.showErrorMessage(it.toString())
+                    view?.hideLoading()
+                })
+            )
         }
     }
 
@@ -122,7 +94,14 @@ class ContactsListPresenter
                     view?.hideLoading()
                     Log.d(ContactsListFragment.TAG, "contacts syncronized")
                 }
-                .doOnError { view?.showErrorMessage(it.message.toString()) }
+                .doOnError { error ->
+                    if (error is HttpException) {
+                        view?.showNetworkErrorMessage()
+                    } else {
+                        view?.showErrorMessage(error.message.toString())
+                        error.printStackTrace()
+                    }
+                }
                 .subscribe()
         )
     }

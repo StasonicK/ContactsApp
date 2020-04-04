@@ -22,5 +22,4 @@ interface AppComponent {
 
     fun inject(app: App)
     fun inject(presenter: ContactsListContract.Presenter)
-//    fun inject(presenter: ContactContract.Presenter)
 }

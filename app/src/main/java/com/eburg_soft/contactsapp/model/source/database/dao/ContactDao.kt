@@ -12,16 +12,16 @@ import io.reactivex.Single
 @Dao
 interface ContactDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(contact: Contact): Completable
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(contacts: List<Contact>): Completable
 
-    @Update(onConflict = OnConflictStrategy.IGNORE)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(contact: Contact): Completable
 
-    @Update(onConflict = OnConflictStrategy.IGNORE)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(contact: List<Contact>): Completable
 
     @Query("SELECT * FROM ${Contact.TABLE_NAME}")
