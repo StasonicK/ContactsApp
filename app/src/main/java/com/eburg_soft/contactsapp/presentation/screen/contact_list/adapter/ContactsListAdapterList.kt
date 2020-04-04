@@ -42,7 +42,7 @@ class ContactsListAdapterList(val listener: OnContactItemClickListener? = null) 
                 name = item.contactName
                 height = item.contactHeight.toString()
                 biography = item.contactBiography
-                temperament = item.contactTemperament
+                temperament = item.contactTemperament.type
                 educationStart = item.contactEducationStart
                 educationEnd = item.contactEducationEnd
 

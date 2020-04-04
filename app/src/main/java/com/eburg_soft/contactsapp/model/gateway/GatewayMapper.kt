@@ -16,8 +16,8 @@ class GatewayMapper {
                 contact.contactPhone = responses[i].phone
                 contact.contactHeight = responses[i].height.toFloat()
                 contact.contactBiography = responses[i].biography
-//                contact.contactTemperament = mapTemperament(responses[i].temperament)
-                contact.contactTemperament = responses[i].temperament
+                contact.contactTemperament = mapTemperament(responses[i].temperament)
+//                contact.contactTemperament = responses[i].temperament
                 contact.contactEducationStart = mapDate(responses[i].contactEducationPeriodRes.start)
                 contact.contactEducationEnd = mapDate(responses[i].contactEducationPeriodRes.end)
                 contacts.add(contact)

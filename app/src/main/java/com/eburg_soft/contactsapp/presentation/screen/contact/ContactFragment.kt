@@ -73,8 +73,8 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         savedInstanceState?.let { state ->
             (contact as Contact).contactName = state.getString(BUNDLE_CONTACT_NAME, contact!!.contactName).toString()
             contact!!.contactPhone = state.getString(BUNDLE_CONTACT_PHONE, contact!!.contactPhone).toString()
-            contact!!.contactTemperament =
-                state.getString(BUNDLE_CONTACT_TEMPERAMENT, contact!!.contactTemperament).toString()
+            contact!!.contactTemperament.type =
+                state.getString(BUNDLE_CONTACT_TEMPERAMENT, contact!!.contactTemperament.type).toString()
             contact!!.contactEducationStart =
                 state.getString(BUNDLE_CONTACT_EDUCATION_START, contact!!.contactEducationStart).toString()
             contact!!.contactEducationEnd =
@@ -93,7 +93,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
         super.onSaveInstanceState(outState)
         outState.putString(BUNDLE_CONTACT_NAME, contact?.contactName)
         outState.putString(BUNDLE_CONTACT_PHONE, contact?.contactPhone)
-        outState.putString(BUNDLE_CONTACT_TEMPERAMENT, contact?.contactTemperament)
+        outState.putString(BUNDLE_CONTACT_TEMPERAMENT, contact?.contactTemperament?.type)
         outState.putString(BUNDLE_CONTACT_EDUCATION_START, contact?.contactEducationStart)
         outState.putString(BUNDLE_CONTACT_EDUCATION_END, contact?.contactEducationEnd)
         outState.putString(BUNDLE_CONTACT_BIOGRAPHY, contact?.contactBiography)
@@ -126,7 +126,7 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
     private fun bindViews() {
         text_name_in_contact.text = contact?.contactName
         text_phone_in_contact.text = contact?.contactPhone
-        text_temperament_in_contact.text = contact?.contactTemperament
+        text_temperament_in_contact.text = contact?.contactTemperament?.type
         val education = "${contact?.contactEducationStart} - ${contact?.contactEducationEnd}"
         text_education_period_in_contact.text = education
         text_biography_in_contact.text = contact?.contactBiography
