@@ -119,17 +119,17 @@ class ContactsListFragment :
         presenter.attach(this)
         setHasOptionsMenu(true)
         setWorkManager()
-        presenter.loadContactsListFromDB()
+//        presenter.loadContactsListFromDB()
     }
 
     override fun onStop() {
         super.onStop()
         presenter.detach()
-        saveVariables()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        saveVariables()
 //        presenter.eraseContactsFromDB()
     }
 
@@ -142,8 +142,7 @@ class ContactsListFragment :
 
     //refresh the list by swiping down
     override fun onRefresh() {
-//        listAdapterList.currentList.clear()
-        presenter.refreshContactsList()
+        presenter.loadContactsListFromDB()
         swipe_refresh_layout.isRefreshing = false
     }
 
@@ -151,7 +150,7 @@ class ContactsListFragment :
         searchQuery = query
 
         val copyContactsList = ArrayList<Contact>(contactsList)
-        contactsList.clear()
+//        contactsList.clear()
         presenter.onSearchQuerySubmit(query, copyContactsList)
 
         Log.d("onQueryTextSubmit", query)
@@ -162,7 +161,7 @@ class ContactsListFragment :
         searchQuery = newText
 
         val copyContactsList = ArrayList<Contact>(contactsList.toList())
-        contactsList.clear()
+//        contactsList.clear()
         presenter.onSearchQuerySubmit(newText, copyContactsList)
 
         Log.d("onQueryTextChange", newText)

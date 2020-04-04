@@ -31,8 +31,6 @@ interface ContactsListContract {
 
         abstract fun eraseContactsFromDB()
 
-        abstract fun refreshContactsList()
-
         abstract fun onSearchQuerySubmit(query: String, contactList: ArrayList<Contact>)
     }
 }
