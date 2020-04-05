@@ -9,12 +9,12 @@ interface ContactsListContract {
         fun showLoading()
 
         fun hideLoading()
+
         fun addContacts(list: List<Contact>)
+
         fun submitList(list: List<Contact>)
 
         fun showNetworkErrorMessage()
-
-        fun showDBErrorMessage()
 
         fun showErrorMessage(error: String)
 

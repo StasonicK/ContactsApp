@@ -23,8 +23,8 @@ import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter.ContactsListAdapterList
+import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.SyncWorker
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
-import com.eburg_soft.contactsapp.utils.MyWorker
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.progressbar
 import kotlinx.android.synthetic.main.fragment_contacts_list.recycler_contacts
@@ -45,8 +45,6 @@ class ContactsListFragment :
     private val BUNDLE_SEARCH_QUERY = "search query"
     private var searchQuery: String? = ""
 
-    private val MINUTE: Long = 60000L
-
     @Inject
     lateinit var presenter: ContactsListContract.Presenter
 
@@ -60,6 +58,7 @@ class ContactsListFragment :
 
     companion object {
         const val TAG = "ContactsListFragment"
+        const val MINUTE: Long = 60000L
     }
 
     //region ====================== Life circle ======================
@@ -85,6 +84,8 @@ class ContactsListFragment :
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
+        } else {
+            presenter.loadContactsListFromDB()
         }
         setWorkManager()
     }
@@ -106,10 +107,6 @@ class ContactsListFragment :
             searchView.setQuery(searchQuery, false)
         }
 
-        searchView.setOnCloseListener {
-            presenter.loadContactsListFromDB()
-            false
-        }
         searchView.setOnQueryTextListener(this)
         searchView.setSearchableInfo(searchManager.getSearchableInfo((activity as MainActivity).componentName))
         searchView.setIconifiedByDefault(false)
@@ -138,7 +135,6 @@ class ContactsListFragment :
     }
 
     //endregion
-
 
     //region ====================== Overrided methods ======================
 
@@ -186,16 +182,12 @@ class ContactsListFragment :
         listAdapterList.submitList(list)
     }
 
-    override fun addContacts(list: List<Contact>){
+    override fun addContacts(list: List<Contact>) {
         contactsList.addAll(list)
     }
 
     override fun showNetworkErrorMessage() {
         Snackbar.make(recycler_contacts, "Нет подключения к сети", Snackbar.LENGTH_LONG).show()
-    }
-
-    override fun showDBErrorMessage() {
-        Snackbar.make(recycler_contacts, "Нет подключения к базе данных", Snackbar.LENGTH_LONG).show()
     }
 
     override fun hideLoading() {
@@ -231,7 +223,7 @@ class ContactsListFragment :
             .apply()
     }
 
-    private fun loadVariables() {
+    fun loadVariables() {
         isFirstTime =
             this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getBoolean("isFirstTime", true)
 
@@ -247,7 +239,7 @@ class ContactsListFragment :
 
         if ((!isFirstTime && (timeDifference > MINUTE)) || isFirstTime) {
 
-            val workRequest = OneTimeWorkRequest.Builder(MyWorker::class.java)
+            val workRequest = OneTimeWorkRequest.Builder(SyncWorker::class.java)
                 .build()
 
             WorkManager.getInstance().enqueue(workRequest)

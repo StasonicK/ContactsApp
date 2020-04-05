@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.core.app.ActivityCompat
@@ -14,14 +13,12 @@ import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseFragment
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.progressbar
 import kotlinx.android.synthetic.main.fragment_contact.text_biography_in_contact
 import kotlinx.android.synthetic.main.fragment_contact.text_education_period_in_contact
 import kotlinx.android.synthetic.main.fragment_contact.text_name_in_contact
 import kotlinx.android.synthetic.main.fragment_contact.text_phone_in_contact
 import kotlinx.android.synthetic.main.fragment_contact.text_temperament_in_contact
-import kotlinx.android.synthetic.main.fragment_contacts_list.recycler_contacts
 import javax.inject.Inject
 
 /**
@@ -155,5 +152,4 @@ class ContactFragment @Inject constructor() : BaseFragment(R.layout.fragment_con
             }
         }
     }
-
 }

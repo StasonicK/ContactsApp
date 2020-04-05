@@ -57,21 +57,21 @@ class ContactsListPresenter
     }
 
     override fun onSearchQuerySubmit(query: String, list: ArrayList<Contact>) {
-        if (query.trim().isNotEmpty()) {
+        if (query.trim().isEmpty()) {
+            loadContactsListFromDB()
+        } else {
             val newQuery = query.trim().toLowerCase(Locale.getDefault())
+
             view?.showLoading()
 
             subscribe(Single.just(list)
+                .subscribeOn(scheduler.io())
                 .map {
                     list.filter { contact ->
-//                        contact.contactName.toLowerCase(Locale.getDefault()).contains(newQuery).or(contact.contactPhone.contains(newQuery))
-                        contact.contactName.toLowerCase(Locale.getDefault())
-                            .contains(newQuery) || contact.contactPhone.contains(
-                            newQuery
-                        )
+                        contact.contactName.toLowerCase(Locale.getDefault()).contains(newQuery)
+                            .or(contact.contactPhone.contains(newQuery))
                     }
                 }
-                .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe({ list1 ->
                     view?.submitList(list1)
@@ -92,11 +92,12 @@ class ContactsListPresenter
                 .observeOn(scheduler.ui())
                 .doOnComplete {
                     view?.hideLoading()
-                    Log.d(ContactsListFragment.TAG, "contacts syncronized")
+                    Log.d(ContactsListFragment.TAG, "contacts synchronised")
                 }
                 .doOnError { error ->
                     if (error is HttpException) {
                         view?.showNetworkErrorMessage()
+                        loadContactsListFromDB()
                     } else {
                         view?.showErrorMessage(error.message.toString())
                         error.printStackTrace()

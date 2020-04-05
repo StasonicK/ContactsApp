@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.utils
+package com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

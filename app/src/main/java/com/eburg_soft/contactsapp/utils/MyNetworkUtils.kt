@@ -25,5 +25,5 @@ class MyNetworkUtils {
             }
             return false
         }
-        }
     }
+}
