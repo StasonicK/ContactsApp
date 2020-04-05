@@ -18,7 +18,7 @@ class SyncWorker(@NotNull context: Context, @NotNull workerParams: WorkerParamet
 
         return try {
 
-            displayNotification("Title", "Message1")
+//            displayNotification("Title", "Message1")
             Result.success()
         } catch (e: Exception) {
             Result.failure()

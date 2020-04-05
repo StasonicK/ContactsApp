@@ -97,6 +97,7 @@ class ContactsListPresenter
                 .doOnError { error ->
                     if (error is HttpException) {
                         view?.showNetworkErrorMessage()
+                        Log.d(ContactsListFragment.TAG, "not network")
                         loadContactsListFromDB()
                     } else {
                         view?.showErrorMessage(error.message.toString())
