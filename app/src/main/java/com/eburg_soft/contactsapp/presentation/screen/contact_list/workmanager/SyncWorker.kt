@@ -11,14 +11,8 @@ import androidx.work.WorkerParameters
 import com.eburg_soft.contactsapp.R
 import org.jetbrains.annotations.NotNull
 
-class MyWorker(@NotNull context: Context, @NotNull workerParams: WorkerParameters) :
+class SyncWorker(@NotNull context: Context, @NotNull workerParams: WorkerParameters) :
     Worker(context, workerParams) {
-
-    companion object {
-        val TASK_LAST_SYNC_TIME = "task_last_sync_time"
-        val TASK_IS_FIRST_TIME = "task_is_first_time"
-        val MINUTE: Long = 60000
-    }
 
     override fun doWork(): Result {
 
