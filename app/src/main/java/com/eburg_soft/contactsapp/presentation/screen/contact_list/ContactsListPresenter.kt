@@ -1,8 +1,6 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
-import android.content.Context
 import android.util.Log
-import com.eburg_soft.contactsapp.di.application.module.app.AppContext
 import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
 import com.eburg_soft.contactsapp.model.gateway.DataGateway
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
@@ -16,10 +14,8 @@ import javax.inject.Inject
 class ContactsListPresenter
 @Inject constructor(
     private val gateway: DataGateway,
-    private val scheduler: MyRxUtils.BaseSchedulerProvider,
-    @AppContext private val context: Context
+    private val scheduler: MyRxUtils.BaseSchedulerProvider
 ) : ContactsListContract.Presenter() {
-
 
     override fun onContactClick(contact: Contact) {
         view?.openContactView(contact)

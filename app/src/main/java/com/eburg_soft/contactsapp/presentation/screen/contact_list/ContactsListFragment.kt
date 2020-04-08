@@ -22,7 +22,7 @@ import androidx.work.WorkManager
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter.ContactsListAdapterList
+import com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter.ContactsListAdapter
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.SyncWorker
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
@@ -39,7 +39,7 @@ class ContactsListFragment :
     Fragment(R.layout.fragment_contacts_list),
     SwipeRefreshLayout.OnRefreshListener,
     SearchView.OnQueryTextListener,
-    ContactsListAdapterList.OnContactItemClickListener,
+    ContactsListAdapter.OnContactItemClickListener,
     ContactsListContract.View {
 
     private val BUNDLE_SEARCH_QUERY = "search query"
@@ -48,7 +48,7 @@ class ContactsListFragment :
     @Inject
     lateinit var presenter: ContactsListContract.Presenter
 
-    private val listAdapterList = ContactsListAdapterList(this)
+    private val listAdapterList = ContactsListAdapter(this)
 
     private var contactsList: ArrayList<Contact> = ArrayList()
 
