@@ -21,18 +21,18 @@ class ContactsListPresenter
         view?.openContactView(contact)
     }
 
+    override fun attach(view: ContactsListContract.View) {
+        this.view = view
+        view.setWorkManager()
+    }
+
     //calls in application start, after canceling query in search view, onRefresh()
     override fun loadContactsListFromDB() {
         view?.showLoading()
         subscribe(gateway.getAllContacts()
-            .observeOn(scheduler.computation())
-            .toFlowable()
             .observeOn(scheduler.ui())
             .doOnNext { list: List<Contact> ->
                 view?.submitList(list)
-                view?.addContacts(list)
-            }
-            .doOnComplete {
                 view?.hideLoading()
                 Log.d(ContactsListFragment.TAG, "contacts loaded")
             }
@@ -86,21 +86,20 @@ class ContactsListPresenter
         subscribe(
             gateway.syncData()
                 .observeOn(scheduler.ui())
-                .doOnComplete {
+                .subscribe({
                     view?.hideLoading()
                     Log.d(ContactsListFragment.TAG, "contacts synchronised")
-                }
-                .doOnError { error ->
-                    if (error is HttpException) {
-                        view?.showNetworkErrorMessage()
-                        Log.d(ContactsListFragment.TAG, "not network")
-                        loadContactsListFromDB()
-                    } else {
-                        view?.showErrorMessage(error.message.toString())
-                        error.printStackTrace()
-                    }
-                }
-                .subscribe()
+                },
+                    { error ->
+                        if (error is HttpException) {
+                            view?.showNetworkErrorMessage()
+                            view?.hideLoading()
+                            Log.d(ContactsListFragment.TAG, "not network")
+                        } else {
+                            view?.showErrorMessage(error.message.toString())
+                            error.printStackTrace()
+                        }
+                    })
         )
     }
 }

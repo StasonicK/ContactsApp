@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
 
 @Dao
@@ -25,7 +26,7 @@ interface ContactDao {
     fun update(contact: List<Contact>): Completable
 
     @Query("SELECT * FROM ${Contact.TABLE_NAME}")
-    fun getAllContacts(): Single<List<Contact>>
+    fun getAllContacts(): Flowable<List<Contact>>
 
     @Query("SELECT * FROM ${Contact.TABLE_NAME} WHERE ${Contact.COLUMN_ID}=:id")
     fun getContactById(id: String): Single<Contact>

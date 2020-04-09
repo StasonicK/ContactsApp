@@ -31,11 +31,11 @@ class BaseContract {
             subscriptions.clear()
         }
 
-        fun attach(view: V) {
+        open fun attach(view: V) {
             this.view = view
         }
 
-        fun detach() {
+        open fun detach() {
             unsubscribe()
         }
     }
