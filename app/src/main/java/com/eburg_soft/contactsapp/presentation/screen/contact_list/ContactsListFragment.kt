@@ -50,8 +50,6 @@ class ContactsListFragment :
 
     private val listAdapterList = ContactsListAdapter(this)
 
-    private var contactsList: ArrayList<Contact> = ArrayList()
-
     private var lastSyncTime: Long = 0L
 
     private var isFirstTime: Boolean = true
@@ -78,16 +76,16 @@ class ContactsListFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getScreenComponent(requireContext()).inject(this)
-        presenter.attach(this)
+        setHasOptionsMenu(true)
 
         retainInstance = true
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-        } else {
+        }
+        else {
             presenter.loadContactsListFromDB()
         }
-        setWorkManager()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -115,8 +113,6 @@ class ContactsListFragment :
     override fun onStart() {
         super.onStart()
         presenter.attach(this)
-        setHasOptionsMenu(true)
-        presenter.loadContactsListFromDB()
     }
 
     override fun onStop() {
@@ -147,7 +143,7 @@ class ContactsListFragment :
     override fun onQueryTextSubmit(query: String): Boolean {
         searchQuery = query
 
-        val copyContactsList = ArrayList<Contact>(contactsList.toList())
+        val copyContactsList = ArrayList<Contact>(listAdapterList.currentList.toList())
         presenter.onSearchQuerySubmit(query, copyContactsList)
 
         Log.d("onQueryTextSubmit", query)
@@ -157,7 +153,7 @@ class ContactsListFragment :
     override fun onQueryTextChange(newText: String): Boolean {
         searchQuery = newText
 
-        val copyContactsList = ArrayList<Contact>(contactsList.toList())
+        val copyContactsList = ArrayList<Contact>(listAdapterList.currentList.toList())
         presenter.onSearchQuerySubmit(newText, copyContactsList)
 
         Log.d("onQueryTextChange", newText)
@@ -178,12 +174,7 @@ class ContactsListFragment :
     }
 
     override fun submitList(list: List<Contact>) {
-//        contactsList.addAll(list)
         listAdapterList.submitList(list)
-    }
-
-    override fun addContacts(list: List<Contact>) {
-        contactsList.addAll(list)
     }
 
     override fun showNetworkErrorMessage() {
@@ -223,7 +214,7 @@ class ContactsListFragment :
             .apply()
     }
 
-    fun loadVariables() {
+    private fun loadVariables() {
         isFirstTime =
             this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getBoolean("isFirstTime", true)
 
@@ -231,7 +222,7 @@ class ContactsListFragment :
             this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getLong("lastSyncTime", 0L)
     }
 
-    private fun setWorkManager() {
+    override fun setWorkManager() {
         loadVariables()
 
         val currentTime = System.currentTimeMillis()

@@ -10,7 +10,7 @@ interface ContactsListContract {
 
         fun hideLoading()
 
-        fun addContacts(list: List<Contact>)
+        fun setWorkManager()
 
         fun submitList(list: List<Contact>)
 

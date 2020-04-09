@@ -2,23 +2,15 @@ package com.eburg_soft.contactsapp.model.source.database.converter
 
 import androidx.room.TypeConverter
 import com.eburg_soft.contactsapp.model.source.database.entity.Temperament
-import java.util.Locale
+import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.MISTAKE
 
 class TemperamentConverter {
 
     @TypeConverter
-    fun fromTemperament(value: Temperament): String {
-        return value.type
+    fun fromTemperament(temperament: Temperament): String {
+        return temperament.type
     }
 
     @TypeConverter
-    fun toTemperament(value: String): Temperament {
-        return when (value.toLowerCase(Locale.getDefault())) {
-            "melancholic" -> Temperament.MELANCHOLIC
-            "phlegmatic" -> Temperament.PHLEGMATIC
-            "sanguine" -> Temperament.SANGUINE
-            "choleric" -> Temperament.CHOLERIC
-            else -> Temperament.MISTAKE
-        }
-    }
+    fun toTemperament(temperament: String) = Temperament.values().find { it.type == temperament } ?: MISTAKE
 }

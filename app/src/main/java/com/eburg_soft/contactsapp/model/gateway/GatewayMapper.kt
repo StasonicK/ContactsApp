@@ -3,7 +3,8 @@ package com.eburg_soft.contactsapp.model.gateway
 import com.eburg_soft.contactsapp.model.ContactRes
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.model.source.database.entity.Temperament
-import java.util.Locale
+import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.MISTAKE
+import java.text.SimpleDateFormat
 
 class GatewayMapper {
     companion object {
@@ -25,28 +26,11 @@ class GatewayMapper {
         }
 
         private fun mapDate(date: String): String {
-            val tempDate: String = date.substring(0, date.indexOf("T"))
-            val dateArray = tempDate.split("-")
-            val dateArrayReversed = dateArray.asReversed()
-            val finalDate: StringBuilder = StringBuilder("")
-            for (i in dateArrayReversed.indices) {
-                if (i == dateArrayReversed.size - 1) {
-                    finalDate.append(dateArrayReversed[i])
-                } else {
-                    finalDate.append(dateArrayReversed[i] + ".")
-                }
-            }
-            return finalDate.toString()
+            val simpleDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(date)
+            return SimpleDateFormat("dd.MM.yyyy").format(simpleDate)
         }
 
-        private fun mapTemperament(value: String): Temperament {
-            return when (value.toLowerCase(Locale.getDefault())) {
-                "melancholic" -> Temperament.MELANCHOLIC
-                "phlegmatic" -> Temperament.PHLEGMATIC
-                "sanguine" -> Temperament.SANGUINE
-                "choleric" -> Temperament.CHOLERIC
-                else -> Temperament.MISTAKE
-            }
-        }
+        private fun mapTemperament(temperament: String) =
+            Temperament.values().find { it.type == temperament } ?: MISTAKE
     }
 }
