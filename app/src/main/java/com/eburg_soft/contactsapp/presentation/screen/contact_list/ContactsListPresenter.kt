@@ -23,7 +23,6 @@ class ContactsListPresenter
 
     override fun attach(view: ContactsListContract.View) {
         this.view = view
-        view.setWorkManager()
     }
 
     //calls in application start, after canceling query in search view, onRefresh()
