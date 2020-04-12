@@ -16,13 +16,17 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
+import androidx.work.WorkInfo.State.SUCCEEDED
 import androidx.work.WorkManager
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter.ContactsListAdapter
+import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.IS_FIRST_TIME
+import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.LAST_SYNC_TIME
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.SyncWorker
 import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
@@ -56,7 +60,6 @@ class ContactsListFragment :
 
     companion object {
         const val TAG = "ContactsListFragment"
-        const val MINUTE: Long = 60000L
     }
 
     //region ====================== Life circle ======================
@@ -78,14 +81,17 @@ class ContactsListFragment :
         getScreenComponent(requireContext()).inject(this)
         setHasOptionsMenu(true)
 
+        loadVariables()
+
         retainInstance = true
 
         if (savedInstanceState != null) {
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-        }
-        else {
+        } else {
             presenter.loadContactsListFromDB()
         }
+
+        setWorkManager()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -207,41 +213,51 @@ class ContactsListFragment :
         isFirstTime = false
 
         this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.edit()
-            .putBoolean("isFirstTime", isFirstTime)
+            .putBoolean(IS_FIRST_TIME, isFirstTime)
             .apply()
         this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.edit()
-            .putLong("lastSyncTime", lastSyncTime)
+            .putLong(LAST_SYNC_TIME, lastSyncTime)
             .apply()
     }
 
     private fun loadVariables() {
         isFirstTime =
-            this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getBoolean("isFirstTime", true)
+            this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getBoolean(IS_FIRST_TIME, true)
 
         lastSyncTime =
-            this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getLong("lastSyncTime", 0L)
+            this.activity?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)!!.getLong(LAST_SYNC_TIME, 0L)
     }
 
     override fun setWorkManager() {
-        loadVariables()
 
-        val currentTime = System.currentTimeMillis()
-        val timeDifference = currentTime - lastSyncTime
+        val myData = Data.Builder()
+            .putBoolean(IS_FIRST_TIME, isFirstTime)
+            .putLong(LAST_SYNC_TIME, lastSyncTime)
+            .build()
 
-        if ((!isFirstTime && (timeDifference > MINUTE)) || isFirstTime) {
+        val workRequest = OneTimeWorkRequest.Builder(SyncWorker::class.java)
+            .setInputData(myData)
+            .build()
 
-            val workRequest = OneTimeWorkRequest.Builder(SyncWorker::class.java)
-                .build()
+        WorkManager.getInstance().enqueue(workRequest)
 
-            WorkManager.getInstance().enqueue(workRequest)
+//        WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
+//            .observe(this,
+//                Observer<WorkInfo> { workStatus -> Log.d(TAG, "onChanged: " + workStatus.state) })
 
-            WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
-                .observe(this, Observer<WorkInfo> {
-                    presenter.syncContacts()
-//                    presenter.loadContactsListFromDB()
-                    lastSyncTime = System.currentTimeMillis()
-                })
-        }
+        WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
+            .observe(this, Observer<WorkInfo>() { workStatus ->
+                Log.d(TAG, "onChanged: " + workStatus.state)
+                when (workStatus.state) {
+                    SUCCEEDED -> {
+
+                        presenter.syncContacts()
+                        lastSyncTime = System.currentTimeMillis()
+                    }
+                    else -> {
+                    }
+                }
+            })
     }
 
     private fun setHomeButtonInvisible() {
