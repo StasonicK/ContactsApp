@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat
 
 class GatewayMapper {
     companion object {
-        const val recieveDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
-        const val resultDatePattern = "dd.MM.yyyy"
+        private const val recieveDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
+        private const val resultDatePattern = "dd.MM.yyyy"
 
         fun mapContact(responses: List<ContactRes>): List<Contact> {
             val contacts = mutableListOf<Contact>()
