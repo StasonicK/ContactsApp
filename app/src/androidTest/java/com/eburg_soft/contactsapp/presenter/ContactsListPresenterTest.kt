@@ -1,5 +1,6 @@
-package com.eburg_soft.contactsapp
+package com.eburg_soft.contactsapp.presenter
 
+import com.eburg_soft.contactsapp.database.ContactTestHelper
 import com.eburg_soft.contactsapp.model.ApiClient
 import com.eburg_soft.contactsapp.model.gateway.DataGateway
 import com.eburg_soft.contactsapp.model.gateway.DataGatewayImpl
@@ -11,10 +12,11 @@ import com.eburg_soft.contactsapp.utils.MyRxUtils
 import org.junit.*
 import org.mockito.*
 import org.mockito.Mockito.*
+import org.mockito.junit.*
 
 class ContactsListPresenterTest {
-//    @get:Rule
-//    lateinit var mockitoRule: MockitoRule
+    @get:Rule
+   private val mockitoRule = MockitoJUnit.rule()
 
     private lateinit var presenter: ContactsListPresenter
 
@@ -33,8 +35,8 @@ class ContactsListPresenterTest {
     @Mock
     lateinit var mockView: ContactsListContract.View
 
-//    @Mock
-//    lateinit var mockContact: Contact
+    @Mock
+    lateinit var mockContact: Contact
 
     @Before
      fun setUp() {
@@ -47,26 +49,51 @@ class ContactsListPresenterTest {
     @Test
     fun onContactClick() {
         val mockContact = mock(Contact::class.java)
-        presenter.onContactClick(mockContact)
+
+        `when`(presenter.onContactClick(any()))
 
         verify(mockView).openContactView(mockContact)
     }
 
     @Test
-    fun loadContactsListFromDB() {
+    fun loadContactsListFromDBSuccess() {
+        val contacts = ContactTestHelper.createListOfContacts()
+        `when`(presenter.loadContactsListFromDB())
+        
+        presenter.loadContactsListFromDB()
+        verify(mockView.showLoading())
+        verify(mockView.submitList(contacts))
+    }
+
+    @Test
+    fun loadContactsListFromDBFailed() {
 //        `when`(presenter.onContactClick(mockContact)).then(mockView.)
     }
 
+
     @Test
     fun eraseContactsFromDB() {
+
     }
 
     @Test
-    fun onSearchQuerySubmit() {
+    fun onSearchQuerySubmitSuccess() {
+
     }
 
     @Test
-    fun syncContacts() {
+    fun onSearchQuerySubmitFailed() {
+
+    }
+
+    @Test
+    fun syncContactsSuccess() {
+
+    }
+
+    @Test
+    fun syncContactsFailed() {
+
     }
 
     @After

@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat.Builder
-import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.eburg_soft.contactsapp.R

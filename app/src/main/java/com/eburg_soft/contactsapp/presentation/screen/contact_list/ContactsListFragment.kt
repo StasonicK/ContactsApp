@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.fragment_contacts_list.swipe_refresh_layou
 import javax.inject.Inject
 
 /**
- * Class [ContactsListFragment] show the list of contacts and assist to find contacts by phone number
+ * ContactsListFragment shows the list of contacts and assists to find contacts by phone number
  * or name.
  */
 class ContactsListFragment :
@@ -74,16 +74,15 @@ class ContactsListFragment :
         )
         swipe_refresh_layout.setOnRefreshListener(this)
         setHomeButtonInvisible()
-//
 
         setHasOptionsMenu(true)
         loadVariables()
 
-//        if (savedInstanceState != null) {
-//            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-//        } else {
-//            presenter.loadContactsListFromDB()
-//        }
+        if (savedInstanceState != null) {
+            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
+        } else {
+            presenter.loadContactsListFromDB()
+        }
 
         setWorkManager()
     }
@@ -195,7 +194,7 @@ class ContactsListFragment :
         Snackbar.make(recycler_contacts, error, Snackbar.LENGTH_LONG).show()
     }
 
-    //Open [ContactsFragment] with data of the contact
+    //Opens ContactsFragment with data of the contact
     override fun openContactView(contact: Contact) {
         requireActivity().supportFragmentManager.let {
             if (it.findFragmentByTag(ContactFragment.TAG) == null) {
@@ -246,7 +245,6 @@ class ContactsListFragment :
                 Log.d(TAG, "onChanged: " + workStatus.state)
                 when (workStatus.state) {
                     SUCCEEDED -> {
-
                         presenter.syncContacts()
                         lastSyncTime = System.currentTimeMillis()
                     }

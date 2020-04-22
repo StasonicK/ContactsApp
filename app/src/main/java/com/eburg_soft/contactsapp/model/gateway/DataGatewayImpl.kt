@@ -43,6 +43,5 @@ class DataGatewayImpl @Inject constructor(
                     list
                 }).flatMapCompletable { t -> contactDao.insert(GatewayMapper.mapContact(t)) }
             .subscribeOn(scheduler.io())
-
     }
 }

@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp
+package com.eburg_soft.contactsapp.database
 
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.CHOLERIC
