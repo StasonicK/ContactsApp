@@ -74,24 +74,24 @@ class ContactsListFragment :
         )
         swipe_refresh_layout.setOnRefreshListener(this)
         setHomeButtonInvisible()
+//
+
+        setHasOptionsMenu(true)
+        loadVariables()
+
+//        if (savedInstanceState != null) {
+//            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
+//        } else {
+//            presenter.loadContactsListFromDB()
+//        }
+
+        setWorkManager()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getScreenComponent(requireContext()).inject(this)
-        setHasOptionsMenu(true)
-
-        loadVariables()
-
         retainInstance = true
-
-        if (savedInstanceState != null) {
-            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-        } else {
-            presenter.loadContactsListFromDB()
-        }
-
-        setWorkManager()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -200,7 +200,7 @@ class ContactsListFragment :
         requireActivity().supportFragmentManager.let {
             if (it.findFragmentByTag(ContactFragment.TAG) == null) {
                 it.beginTransaction()
-                    .replace(R.id.frame_container, ContactFragment.NewInstance(contact), ContactFragment.TAG)
+                    .replace(R.id.frame_container, ContactFragment.newInstance(contact), ContactFragment.TAG)
                     .addToBackStack(null)
                     .commit()
             }
@@ -240,10 +240,6 @@ class ContactsListFragment :
             .build()
 
         WorkManager.getInstance().enqueue(workRequest)
-
-//        WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
-//            .observe(this,
-//                Observer<WorkInfo> { workStatus -> Log.d(TAG, "onChanged: " + workStatus.state) })
 
         WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
             .observe(this, Observer<WorkInfo>() { workStatus ->
