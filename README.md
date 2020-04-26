@@ -22,11 +22,13 @@
 
 Список контактов можно обновить свайпом вниз. Если при загрузке или обновлении данных происходит ошибка, то нужно показать ее с помощью Snackbar.
 
-Обновление контактов
+## Обновление контактов
 
 Поиск среди контактов происходит по имени или номеру телефона. Результаты поиска появляются по мере ввода символов в строку поиска и могут отображаться в основном списке. При клике на контакт открывается экран с более подробной информацией. Клик по номеру телефона открывает стандартный набор номера.
-<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/show_query.jpeg" width="256">Поиск по контактам 
-<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/show_contact.jpeg" width="256">Описание контакта
+<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/show_query.jpeg" width="256">
+Поиск по контактам 
+<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/show_contact.jpeg" width="256">
+Описание контакта
 
 ## Цвета интерфейса
 * colorPrimary — #4c9069
