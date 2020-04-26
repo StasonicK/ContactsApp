@@ -10,10 +10,6 @@ import io.reactivex.disposables.Disposable
 class BaseContract {
     interface View {
         fun getScreenComponent(context: Context): ScreenComponent =
-//            (context.applicationContext as App)
-//                .appComponent()
-//                .createScreenComponent(ScreenContextModule(context))
-
             (context.applicationContext as App)
                 .component
                 .createScreenComponent(ScreenContextModule(context))
