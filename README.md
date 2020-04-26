@@ -1,18 +1,21 @@
 # ContactsAppRoomDB
-#**Описание**
+#Описание
+
 На старте приложение получает массив контактов из нескольких источников: источник1, источник2, источник3 и сохраняет их локально. Для получения прямой ссылки на json нажать View Raw при просмотре.
 В процессе загрузки контактов на экране отображается круговой ProgressBar:
 ![Image of Yaktocat](https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/load_data.jpeg)
 Загрузка контактов Обновление контактов
 ![Image of Yaktocat](https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/show_data.jpeg)
+
 Контакт человека имеет следующий вид
 
-id (string) — ID контакта
-name (string) — Имя человека
-height (float) — Рост человека
-biography (string) — Биография человека
-temperament (enum) — Темперамент человека (melancholic, phlegmatic, sanguine, choleric)
-educationPeriod (object) — Период прохождения учебы. Состоит из дат start и end.
+*id (string) — ID контакта
+*name (string) — Имя человека
+*height (float) — Рост человека
+*biography (string) — Биография человека
+*temperament (enum) — Темперамент человека (melancholic, phlegmatic, sanguine, choleric)
+*educationPeriod (object) — Период прохождения учебы. Состоит из дат start и end.
+
 Если приложение запускается не в первый раз, и с момента прошлой загрузки данных прошло более 1 минуты, то данные необходимо загрузить заново, иначе нужно показать данные, сохраненные локально.
 
 Список контактов можно обновить свайпом вниз. Если при загрузке или обновлении данных происходит ошибка, то нужно показать ее с помощью Snackbar.
