@@ -4,8 +4,10 @@
 На старте приложение получает массив контактов из нескольких источников: источник1, источник2, источник3 и сохраняет их локально. Для получения прямой ссылки на json нажать View Raw при просмотре.
 В процессе загрузки контактов на экране отображается круговой ProgressBar:
 
-<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/load_data.jpeg" width="256">Загрузка контактов 
-<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/show_data.jpeg" width="256">Обновление контактов
+<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/load_data.jpeg" width="256">
+Загрузка контактов 
+<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/show_data.jpeg" width="256">
+Обновление контактов
 
 Контакт человека имеет следующий вид
 
