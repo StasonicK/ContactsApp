@@ -5,7 +5,7 @@ import com.eburg_soft.contactsapp.presentation.base.BaseContract
 
 interface ContactsListContract {
     interface View : BaseContract.View {
-
+        fun scrollToRecyclerTopPosition()
         fun showLoading()
 
         fun hideLoading()

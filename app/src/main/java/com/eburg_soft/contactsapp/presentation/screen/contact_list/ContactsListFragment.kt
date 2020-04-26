@@ -78,12 +78,6 @@ class ContactsListFragment :
         setHasOptionsMenu(true)
         loadVariables()
 
-        if (savedInstanceState != null) {
-            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
-        } else {
-            presenter.loadContactsListFromDB()
-        }
-
         setWorkManager()
     }
 
@@ -91,6 +85,13 @@ class ContactsListFragment :
         super.onCreate(savedInstanceState)
         getScreenComponent(requireContext()).inject(this)
         retainInstance = true
+
+        if (savedInstanceState != null) {
+            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
+            onQueryTextChange(searchQuery.toString())
+        } else {
+            presenter.loadContactsListFromDB()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -138,6 +139,10 @@ class ContactsListFragment :
     //endregion
 
     //region ====================== Overrided methods ======================
+
+   override fun scrollToRecyclerTopPosition(){
+        recycler_contacts.layoutManager!!.scrollToPosition(0)
+    }
 
     //refresh the list by swiping down
     override fun onRefresh() {

@@ -33,6 +33,7 @@ class ContactsListPresenter
             .doOnNext { list: List<Contact> ->
                 view?.submitList(list)
                 view?.hideLoading()
+                view?.scrollToRecyclerTopPosition()
                 Log.d(ContactsListFragment.TAG, "contacts loaded")
             }
             .doOnError {
