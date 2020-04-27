@@ -14,22 +14,22 @@ class DataGatewayImplTest {
 //    @get:Rule
 //    lateinit var mockitoRule: MockitoRule
 
-    private lateinit var dataGatewayImpl: DataGatewayImpl
-
-    @Mock
-    lateinit var mockApiClient: ApiClient
-
-    @Mock
-    lateinit var mockContactDto: ContactDao
-
-    @Mock
-    lateinit var mockRx: MyRxUtils.TrampolineSchedulerProvider
-
-    @Before
-    fun setUp() {
-        MockitoAnnotations::initMocks
-        dataGatewayImpl = DataGatewayImpl(mockContactDto, mockApiClient, mockRx)
-    }
+//    private lateinit var dataGatewayImpl: DataGatewayImpl
+//
+//    @Mock
+//    lateinit var mockApiClient: ApiClient
+//
+//    @Mock
+//    lateinit var mockContactDto: ContactDao
+//
+//    @Mock
+//    lateinit var mockRx: MyRxUtils.TrampolineSchedulerProvider
+//
+//    @Before
+//    fun setUp() {
+//        MockitoAnnotations::initMocks
+//        dataGatewayImpl = DataGatewayImpl(mockContactDto, mockApiClient, mockRx)
+//    }
 
 //    @Test
 //    fun shouldReturnExpectedContact() {
@@ -57,8 +57,8 @@ class DataGatewayImplTest {
 //
 //    }
 
-    @After
-    fun tearDown() {
-        TODO("Not yet implemented")
-    }
+//    @After
+//    fun tearDown() {
+//        TODO("Not yet implemented")
+//    }
 }
