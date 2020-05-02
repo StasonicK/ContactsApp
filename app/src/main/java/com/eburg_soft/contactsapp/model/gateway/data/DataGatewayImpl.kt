@@ -1,7 +1,8 @@
-package com.eburg_soft.contactsapp.model.gateway
+package com.eburg_soft.contactsapp.model.gateway.data
 
 import com.eburg_soft.contactsapp.model.ApiClient
 import com.eburg_soft.contactsapp.model.ContactRes
+import com.eburg_soft.contactsapp.model.gateway.GatewayMapper
 import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.utils.MyRxUtils
@@ -29,19 +30,25 @@ class DataGatewayImpl @Inject constructor(
 
     override fun syncData(): Completable {
         return Single.zip(
-                apiClient.getContacts1(),
-                apiClient.getContacts2(),
-                apiClient.getContacts3(),
-                Function3<List<ContactRes>, List<ContactRes>, List<ContactRes>, List<ContactRes>>
-                { list1, list2, list3 ->
-                    val list = ArrayList<ContactRes>()
-                    list.apply {
-                        addAll(list1)
-                        addAll(list2)
-                        addAll(list3)
-                    }
-                    list
-                }).flatMapCompletable { t -> contactDao.insert(GatewayMapper.mapContact(t)) }
+            apiClient.getContacts1(),
+            apiClient.getContacts2(),
+            apiClient.getContacts3(),
+            Function3<List<ContactRes>, List<ContactRes>, List<ContactRes>, List<ContactRes>>
+            { list1, list2, list3 ->
+                val list = ArrayList<ContactRes>()
+                list.apply {
+                    addAll(list1)
+                    addAll(list2)
+                    addAll(list3)
+                }
+                list
+            }).flatMapCompletable { t ->
+            contactDao.insert(
+                GatewayMapper.mapContact(
+                    t
+                )
+            )
+        }
             .subscribeOn(scheduler.io())
     }
 }

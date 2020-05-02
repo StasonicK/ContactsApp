@@ -1,12 +1,5 @@
 package com.eburg_soft.contactsapp
 
-import com.eburg_soft.contactsapp.model.ApiClient
-import com.eburg_soft.contactsapp.model.gateway.DataGatewayImpl
-import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
-import com.eburg_soft.contactsapp.utils.MyRxUtils
-import org.junit.*
-import org.mockito.*
-
 //import org.mockito.*
 //import org.mockito.junit.*
 

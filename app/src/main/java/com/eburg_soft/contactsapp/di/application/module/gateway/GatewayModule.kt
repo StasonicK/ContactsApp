@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.di.application.module.data
+package com.eburg_soft.contactsapp.di.application.module.gateway
 
 import com.eburg_soft.contactsapp.di.application.scope.AppScope
 import com.eburg_soft.contactsapp.model.gateway.data.DataGateway
@@ -11,5 +11,5 @@ abstract class GatewayModule {
 
     @Binds
     @AppScope
-    abstract fun dataGateway(imp: DataGatewayImpl): DataGateway
+    abstract fun dataGateway(dataGatewayImpl: DataGatewayImpl): DataGateway
 }

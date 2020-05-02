@@ -1,12 +1,13 @@
 package com.eburg_soft.contactsapp.presentation.screen.contact_list
 
+import android.accounts.NetworkErrorException
 import android.util.Log
 import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
-import com.eburg_soft.contactsapp.model.gateway.DataGateway
+import com.eburg_soft.contactsapp.model.gateway.data.DataGateway
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Single
-import retrofit2.HttpException
+import java.net.UnknownHostException
 import java.util.Locale
 import javax.inject.Inject
 
@@ -91,13 +92,15 @@ class ContactsListPresenter
                     Log.d(ContactsListFragment.TAG, "contacts synchronised")
                 },
                     { error ->
-                        if (error is HttpException) {
-                            view?.showNetworkErrorMessage()
-                            view?.hideLoading()
-                            Log.d(ContactsListFragment.TAG, "not network")
-                        } else {
-                            view?.showErrorMessage(error.message.toString())
-                            error.printStackTrace()
+                        when (error) {
+                            is NetworkErrorException, is UnknownHostException -> {
+                                view?.showNetworkErrorMessage()
+                                view?.hideLoading()
+                            }
+                            else -> {
+                                view?.showErrorMessage(error.message.toString())
+                                error.printStackTrace()
+                            }
                         }
                     })
         )

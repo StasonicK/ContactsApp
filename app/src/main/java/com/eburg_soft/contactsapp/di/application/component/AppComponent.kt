@@ -3,7 +3,7 @@ package com.eburg_soft.contactsapp.di.application.component
 import com.eburg_soft.contactsapp.common.App
 import com.eburg_soft.contactsapp.di.application.module.app.AppContextModule
 import com.eburg_soft.contactsapp.di.application.module.data.DatabaseModule
-import com.eburg_soft.contactsapp.di.application.module.data.GatewayModule
+import com.eburg_soft.contactsapp.di.application.module.gateway.GatewayModule
 import com.eburg_soft.contactsapp.di.application.module.network.NetworkModule
 import com.eburg_soft.contactsapp.di.application.module.rx.RxModule
 import com.eburg_soft.contactsapp.di.application.scope.AppScope

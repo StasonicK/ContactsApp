@@ -2,8 +2,8 @@ package com.eburg_soft.contactsapp.presenter
 
 import com.eburg_soft.contactsapp.database.ContactTestHelper
 import com.eburg_soft.contactsapp.model.ApiClient
-import com.eburg_soft.contactsapp.model.gateway.DataGateway
-import com.eburg_soft.contactsapp.model.gateway.DataGatewayImpl
+import com.eburg_soft.contactsapp.model.gateway.data.DataGateway
+import com.eburg_soft.contactsapp.model.gateway.data.DataGatewayImpl
 import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
 import com.eburg_soft.contactsapp.model.source.database.entity.Contact
 import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListContract
@@ -41,7 +41,11 @@ class ContactsListPresenterTest {
     @Before
      fun setUp() {
         MockitoAnnotations::initMocks
-        mockGateway = DataGatewayImpl(mockContactDao, mockApiClient, mockRx)
+        mockGateway = DataGatewayImpl(
+            mockContactDao,
+            mockApiClient,
+            mockRx
+        )
         presenter = ContactsListPresenter(mockGateway, mockRx)
         presenter.attach(mockView)
     }

@@ -140,7 +140,7 @@ class ContactsListFragment :
 
     //region ====================== Overrided methods ======================
 
-   override fun scrollToRecyclerTopPosition(){
+    override fun scrollToRecyclerTopPosition() {
         recycler_contacts.layoutManager!!.scrollToPosition(0)
     }
 
@@ -189,6 +189,7 @@ class ContactsListFragment :
 
     override fun showNetworkErrorMessage() {
         Snackbar.make(recycler_contacts, "Нет подключения к сети", Snackbar.LENGTH_LONG).show()
+        Log.d(TAG, "Нет подключения к сети")
     }
 
     override fun hideLoading() {
@@ -197,6 +198,7 @@ class ContactsListFragment :
 
     override fun showErrorMessage(error: String) {
         Snackbar.make(recycler_contacts, error, Snackbar.LENGTH_LONG).show()
+        Log.d(TAG, "showErrorMessage")
     }
 
     //Opens ContactsFragment with data of the contact
@@ -246,7 +248,7 @@ class ContactsListFragment :
         WorkManager.getInstance().enqueue(workRequest)
 
         WorkManager.getInstance().getWorkInfoByIdLiveData(workRequest.id)
-            .observe(this, Observer<WorkInfo>() { workStatus ->
+            .observe(this, Observer<WorkInfo> { workStatus ->
                 Log.d(TAG, "onChanged: " + workStatus.state)
                 when (workStatus.state) {
                     SUCCEEDED -> {
