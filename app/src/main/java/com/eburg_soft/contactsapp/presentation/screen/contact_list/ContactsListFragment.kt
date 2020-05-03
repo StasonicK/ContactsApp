@@ -39,6 +39,7 @@ import javax.inject.Inject
  * ContactsListFragment shows the list of contacts and assists to find contacts by phone number
  * or name.
  */
+
 class ContactsListFragment :
     Fragment(R.layout.fragment_contacts_list),
     SwipeRefreshLayout.OnRefreshListener,
@@ -46,7 +47,6 @@ class ContactsListFragment :
     ContactsListAdapter.OnContactItemClickListener,
     ContactsListContract.View {
 
-    private val BUNDLE_SEARCH_QUERY = "search query"
     private var searchQuery: String? = ""
 
     @Inject
@@ -60,6 +60,15 @@ class ContactsListFragment :
 
     companion object {
         const val TAG = "ContactsListFragment"
+        const val BUNDLE_SEARCH_QUERY = "search query"
+
+        @JvmStatic
+        fun newInstance(): ContactsListFragment {
+            val bundle = Bundle()
+            val fragment = ContactsListFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
     //region ====================== Life circle ======================
