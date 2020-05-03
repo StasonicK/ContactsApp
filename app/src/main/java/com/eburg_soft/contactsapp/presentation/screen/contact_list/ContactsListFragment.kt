@@ -63,7 +63,7 @@ class ContactsListFragment :
         const val BUNDLE_SEARCH_QUERY = "search query"
 
         @JvmStatic
-        fun newInstance(): ContactsListFragment {
+        fun getNewInstance(): ContactsListFragment {
             val bundle = Bundle()
             val fragment = ContactsListFragment()
             fragment.arguments = bundle

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .add(
                     R.id.frame_container,
-                    ContactsListFragment.newInstance(), ContactsListFragment.TAG + " created"
+                    ContactsListFragment.getNewInstance(), ContactsListFragment.TAG + " created"
                 )
                 .addToBackStack(null)
                 .commit()
