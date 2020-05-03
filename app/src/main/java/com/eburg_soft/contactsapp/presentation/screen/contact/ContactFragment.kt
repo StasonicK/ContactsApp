@@ -35,7 +35,7 @@ class ContactFragment @Inject constructor() : Fragment(R.layout.fragment_contact
         private const val CONTACT = "Contact"
 
         @JvmStatic
-        fun newInstance(contact: Contact) =
+        fun getNewInstance(contact: Contact) =
             ContactFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(CONTACT, contact)

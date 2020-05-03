@@ -215,7 +215,7 @@ class ContactsListFragment :
         requireActivity().supportFragmentManager.let {
             if (it.findFragmentByTag(ContactFragment.TAG) == null) {
                 it.beginTransaction()
-                    .replace(R.id.frame_container, ContactFragment.newInstance(contact), ContactFragment.TAG)
+                    .replace(R.id.frame_container, ContactFragment.getNewInstance(contact), ContactFragment.TAG)
                     .addToBackStack(null)
                     .commit()
             }
