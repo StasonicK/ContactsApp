@@ -20,7 +20,7 @@
 
 Список контактов можно обновить свайпом вниз. Если при загрузке или обновлении данных происходит ошибка, то нужно показать ее с помощью Snackbar.
 
-<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/network_error.jpeg" width="256">  *Ошибка*
+<img src="https://github.com/StasonicK/ContactsAppRoomDB/blob/develop/read%20me/network error.jpeg" width="256">  *Ошибка*
 
 ## Обновление контактов
 
