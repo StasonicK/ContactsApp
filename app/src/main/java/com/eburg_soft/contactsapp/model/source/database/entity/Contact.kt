@@ -14,7 +14,6 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_NAME)
 @TypeConverters(
     TemperamentConverter::class
-//    , EducationConverter::class
 )
 data class Contact(
     @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = false) var contactId: String = "",
@@ -25,7 +24,6 @@ data class Contact(
     @ColumnInfo(name = COLUMN_TEMPERAMENT) var contactTemperament: Temperament = MISTAKE,
     @ColumnInfo(name = COLUMN_EDUCATION_START) var contactEducationStart: String = "",
     @ColumnInfo(name = COLUMN_EDUCATION_END) var contactEducationEnd: String = ""
-//    @ColumnInfo(name = COLUMN_EDUCATION) var contactEducationEnd: Education? = null
 ) : Parcelable {
 
     companion object {
@@ -38,6 +36,5 @@ data class Contact(
         const val COLUMN_TEMPERAMENT = "temperament"
         const val COLUMN_EDUCATION_START = "education_start"
         const val COLUMN_EDUCATION_END = "education_end"
-//        const val COLUMN_EDUCATION = "education"
     }
 }
