@@ -10,6 +10,5 @@ import dagger.Subcomponent
 @Subcomponent(modules = [ScreenContextModule::class, ScreenModule::class])
 interface ScreenComponent {
 
-    //    fun inject(fragment: ContactFragment)
     fun inject(fragment: ContactsListFragment)
 }
