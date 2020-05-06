@@ -12,8 +12,4 @@ interface ScreenModule {
     @Binds
     @ScreenScope
     fun provideContactsListPresenter(presenter: ContactsListPresenter): ContactsListContract.Presenter
-
-//    @Binds
-//    @ScreenScope
-//    fun provideContactsPresenter(presenter: ContactPresenter): ContactContract.Presenter
 }

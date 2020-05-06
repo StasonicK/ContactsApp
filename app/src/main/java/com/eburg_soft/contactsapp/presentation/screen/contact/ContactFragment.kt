@@ -19,12 +19,11 @@ import kotlinx.android.synthetic.main.fragment_contact.text_education_period_in_
 import kotlinx.android.synthetic.main.fragment_contact.text_name_in_contact
 import kotlinx.android.synthetic.main.fragment_contact.text_phone_in_contact
 import kotlinx.android.synthetic.main.fragment_contact.text_temperament_in_contact
-import javax.inject.Inject
 
 /**
  *  ContactFragment shows contact information, has clickable phone number, back button.
  */
-class ContactFragment @Inject constructor() : Fragment(R.layout.fragment_contact) {
+class ContactFragment : Fragment(R.layout.fragment_contact) {
 
     private var contact: Contact? = null
 
