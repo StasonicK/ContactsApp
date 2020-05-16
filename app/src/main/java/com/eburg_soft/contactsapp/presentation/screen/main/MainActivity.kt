@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         } else {
-            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
+            searchQuery = savedInstanceState!!.getString(BUNDLE_SEARCH_QUERY).toString()
         }
     }
 
