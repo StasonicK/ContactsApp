@@ -9,6 +9,8 @@ import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Single
 import java.net.UnknownHostException
 import java.util.Locale
+import java.util.concurrent.TimeUnit.MILLISECONDS
+import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
 @ScreenScope
@@ -62,18 +64,22 @@ class ContactsListPresenter
             view?.showLoading()
 
             subscribe(Single.just(list)
+                .toObservable()
+                .debounce(2000, SECONDS)
+                .distinctUntilChanged()
                 .subscribeOn(scheduler.io())
                 .map {
-                    list.filter { contact ->
-                        contact.contactName.toLowerCase(Locale.getDefault()).contains(newQuery)
-                            .or(contact.contactPhone.contains(newQuery))
-                    }
+                    list
+                        .filter { contact ->
+                            contact.contactName.toLowerCase(Locale.getDefault()).contains(newQuery)
+                                .or(contact.contactPhone.contains(newQuery))
+                        }
                 }
                 .observeOn(scheduler.ui())
                 .subscribe({ list1 ->
                     view?.submitList(list1)
                     view?.hideLoading()
-                    Log.d(ContactsListFragment.TAG, "query completed")
+                    Log.d(ContactsListFragment.TAG, "query completed, $list")
                 }, { it ->
                     view?.showErrorMessage(it.message!!)
                     view?.hideLoading()

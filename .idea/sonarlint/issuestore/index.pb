@@ -35,3 +35,15 @@ Rapp/src/main/java/com/eburg_soft/contactsapp/model/gateway/data/DataGatewayImpl
 eapp/src/main/java/com/eburg_soft/contactsapp/presentation/screen/contact_list/ContactsListFragment.kt,4\3\432b2c57974693696c4ec9940cb572a5ac9458e6
 –
 fapp/src/main/java/com/eburg_soft/contactsapp/presentation/screen/contact_list/ContactsListPresenter.kt,0\6\060746ee2339ab6ec80fe84b46161ccec3abe0b7
+—
+gapp/src/main/java/com/eburg_soft/contactsapp/presentation/screen/contact_list/workmanager/SyncWorker.kt,6\e\6e41aa3d44fe3c7643bb7276c84729b0f828eefd
+…
+Uapp/src/main/java/com/eburg_soft/contactsapp/presentation/screen/main/MainActivity.kt,9\d\9dfda7bfe59924d32cc93bae0a8d474a0e2a99d1
+„
+Tapp/src/main/java/com/eburg_soft/contactsapp/model/source/database/entity/Contact.kt,f\4\f4d8f11f3d15af22e9c09213629918d0f009dde0
+u
+Eapp/src/main/java/com/eburg_soft/contactsapp/model/ContactResponse.kt,b\b\bbe4d18c823e63469fb33ec81b5712b99948492d
+}
+Mapp/src/main/java/com/eburg_soft/contactsapp/di/screen/module/ScreenModule.kt,a\c\ac89936c7588e445122e6fccd31cf78f4579cd48
+„
+Tapp/src/main/java/com/eburg_soft/contactsapp/di/screen/module/ScreenContextModule.kt,8\0\80fb4ca4b3c6f34ac5064afd1dec225ca9bee056

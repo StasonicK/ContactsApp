@@ -32,8 +32,6 @@ class ContactsListAdapter(val listener: OnContactItemClickListener? = null) :
         fun bind(item: Contact) {
 
             let {
-                item
-
                 itemView.text_name.text = item.contactName
                 itemView.text_phone.text = item.contactPhone
                 itemView.text_height.text = item.contactHeight.toString()

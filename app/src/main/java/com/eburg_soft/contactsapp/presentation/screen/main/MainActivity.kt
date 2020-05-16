@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        if (savedInstanceState == null) {
+        if (supportFragmentManager.findFragmentByTag(ContactsListFragment.TAG) == null) {
             supportFragmentManager
                 .beginTransaction()
                 .add(
