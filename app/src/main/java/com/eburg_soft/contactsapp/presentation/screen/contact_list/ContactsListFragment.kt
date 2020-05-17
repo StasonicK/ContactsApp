@@ -86,8 +86,7 @@ class ContactsListFragment :
 
         setHasOptionsMenu(true)
         loadVariables()
-
-        setWorkManager()
+        Log.d(TAG, "onViewCreated")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,8 +98,11 @@ class ContactsListFragment :
             searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
             onQueryTextChange(searchQuery.toString())
         } else {
+            presenter.attach(this)
+            setWorkManager()
             presenter.loadContactsListFromDB()
         }
+        Log.d(TAG, "onCreate")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -128,11 +130,13 @@ class ContactsListFragment :
     override fun onStart() {
         super.onStart()
         presenter.attach(this)
+        Log.d(TAG, "onStart")
     }
 
     override fun onStop() {
         super.onStop()
         presenter.detach()
+        Log.d(TAG, "onStop")
     }
 
     override fun onDestroy() {
@@ -151,6 +155,7 @@ class ContactsListFragment :
 
     override fun scrollToRecyclerTopPosition() {
         recycler_contacts.layoutManager!!.scrollToPosition(0)
+        Log.d(TAG, "scrollToRecyclerTopPosition")
     }
 
     //refresh the list by swiping down
@@ -181,7 +186,7 @@ class ContactsListFragment :
 
     override fun onContactClick(contact: Contact) {
         presenter.onContactClick(contact)
-        Log.d("onContactClick", contact.contactName)
+        Log.d(TAG, "clicked on company id: ${contact.contactName}")
     }
 
     //endregion
@@ -190,10 +195,12 @@ class ContactsListFragment :
 
     override fun showLoading() {
         requireActivity().progressbar.visibility = View.VISIBLE
+        Log.d(TAG, "showLoading")
     }
 
     override fun submitList(list: List<Contact>) {
         listAdapterList.submitList(list)
+        Log.d(TAG, "list submitted")
     }
 
     override fun showNetworkErrorMessage() {
@@ -203,6 +210,7 @@ class ContactsListFragment :
 
     override fun hideLoading() {
         requireActivity().progressbar.visibility = View.INVISIBLE
+        Log.d(TAG, "hideLoading")
     }
 
     override fun showErrorMessage(error: String) {

@@ -9,7 +9,6 @@ import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Single
 import java.net.UnknownHostException
 import java.util.Locale
-import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
@@ -19,6 +18,10 @@ class ContactsListPresenter
     private val gateway: DataGateway,
     private val scheduler: MyRxUtils.BaseSchedulerProvider
 ) : ContactsListContract.Presenter() {
+
+    companion object {
+        const val TAG = "ContactsListPresenter"
+    }
 
     override fun onContactClick(contact: Contact) {
         view?.openContactView(contact)
@@ -37,12 +40,13 @@ class ContactsListPresenter
                 view?.submitList(list)
                 view?.hideLoading()
                 view?.scrollToRecyclerTopPosition()
-                Log.d(ContactsListFragment.TAG, "contacts loaded")
+                Log.d(TAG, "contacts loaded")
             }
             .doOnError {
                 view?.showErrorMessage(it.message.toString())
                 view?.hideLoading()
                 it.printStackTrace()
+                Log.d(TAG, "showErrorMessage")
             }
             .subscribe()
         )
@@ -53,6 +57,7 @@ class ContactsListPresenter
             gateway.eraseData()
                 .subscribe()
         )
+        Log.d(TAG, "eraseContactsFromDB")
     }
 
     override fun onSearchQuerySubmit(query: String, list: ArrayList<Contact>) {
@@ -79,10 +84,11 @@ class ContactsListPresenter
                 .subscribe({ list1 ->
                     view?.submitList(list1)
                     view?.hideLoading()
-                    Log.d(ContactsListFragment.TAG, "query completed, $list")
+                    Log.d(TAG, "query completed, $list")
                 }, { it ->
                     view?.showErrorMessage(it.message!!)
                     view?.hideLoading()
+                    Log.d(TAG, "showErrorMessage")
                 })
             )
         }
@@ -95,17 +101,19 @@ class ContactsListPresenter
                 .observeOn(scheduler.ui())
                 .subscribe({
                     view?.hideLoading()
-                    Log.d(ContactsListFragment.TAG, "contacts synchronised")
+                    Log.d(TAG, "contacts synchronised")
                 },
                     { error ->
                         when (error) {
                             is NetworkErrorException, is UnknownHostException -> {
                                 view?.showNetworkErrorMessage()
                                 view?.hideLoading()
+                                Log.d(TAG, "showNetworkErrorMessage")
                             }
                             else -> {
                                 view?.showErrorMessage(error.message.toString())
                                 error.printStackTrace()
+                                Log.d(TAG, "showErrorMessage")
                             }
                         }
                     })
