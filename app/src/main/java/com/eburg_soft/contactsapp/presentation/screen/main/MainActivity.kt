@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        if (supportFragmentManager.findFragmentByTag(ContactsListFragment.TAG) == null) {
+        if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
                 .add(
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         } else {
-            searchQuery = savedInstanceState?.getString(BUNDLE_SEARCH_QUERY).toString()
+            searchQuery = savedInstanceState.getString(BUNDLE_SEARCH_QUERY).toString()
         }
     }
 

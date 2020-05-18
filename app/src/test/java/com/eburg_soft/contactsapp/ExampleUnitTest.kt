@@ -1,7 +1,7 @@
 package com.eburg_soft.contactsapp
 
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.*
+import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
