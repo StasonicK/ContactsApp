@@ -13,16 +13,16 @@ class GatewayMapper {
 
         fun mapContact(responses: List<ContactRes>): List<Contact> {
             val contacts = mutableListOf<Contact>()
-            for (i in responses.indices) {
+            responses.forEach {
                 val contact = Contact()
-                contact.contactId = responses[i].id
-                contact.contactName = responses[i].name
-                contact.contactPhone = responses[i].phone
-                contact.contactHeight = responses[i].height.toFloat()
-                contact.contactBiography = responses[i].biography
-                contact.contactTemperament = mapTemperament(responses[i].temperament)
-                contact.contactEducationStart = mapDate(responses[i].contactEducationPeriodRes.start)
-                contact.contactEducationEnd = mapDate(responses[i].contactEducationPeriodRes.end)
+                contact.contactId = it.id
+                contact.contactName = it.name
+                contact.contactPhone = it.phone
+                contact.contactHeight = it.height.toFloat()
+                contact.contactBiography = it.biography
+                contact.contactTemperament = mapTemperament(it.temperament)
+                contact.contactEducationStart = mapDate(it.contactEducationPeriodRes.start)
+                contact.contactEducationEnd = mapDate(it.contactEducationPeriodRes.end)
                 contacts.add(contact)
             }
             return contacts

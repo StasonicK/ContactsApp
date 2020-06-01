@@ -21,18 +21,18 @@ class SyncWorker(@NotNull context: Context, @NotNull workerParams: WorkerParamet
 
     override fun doWork(): Result {
         var result: Result = Result.failure()
-        try {
+        result = try {
             val isFirstTime = inputData.getBoolean(IS_FIRST_TIME, true)
             val lastSyncTime = inputData.getLong(LAST_SYNC_TIME, 0L)
             val currentTime = System.currentTimeMillis()
             val timeDifference = currentTime - lastSyncTime
 
-            result = if ((!isFirstTime && (timeDifference > MINUTE)) || isFirstTime) {
-//                displayNotification("Title", (timeDifference).toString())
+            if ((!isFirstTime && (timeDifference > MINUTE)) || isFirstTime) {
+                //                displayNotification("Title", (timeDifference).toString())
                 Result.success()
             } else Result.failure()
         } catch (e: Exception) {
-            result = Result.failure()
+            Result.failure()
         }
 
         return result

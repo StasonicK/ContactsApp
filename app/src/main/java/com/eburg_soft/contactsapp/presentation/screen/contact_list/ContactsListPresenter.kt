@@ -111,9 +111,8 @@ class ContactsListPresenter
                                 Log.d(TAG, "showNetworkErrorMessage")
                             }
                             else -> {
-                                view?.showErrorMessage(error.message.toString())
                                 error.printStackTrace()
-                                Log.d(TAG, "showErrorMessage")
+                                Log.d(TAG, error.message.toString())
                             }
                         }
                     })

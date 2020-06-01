@@ -1,11 +1,6 @@
 package com.eburg_soft.contactsapp.database
 
-import androidx.room.Room
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import androidx.test.platform.app.InstrumentationRegistry
-import com.eburg_soft.contactsapp.model.source.database.ContactsDatabase
-import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
-import org.junit.*
 import org.junit.runner.*
 
 @RunWith(AndroidJUnit4ClassRunner::class)

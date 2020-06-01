@@ -16,7 +16,7 @@ import org.mockito.junit.*
 
 class ContactsListPresenterTest {
     @get:Rule
-   private val mockitoRule = MockitoJUnit.rule()
+    private val mockitoRule = MockitoJUnit.rule()
 
     private lateinit var presenter: ContactsListPresenter
 
@@ -39,7 +39,7 @@ class ContactsListPresenterTest {
     lateinit var mockContact: Contact
 
     @Before
-     fun setUp() {
+    fun setUp() {
         MockitoAnnotations::initMocks
         mockGateway = DataGatewayImpl(
             mockContactDao,
@@ -63,7 +63,7 @@ class ContactsListPresenterTest {
     fun loadContactsListFromDBSuccess() {
         val contacts = ContactTestHelper.createListOfContacts()
         `when`(presenter.loadContactsListFromDB())
-        
+
         presenter.loadContactsListFromDB()
         verify(mockView.showLoading())
         verify(mockView.submitList(contacts))
@@ -74,30 +74,24 @@ class ContactsListPresenterTest {
 //        `when`(presenter.onContactClick(mockContact)).then(mockView.)
     }
 
-
     @Test
     fun eraseContactsFromDB() {
-
     }
 
     @Test
     fun onSearchQuerySubmitSuccess() {
-
     }
 
     @Test
     fun onSearchQuerySubmitFailed() {
-
     }
 
     @Test
     fun syncContactsSuccess() {
-
     }
 
     @Test
     fun syncContactsFailed() {
-
     }
 
     @After

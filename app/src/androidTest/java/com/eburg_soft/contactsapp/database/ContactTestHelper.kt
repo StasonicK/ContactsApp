@@ -1,10 +1,5 @@
 package com.eburg_soft.contactsapp.database
 
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.CHOLERIC
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.PHLEGMATIC
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.SANGUINE
-
 class ContactTestHelper {
 //    companion object {
 //        fun createListOfContacts(): List<Contact> {

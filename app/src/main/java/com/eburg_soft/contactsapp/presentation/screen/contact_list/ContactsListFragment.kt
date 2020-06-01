@@ -213,11 +213,6 @@ class ContactsListFragment :
         Log.d(TAG, "hideLoading")
     }
 
-    override fun showErrorMessage(error: String) {
-        Snackbar.make(recycler_contacts, error, Snackbar.LENGTH_LONG).show()
-        Log.d(TAG, "showErrorMessage")
-    }
-
     //Opens ContactsFragment with data of the contact
     override fun openContactView(contact: Contact) {
         requireActivity().supportFragmentManager.let {

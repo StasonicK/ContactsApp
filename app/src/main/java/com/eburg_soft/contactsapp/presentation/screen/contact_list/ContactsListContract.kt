@@ -6,6 +6,7 @@ import com.eburg_soft.contactsapp.presentation.base.BaseContract
 interface ContactsListContract {
     interface View : BaseContract.View {
         fun scrollToRecyclerTopPosition()
+
         fun showLoading()
 
         fun hideLoading()
@@ -15,8 +16,6 @@ interface ContactsListContract {
         fun submitList(list: List<Contact>)
 
         fun showNetworkErrorMessage()
-
-        fun showErrorMessage(error: String)
 
         fun openContactView(contact: Contact)
     }
