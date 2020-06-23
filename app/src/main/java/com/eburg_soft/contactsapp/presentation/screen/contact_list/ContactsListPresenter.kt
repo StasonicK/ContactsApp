@@ -43,7 +43,6 @@ class ContactsListPresenter
                 Log.d(TAG, "contacts loaded")
             }
             .doOnError {
-                view?.showErrorMessage(it.message.toString())
                 view?.hideLoading()
                 it.printStackTrace()
                 Log.d(TAG, "showErrorMessage")
@@ -86,7 +85,6 @@ class ContactsListPresenter
                     view?.hideLoading()
                     Log.d(TAG, "query completed, $list")
                 }, { it ->
-                    view?.showErrorMessage(it.message!!)
                     view?.hideLoading()
                     Log.d(TAG, "showErrorMessage")
                 })

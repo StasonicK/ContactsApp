@@ -47,3 +47,13 @@ Eapp/src/main/java/com/eburg_soft/contactsapp/model/ContactResponse.kt,b\b\bbe4
 Mapp/src/main/java/com/eburg_soft/contactsapp/di/screen/module/ScreenModule.kt,a\c\ac89936c7588e445122e6fccd31cf78f4579cd48
 „
 Tapp/src/main/java/com/eburg_soft/contactsapp/di/screen/module/ScreenContextModule.kt,8\0\80fb4ca4b3c6f34ac5064afd1dec225ca9bee056
+{
+Kapp/src/main/java/com/eburg_soft/contactsapp/model/gateway/GatewayMapper.kt,3\7\37a6f22f00a38e720397a5ae249c27b3c4b8208e
+„
+Tapp/src/main/java/com/eburg_soft/contactsapp/model/source/database/dao/ContactDao.kt,d\a\da01b32354346a166ec6056d17471f3709d928d5
+?
+settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
+@
+local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
+A
+gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4

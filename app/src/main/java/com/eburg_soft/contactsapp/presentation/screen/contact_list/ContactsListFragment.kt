@@ -52,7 +52,7 @@ class ContactsListFragment :
     @Inject
     lateinit var presenter: ContactsListContract.Presenter
 
-    private val listAdapterList = ContactsListAdapter(this)
+    private val contactsAdapter = ContactsListAdapter(this)
 
     private var lastSyncTime: Long = 0L
 
@@ -76,7 +76,7 @@ class ContactsListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recycler_contacts.adapter = listAdapterList
+        recycler_contacts.adapter = contactsAdapter
         recycler_contacts.layoutManager = LinearLayoutManager(context)
         recycler_contacts.addItemDecoration(
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -167,7 +167,7 @@ class ContactsListFragment :
     override fun onQueryTextSubmit(query: String): Boolean {
         searchQuery = query
 
-        val copyContactsList = ArrayList<Contact>(listAdapterList.currentList.toList())
+        val copyContactsList = ArrayList<Contact>(contactsAdapter.currentList.toList())
         presenter.onSearchQuerySubmit(query, copyContactsList)
 
         Log.d("onQueryTextSubmit", query)
@@ -177,7 +177,7 @@ class ContactsListFragment :
     override fun onQueryTextChange(newText: String): Boolean {
         searchQuery = newText
 
-        val copyContactsList = ArrayList<Contact>(listAdapterList.currentList.toList())
+        val copyContactsList = ArrayList<Contact>(contactsAdapter.currentList.toList())
         presenter.onSearchQuerySubmit(newText, copyContactsList)
 
         Log.d("onQueryTextChange", newText)
@@ -199,7 +199,7 @@ class ContactsListFragment :
     }
 
     override fun submitList(list: List<Contact>) {
-        listAdapterList.submitList(list)
+        contactsAdapter.submitList(list)
         Log.d(TAG, "list submitted")
     }
 

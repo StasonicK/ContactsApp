@@ -36,13 +36,13 @@ class ContactsListAdapter(val listener: OnContactItemClickListener? = null) :
                 itemView.text_phone.text = item.contactPhone
                 itemView.text_height.text = item.contactHeight.toString()
 
-                id = item.contactId
-                name = item.contactName
-                height = item.contactHeight.toString()
-                biography = item.contactBiography
-                temperament = item.contactTemperament.type
-                educationStart = item.contactEducationStart
-                educationEnd = item.contactEducationEnd
+//                id = item.contactId
+//                name = item.contactName
+//                height = item.contactHeight.toString()
+//                biography = item.contactBiography
+//                temperament = item.contactTemperament.type
+//                educationStart = item.contactEducationStart
+//                educationEnd = item.contactEducationEnd
 
                 itemView.setOnClickListener { listener?.onContactClick(item) }
             }
