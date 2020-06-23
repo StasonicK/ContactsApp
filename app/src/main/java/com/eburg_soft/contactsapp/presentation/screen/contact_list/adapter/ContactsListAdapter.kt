@@ -21,28 +21,12 @@ class ContactsListAdapter(val listener: OnContactItemClickListener? = null) :
 
     inner class ContactsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var id: String = ""
-        var name: String = ""
-        var height: String = ""
-        var biography: String = ""
-        var temperament: String = ""
-        var educationStart: String = ""
-        var educationEnd: String = ""
-
         fun bind(item: Contact) {
 
             let {
                 itemView.text_name.text = item.contactName
                 itemView.text_phone.text = item.contactPhone
                 itemView.text_height.text = item.contactHeight.toString()
-
-//                id = item.contactId
-//                name = item.contactName
-//                height = item.contactHeight.toString()
-//                biography = item.contactBiography
-//                temperament = item.contactTemperament.type
-//                educationStart = item.contactEducationStart
-//                educationEnd = item.contactEducationEnd
 
                 itemView.setOnClickListener { listener?.onContactClick(item) }
             }
