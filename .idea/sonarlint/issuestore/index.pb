@@ -57,3 +57,5 @@ Tapp/src/main/java/com/eburg_soft/contactsapp/model/source/database/dao/ContactD
 local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
 A
 gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
+ù
+mapp/src/main/java/com/eburg_soft/contactsapp/presentation/screen/contact_list/adapter/ContactsDiffCallback.kt,f\a\fa1989b771807c07f4150da9b3468f242ae2c9a0
