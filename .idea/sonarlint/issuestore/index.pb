@@ -59,3 +59,11 @@ A
 gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
 ù
 mapp/src/main/java/com/eburg_soft/contactsapp/presentation/screen/contact_list/adapter/ContactsDiffCallback.kt,f\a\fa1989b771807c07f4150da9b3468f242ae2c9a0
+f
+6app/src/test/java/com/eburg_soft/contactsapp/test.json,f\b\fbe8e71d6a803ce376e999e36142fd21c9aa6d71
+o
+?app/src/test/java/com/eburg_soft/contactsapp/ExampleUnitTest.kt,6\4\6466646430e436d3c4b94e84f5f7412839584a45
+z
+Japp/src/androidTest/java/com/eburg_soft/contactsapp/DataGatewayImplTest.kt,8\b\8b1d49ff5c8937aa752a0d1b417f10108cf3bcb4
+o
+?app/src/main/java/com/eburg_soft/contactsapp/model/ApiClient.kt,1\3\13ab33f34a264c625de55f12b0f072722350d355
