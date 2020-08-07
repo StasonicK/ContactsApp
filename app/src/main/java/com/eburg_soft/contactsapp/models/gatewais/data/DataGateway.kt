@@ -1,6 +1,6 @@
-package com.eburg_soft.contactsapp.model.gateway.data
+package com.eburg_soft.contactsapp.models.gateway.data
 
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
+import com.eburg_soft.contactsapp.models.source.database.entity.Contact
 import io.reactivex.Completable
 import io.reactivex.Flowable
 

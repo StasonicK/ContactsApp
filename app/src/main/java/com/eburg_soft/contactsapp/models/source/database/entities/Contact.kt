@@ -1,13 +1,13 @@
-package com.eburg_soft.contactsapp.model.source.database.entity
+package com.eburg_soft.contactsapp.models.source.database.entity
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.eburg_soft.contactsapp.model.source.database.converter.TemperamentConverter
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact.Companion.TABLE_NAME
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.MISTAKE
+import com.eburg_soft.contactsapp.models.source.database.converter.TemperamentConverter
+import com.eburg_soft.contactsapp.models.source.database.entity.Contact.Companion.TABLE_NAME
+import com.eburg_soft.contactsapp.models.source.database.entity.Temperament.MISTAKE
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

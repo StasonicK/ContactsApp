@@ -1,8 +1,8 @@
 package com.eburg_soft.contactsapp.di.screen.module
 
 import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListContract
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListPresenter
+import com.eburg_soft.contactsapp.presentation.screens.contact_list.ContactsListContract
+import com.eburg_soft.contactsapp.presentation.screens.contact_list.ContactsListPresenter
 import dagger.Binds
 import dagger.Module
 

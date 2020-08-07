@@ -1,9 +1,9 @@
-package com.eburg_soft.contactsapp.model.gateway
+package com.eburg_soft.contactsapp.models.gateway
 
-import com.eburg_soft.contactsapp.model.ContactRes
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.MISTAKE
+import com.eburg_soft.contactsapp.models.ContactRes
+import com.eburg_soft.contactsapp.models.source.database.entity.Contact
+import com.eburg_soft.contactsapp.models.source.database.entity.Temperament
+import com.eburg_soft.contactsapp.models.source.database.entity.Temperament.MISTAKE
 import java.text.SimpleDateFormat
 
 class GatewayMapper {

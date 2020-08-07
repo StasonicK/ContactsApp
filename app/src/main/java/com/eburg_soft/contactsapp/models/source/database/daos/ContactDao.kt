@@ -1,11 +1,11 @@
-package com.eburg_soft.contactsapp.model.source.database.dao
+package com.eburg_soft.contactsapp.models.source.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
+import com.eburg_soft.contactsapp.models.source.database.entity.Contact
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

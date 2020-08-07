@@ -1,8 +1,8 @@
-package com.eburg_soft.contactsapp.model.source.database.converter
+package com.eburg_soft.contactsapp.models.source.database.converter
 
 import androidx.room.TypeConverter
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament
-import com.eburg_soft.contactsapp.model.source.database.entity.Temperament.MISTAKE
+import com.eburg_soft.contactsapp.models.source.database.entity.Temperament
+import com.eburg_soft.contactsapp.models.source.database.entity.Temperament.MISTAKE
 
 class TemperamentConverter {
 
