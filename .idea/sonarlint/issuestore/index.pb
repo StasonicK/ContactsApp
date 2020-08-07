@@ -67,3 +67,13 @@ o
 ?app/src/main/java/com/eburg_soft/contactsapp/model/ApiClient.kt,1\3\13ab33f34a264c625de55f12b0f072722350d355
 à
 Xapp/src/main/java/com/eburg_soft/contactsapp/model/source/database/entity/Temperament.kt,e\a\ea08aff460fe96b300af400da444e256f9fe67a0
+ñ
+fapp/src/main/java/com/eburg_soft/contactsapp/presentation/screens/contact_list/ContactsListContract.kt,9\4\94919174bc987d90a08140280c92e2b00cd00ce8
+Ü
+Vapp/src/main/java/com/eburg_soft/contactsapp/presentation/screens/main/MainActivity.kt,8\4\8441e833b0113347606de4fd1934d2a9e1d926d5
+ù
+mapp/src/main/java/com/eburg_soft/contactsapp/presentation/screens/contact_list/adapter/ContactsListAdapter.kt,2\e\2efa4539731c75c5694aca8bdbdfe76267b53cf9
+ó
+gapp/src/main/java/com/eburg_soft/contactsapp/presentation/screens/contact_list/ContactsListPresenter.kt,f\c\fc4876445b8b0873104c004651e0ce46ea8a3440
+ñ
+fapp/src/main/java/com/eburg_soft/contactsapp/presentation/screens/contact_list/ContactsListFragment.kt,9\f\9f7fcc4109b338a79bea1163840ec967decf3c77
