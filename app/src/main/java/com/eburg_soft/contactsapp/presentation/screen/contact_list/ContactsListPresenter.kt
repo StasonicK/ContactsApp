@@ -10,7 +10,6 @@ import io.reactivex.Single
 import java.net.UnknownHostException
 import java.util.Locale
 import java.util.concurrent.TimeUnit.MILLISECONDS
-import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
 @ScreenScope
@@ -71,7 +70,6 @@ class ContactsListPresenter
             subscribe(Single.just(list)
                 .toObservable()
                 .debounce(1000, MILLISECONDS)
-                .distinct()
                 .distinctUntilChanged()
                 .subscribeOn(scheduler.io())
                 .map {
