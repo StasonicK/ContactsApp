@@ -9,6 +9,7 @@ import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Single
 import java.net.UnknownHostException
 import java.util.Locale
+import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
@@ -69,7 +70,7 @@ class ContactsListPresenter
 
             subscribe(Single.just(list)
                 .toObservable()
-                .debounce(2000, SECONDS)
+                .debounce(500, MILLISECONDS)
                 .distinctUntilChanged()
                 .subscribeOn(scheduler.io())
                 .map {
