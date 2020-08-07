@@ -69,7 +69,7 @@ class ContactsListPresenter
 
             subscribe(Single.just(list)
                 .toObservable()
-                .debounce(1000, MILLISECONDS)
+                .debounce(500, MILLISECONDS)
                 .distinctUntilChanged()
                 .subscribeOn(scheduler.io())
                 .map {
