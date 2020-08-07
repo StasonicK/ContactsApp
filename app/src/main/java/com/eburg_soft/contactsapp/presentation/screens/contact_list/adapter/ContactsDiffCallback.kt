@@ -1,7 +1,7 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter
+package com.eburg_soft.contactsapp.presentation.screens.contact_list.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
+import com.eburg_soft.contactsapp.models.source.database.entities.Contact
 
 class ContactsDiffCallback : DiffUtil.ItemCallback<Contact>() {
     override fun areItemsTheSame(oldItem: Contact, newItem: Contact): Boolean {

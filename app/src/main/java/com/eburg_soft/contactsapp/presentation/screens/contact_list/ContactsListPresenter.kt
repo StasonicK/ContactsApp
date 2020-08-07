@@ -1,10 +1,10 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact_list
+package com.eburg_soft.contactsapp.presentation.screens.contact_list
 
 import android.accounts.NetworkErrorException
 import android.util.Log
-import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
-import com.eburg_soft.contactsapp.model.gateway.data.DataGateway
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
+import com.eburg_soft.contactsapp.di.screens.scope.ScreenScope
+import com.eburg_soft.contactsapp.models.gatewais.data.DataGateway
+import com.eburg_soft.contactsapp.models.source.database.entities.Contact
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Single
 import java.net.UnknownHostException

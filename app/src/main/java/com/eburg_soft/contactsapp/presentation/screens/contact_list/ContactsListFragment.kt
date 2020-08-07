@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact_list
+package com.eburg_soft.contactsapp.presentation.screens.contact_list
 
 import android.app.SearchManager
 import android.content.Context
@@ -22,13 +22,13 @@ import androidx.work.WorkInfo
 import androidx.work.WorkInfo.State.SUCCEEDED
 import androidx.work.WorkManager
 import com.eburg_soft.contactsapp.R
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
-import com.eburg_soft.contactsapp.presentation.screen.contact.ContactFragment
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.adapter.ContactsListAdapter
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.IS_FIRST_TIME
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.LAST_SYNC_TIME
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.workmanager.SyncWorker
-import com.eburg_soft.contactsapp.presentation.screen.main.MainActivity
+import com.eburg_soft.contactsapp.models.source.database.entities.Contact
+import com.eburg_soft.contactsapp.presentation.screens.contact.ContactFragment
+import com.eburg_soft.contactsapp.presentation.screens.contact_list.adapter.ContactsListAdapter
+import com.eburg_soft.contactsapp.presentation.screens.contact_list.workmanager.IS_FIRST_TIME
+import com.eburg_soft.contactsapp.presentation.screens.contact_list.workmanager.LAST_SYNC_TIME
+import com.eburg_soft.contactsapp.presentation.screens.contact_list.workmanager.SyncWorker
+import com.eburg_soft.contactsapp.presentation.screens.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.progressbar
 import kotlinx.android.synthetic.main.fragment_contacts_list.recycler_contacts

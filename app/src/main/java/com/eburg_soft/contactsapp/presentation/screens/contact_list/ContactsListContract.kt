@@ -1,6 +1,6 @@
-package com.eburg_soft.contactsapp.presentation.screen.contact_list
+package com.eburg_soft.contactsapp.presentation.screens.contact_list
 
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
+import com.eburg_soft.contactsapp.models.source.database.entities.Contact
 import com.eburg_soft.contactsapp.presentation.base.BaseContract
 
 interface ContactsListContract {

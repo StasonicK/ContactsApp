@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.models.source.database.entity
+package com.eburg_soft.contactsapp.models.source.database.entities
 
 enum class Temperament(var type: String) {
     MELANCHOLIC("melancholic"),

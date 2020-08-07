@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.di.screen.component
+package com.eburg_soft.contactsapp.di.screens.component
 
 import javax.inject.Qualifier
 

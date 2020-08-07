@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.eburg_soft.contactsapp.di.application.module.app.AppContext
 import com.eburg_soft.contactsapp.di.application.scope.AppScope
-import com.eburg_soft.contactsapp.model.source.database.ContactsDatabase
-import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
+import com.eburg_soft.contactsapp.models.source.database.ContactsDatabase
+import com.eburg_soft.contactsapp.models.source.database.daos.ContactDao
 import dagger.Module
 import dagger.Provides
 

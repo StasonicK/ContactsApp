@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.model
+package com.eburg_soft.contactsapp.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

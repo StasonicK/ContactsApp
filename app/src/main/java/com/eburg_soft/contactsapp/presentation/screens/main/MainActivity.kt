@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.presentation.screen.main
+package com.eburg_soft.contactsapp.presentation.screens.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.eburg_soft.contactsapp.R
 import com.eburg_soft.contactsapp.R.layout
-import com.eburg_soft.contactsapp.presentation.screen.contact_list.ContactsListFragment
+import com.eburg_soft.contactsapp.presentation.screens.contact_list.ContactsListFragment
 import kotlinx.android.synthetic.main.toolbar.toolbar
 
 class MainActivity : AppCompatActivity() {

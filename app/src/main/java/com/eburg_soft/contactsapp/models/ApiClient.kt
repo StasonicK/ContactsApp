@@ -1,4 +1,4 @@
-package com.eburg_soft.contactsapp.model
+package com.eburg_soft.contactsapp.models
 
 import io.reactivex.Single
 import retrofit2.http.GET

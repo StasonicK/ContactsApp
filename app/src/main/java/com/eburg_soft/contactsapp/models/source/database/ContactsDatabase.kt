@@ -1,9 +1,9 @@
-package com.eburg_soft.contactsapp.model.source.database
+package com.eburg_soft.contactsapp.models.source.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.eburg_soft.contactsapp.model.source.database.dao.ContactDao
-import com.eburg_soft.contactsapp.model.source.database.entity.Contact
+import com.eburg_soft.contactsapp.models.source.database.daos.ContactDao
+import com.eburg_soft.contactsapp.models.source.database.entities.Contact
 
 @Database(
     entities = [Contact::class],

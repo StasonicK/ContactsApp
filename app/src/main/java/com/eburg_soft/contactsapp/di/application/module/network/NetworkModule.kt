@@ -1,7 +1,7 @@
 package com.eburg_soft.contactsapp.di.application.module.network
 
 import com.eburg_soft.contactsapp.di.application.scope.AppScope
-import com.eburg_soft.contactsapp.model.ApiClient
+import com.eburg_soft.contactsapp.models.ApiClient
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

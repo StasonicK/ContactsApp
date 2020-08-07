@@ -7,8 +7,8 @@ import com.eburg_soft.contactsapp.di.application.module.gateway.GatewayModule
 import com.eburg_soft.contactsapp.di.application.module.network.NetworkModule
 import com.eburg_soft.contactsapp.di.application.module.rx.RxModule
 import com.eburg_soft.contactsapp.di.application.scope.AppScope
-import com.eburg_soft.contactsapp.di.screen.component.ScreenComponent
-import com.eburg_soft.contactsapp.di.screen.module.ScreenContextModule
+import com.eburg_soft.contactsapp.di.screens.component.ScreenComponent
+import com.eburg_soft.contactsapp.di.screens.module.ScreenContextModule
 import dagger.Component
 
 @AppScope

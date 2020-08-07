@@ -1,10 +1,10 @@
-package com.eburg_soft.contactsapp.models.gateway.data
+package com.eburg_soft.contactsapp.models.gatewais.data
 
 import com.eburg_soft.contactsapp.models.ApiClient
 import com.eburg_soft.contactsapp.models.ContactRes
-import com.eburg_soft.contactsapp.models.gateway.GatewayMapper
-import com.eburg_soft.contactsapp.models.source.database.dao.ContactDao
-import com.eburg_soft.contactsapp.models.source.database.entity.Contact
+import com.eburg_soft.contactsapp.models.gatewais.GatewayMapper
+import com.eburg_soft.contactsapp.models.source.database.daos.ContactDao
+import com.eburg_soft.contactsapp.models.source.database.entities.Contact
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Completable
 import io.reactivex.Flowable

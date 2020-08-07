@@ -1,8 +1,8 @@
-package com.eburg_soft.contactsapp.di.screen.component
+package com.eburg_soft.contactsapp.di.screens.component
 
-import com.eburg_soft.contactsapp.di.screen.module.ScreenContextModule
-import com.eburg_soft.contactsapp.di.screen.module.ScreenModule
-import com.eburg_soft.contactsapp.di.screen.scope.ScreenScope
+import com.eburg_soft.contactsapp.di.screens.module.ScreenContextModule
+import com.eburg_soft.contactsapp.di.screens.module.ScreenModule
+import com.eburg_soft.contactsapp.di.screens.scope.ScreenScope
 import com.eburg_soft.contactsapp.presentation.screens.contact_list.ContactsListFragment
 import dagger.Subcomponent
 
