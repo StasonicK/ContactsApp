@@ -2,7 +2,8 @@ package com.eburg_soft.contactsapp
 
 import org.junit.*
 
-class GatewayMapper {
+class GatewayMapperTest {
+
 @Before
 
 
@@ -16,10 +17,10 @@ class GatewayMapper {
 
     }
 
-//    @Test
-//    fun mappingNullList(){
-//
-//    }
+    @Test
+    fun mappingListWithWrongTemperament(){
+
+    }
 
 
 }
