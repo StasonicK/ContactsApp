@@ -16,6 +16,7 @@ class ContactsListAdapter(val listener: OnContactItemClickListener? = null) :
     ListAdapter<Contact, ContactsViewHolder>(ContactsDiffCallback()) {
 
     interface OnContactItemClickListener {
+
         fun onContactClick(contact: Contact)
     }
 

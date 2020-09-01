@@ -27,6 +27,7 @@ data class Contact(
 ) : Parcelable {
 
     companion object {
+
         const val TABLE_NAME = "Contact"
         const val COLUMN_ID = "id"
         const val COLUMN_NAME = "name"

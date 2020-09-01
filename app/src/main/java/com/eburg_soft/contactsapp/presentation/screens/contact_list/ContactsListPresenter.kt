@@ -3,7 +3,7 @@ package com.eburg_soft.contactsapp.presentation.screens.contact_list
 import android.accounts.NetworkErrorException
 import android.util.Log
 import com.eburg_soft.contactsapp.di.screens.scope.ScreenScope
-import com.eburg_soft.contactsapp.models.gatewais.data.DataGateway
+import com.eburg_soft.contactsapp.models.gateways.data.DataGateway
 import com.eburg_soft.contactsapp.models.source.database.entities.Contact
 import com.eburg_soft.contactsapp.utils.MyRxUtils
 import io.reactivex.Single
@@ -20,6 +20,7 @@ class ContactsListPresenter
 ) : ContactsListContract.Presenter() {
 
     companion object {
+
         const val TAG = "ContactsListPresenter"
     }
 

@@ -1,13 +1,18 @@
-package com.eburg_soft.contactsapp.models.gatewais
+package com.eburg_soft.contactsapp.models.gateways
 
 import com.eburg_soft.contactsapp.models.ContactRes
 import com.eburg_soft.contactsapp.models.source.database.entities.Contact
 import com.eburg_soft.contactsapp.models.source.database.entities.Temperament
 import com.eburg_soft.contactsapp.models.source.database.entities.Temperament.MISTAKE
 import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class GatewayMapper {
     companion object {
+
+        val EXCEPTION_DATE = "Unparseable date"
+
         private const val recieveDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
         private const val resultDatePattern = "dd.MM.yyyy"
 
@@ -28,12 +33,19 @@ class GatewayMapper {
             return contacts
         }
 
+        @Throws(Exception::class)
         private fun mapDate(date: String): String {
-            val simpleDate = SimpleDateFormat(recieveDatePattern).parse(date)
+            var simpleDate: Date? = null
+            try {
+                simpleDate = SimpleDateFormat(recieveDatePattern).parse(date)
+            } catch (e: Exception) {
+                throw Exception(EXCEPTION_DATE)
+            }
             return SimpleDateFormat(resultDatePattern).format(simpleDate)
         }
 
-        private fun mapTemperament(temperament: String) =
-            Temperament.values().find { it.type == temperament } ?: MISTAKE
+        private fun mapTemperament(temperament: String): Temperament {
+            return Temperament.values().find { it.type == temperament.toLowerCase(Locale.getDefault()) } ?: MISTAKE
+        }
     }
 }

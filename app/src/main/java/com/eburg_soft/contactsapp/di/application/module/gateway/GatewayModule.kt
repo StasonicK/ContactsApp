@@ -1,8 +1,8 @@
 package com.eburg_soft.contactsapp.di.application.module.gateway
 
 import com.eburg_soft.contactsapp.di.application.scope.AppScope
-import com.eburg_soft.contactsapp.models.gatewais.data.DataGateway
-import com.eburg_soft.contactsapp.models.gatewais.data.DataGatewayImpl
+import com.eburg_soft.contactsapp.models.gateways.data.DataGateway
+import com.eburg_soft.contactsapp.models.gateways.data.DataGatewayImpl
 import dagger.Binds
 import dagger.Module
 

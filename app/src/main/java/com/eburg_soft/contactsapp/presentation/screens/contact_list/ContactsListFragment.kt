@@ -59,6 +59,7 @@ class ContactsListFragment :
     private var isFirstTime: Boolean = true
 
     companion object {
+
         const val TAG = "ContactsListFragment"
         const val BUNDLE_SEARCH_QUERY = "search query"
 

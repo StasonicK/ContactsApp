@@ -28,6 +28,7 @@ class ContactFragment : Fragment(R.layout.fragment_contact) {
     private var contact: Contact? = null
 
     companion object {
+
         const val TAG = "ContactFragment"
         const val REQUEST_CODE_PERMISSION_CALL_PHONE: Int = 0
         private const val CONTACT = "Contact"

@@ -18,7 +18,6 @@ const val MINUTE: Long = 60000L
 class SyncWorker(@NotNull context: Context, @NotNull workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
-
     override fun doWork(): Result {
         var result: Result = Result.failure()
         result = try {

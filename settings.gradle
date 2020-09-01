@@ -1,2 +1,2 @@
-rootProject.name='ContactsApp'
+rootProject.name = 'ContactsApp'
 include ':app'

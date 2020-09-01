@@ -9,6 +9,7 @@ import io.reactivex.disposables.Disposable
 
 class BaseContract {
     interface View {
+
         fun getScreenComponent(context: Context): ScreenComponent =
             (context.applicationContext as App)
                 .component
@@ -16,6 +17,7 @@ class BaseContract {
     }
 
     abstract class Presenter<V : View> {
+
         private val subscriptions = CompositeDisposable()
         protected var view: V? = null
 
