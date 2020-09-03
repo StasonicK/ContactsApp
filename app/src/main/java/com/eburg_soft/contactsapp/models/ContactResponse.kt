@@ -6,17 +6,17 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ContactRes(
-    @SerializedName("id") val id: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("phone") val phone: String,
-    @SerializedName("height") val height: Double,
-    @SerializedName("biography") val biography: String,
-    @SerializedName("temperament") val temperament: String,
-    @SerializedName("educationPeriod") val contactEducationPeriodRes: ContactEducationPeriodRes
+    val id: String,
+    val name: String,
+    val phone: String,
+    val height: Double,
+    val biography: String,
+    val temperament: String,
+    val contactEducationPeriodRes: ContactEducationPeriodRes
 ) : Parcelable
 
 @Parcelize
 data class ContactEducationPeriodRes(
-    @SerializedName("start") val start: String,
-    @SerializedName("end") val end: String
+    val start: String,
+    val end: String
 ) : Parcelable

@@ -11,7 +11,7 @@ import java.util.Locale
 class GatewayMapper {
     companion object {
 
-        val EXCEPTION_DATE = "Unparseable date"
+        const val EXCEPTION_DATE = "Unparseable date"
 
         private const val recieveDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
         private const val resultDatePattern = "dd.MM.yyyy"
